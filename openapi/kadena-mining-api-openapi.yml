@@ -1,0 +1,510 @@
+openapi: 3.0.0
+info:
+  title: Kadena Chainweb Node block mining API
+  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
+
+
+    Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
+
+    conservative extension of Bitcoin''s Nakamoto consensus that extends
+
+    Bitcoin''s single chain algorithm to multiple chains. This allows for
+
+    unlimited transaction throughput by horizontally scaling the number of chains.
+
+
+    Feedback and bug reports for the content of this site are welcome. Please
+
+    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
+
+    '
+  version: '0.0'
+  x-logo:
+    url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
+    alttext: Kadena Chainweb Logo
+servers:
+- url: https://api.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: 'Chainweb mainnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: https://api.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: 'Chainweb testnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: '{schema}://{domain}:{port}/chainweb/{apiVersion}/{chainwebVersion}'
+  description: 'An generic chainweb-node. It may serve only a subset of the endpoints.
+
+    '
+  variables:
+    schema:
+      default: http
+      enum:
+      - http
+      - https
+    domain:
+      default: api.chainweb.com
+    port:
+      default: '1848'
+    chainwebVersion:
+      default: mainnet01
+      enum:
+      - test-singleton
+      - development
+      - mainnet01
+      - testnet04
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: Chainweb mainnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us-e1
+      - us-e2
+      - us-e3
+      - us-w1
+      - us-w2
+      - us-w3
+      - fr1
+      - fr2
+      - fr3
+      - jp1
+      - jp2
+      - jp3
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: Chainweb testnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us1
+      - us2
+      - eu1
+      - eu2
+      - ap1
+      - ap2
+    apiVersion:
+      default: '0.0'
+tags:
+- name: mining
+  x-displayName: Mining Endpoints
+  description: 'The Mining API of Chainweb node is disabled by default. It can be enabled
+
+    and configured in the configuration file.
+
+
+
+    The mining API consists of the following endpoints that
+
+    are described in detail on the
+
+    [Chainweb mining wiki page](https://github.com/kadena-io/chainweb-node/wiki/Mining-API)
+
+
+    *   `GET mining/work`
+
+    *   `POST mining/solved`
+
+    *   `GET mining/updates`
+
+    '
+paths:
+  /mining/work:
+    servers:
+    - url: '{schema}://{domain}:{port}/chainweb/{chainwebVersion}/{apiVersion}'
+      description: 'The service API port of a chainweb-node where the mining API is enabled
+
+        and that is configured for mining.
+
+        '
+      variables:
+        schema:
+          default: http
+          enum:
+          - http
+          - https
+        domain:
+          default: example.com
+        port:
+          default: '1848'
+        chainwebVersion:
+          default: mainnet01
+          enum:
+          - test-singleton
+          - development
+          - mainnet01
+          - testnet04
+        apiVersion:
+          default: '0.0'
+    get:
+      tags:
+      - mining
+      summary: Get Mining Work
+      description: A new BlockHeader to mine on
+      requestBody:
+        description: Miner Info
+        content:
+          application/json:
+            example:
+              account: miner
+              predicate: keys-all
+              public-keys:
+              - f880a433d6e2a13a32b6169030f56245efdd8c1b8a5027e9ce98a88e886bef27
+            schema:
+              $ref: '#/components/schemas/minerInfo'
+      responses:
+        '200':
+          description: A mining work item
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            application/octet-stream:
+              schema:
+                title: 322 Work Bytes
+                description: 'The first 36 bytes are informational. Only the bytes from
+
+                  position 36 to the end are subject of the POW hash
+
+                  computation.
+
+                  '
+                properties:
+                  chainBytes:
+                    title: 4 Chain ID Bytes
+                    description: 'The chain selection made by the Node. This is
+
+                      informational. Generally, miner should not care about the
+
+                      chain.
+
+                      '
+                    type: string
+                    format: binary
+                  targetBytes:
+                    title: 32 PoW Target Bytes
+                    description: 'The PoW target for the current block. The PoW hash of a
+
+                      valid block must not be larger than this value.
+
+
+                      For arithmetic comparisons the hash-target and the PoW
+
+                      hash are interpreted as unsigned 256 bit integral number
+
+                      in little endian encoding.
+
+                      '
+                    type: string
+                    format: binary
+                  headerBytes:
+                    title: 286 Work Header Bytes
+                    description: 'PoW Work Header Bytes. The last 8 bytes are the nonce. The
+
+                      creation time is encoded in bytes 44-52. Miners must not
+
+                      change or make any assumption about the other bytes.
+
+
+                      The creation time is encoded as little endian twoth
+
+                      complement integral number that counts SI microseconds
+
+                      since POSIX epoch (leap seconds are ignored). It always
+
+                      positive (highest bit is 0). Miners are free but not
+
+                      required to update the creation time. The value must be
+
+                      strictly larger than the creation time of the parent block
+
+                      and must not be in the future.
+
+                      '
+                    type: string
+                    format: binary
+  /chainweb/0.0/mainnet01/mining/solved:
+    servers:
+    - url: '{schema}://{domain}:{port}/chainweb/{chainwebVersion}/{apiVersion}'
+      description: 'The service API port of a chainweb-node where the mining API is enabled
+
+        and that is configured for mining.
+
+        '
+      variables:
+        schema:
+          default: http
+          enum:
+          - http
+          - https
+        domain:
+          default: example.com
+        port:
+          default: '1848'
+        chainwebVersion:
+          default: mainnet01
+          enum:
+          - test-singleton
+          - development
+          - mainnet01
+          - testnet04
+        apiVersion:
+          default: '0.0'
+    post:
+      tags:
+      - mining
+      summary: Solved Mining Work
+      description: Submit a solution for a new block
+      requestBody:
+        description: The solved PoW work header bytes
+        content:
+          application/octet-stream:
+            schema:
+              title: 286 Solved PoW Work Header Bytes
+              description: 'The original work received that was received from `/mining/work`
+
+                with updated nonce value such that it satisfies the
+
+                Proof-of-Work. The nonce are last 8 bytes of the work header
+
+                bytes.
+
+
+                The PoW hash of a valid block is computed using `blake2s`. It
+
+                must not be larger than the PoW target for the current block.
+
+                The target was received along with the work header bytes from
+
+                the `/mining/work` endpoint. For arithmetic comparisons the
+
+                hash-target and the PoW hash are interpreted as unsigned 256 bit
+
+                integral number in little endian encoding.
+
+
+                Miners are free but not required to also update the creation time.
+
+                The value must be strictly larger than the creation time of the
+
+                parent block and must not be in the future.
+
+                '
+              type: string
+              format: binary
+      responses:
+        '204':
+          description: Solved mining work is valid
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+  /mining/updates:
+    servers:
+    - url: '{schema}://{domain}:{port}/chainweb/{chainwebVersion}/{apiVersion}'
+      description: 'The service API port of a chainweb-node where the mining API is enabled
+
+        and that is configured for mining.
+
+        '
+      variables:
+        schema:
+          default: http
+          enum:
+          - http
+          - https
+        domain:
+          default: example.com
+        port:
+          default: '1848'
+        chainwebVersion:
+          default: mainnet01
+          enum:
+          - test-singleton
+          - development
+          - mainnet01
+          - testnet04
+        apiVersion:
+          default: '0.0'
+    get:
+      tags:
+      - mining
+      summary: Notification of Updated Work
+      description: 'An server-sent event sources that notifies miners when new mining
+
+        work becomes available.
+
+
+        The stream is terminated by the server in regular intervals and
+
+        it is up to the client to request a new stream.
+
+        '
+      requestBody:
+        description: The first 4 bytes received from a call to `/mining/work`. This tells the Node to only inform the Miner of a new Cut when the specific chain in question has updated.
+        content:
+          application/octet-stream:
+            schema:
+              title: 4 Chain ID bytes
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: 'Each events consists of a single line: `event:New Cut`.
+
+            Events are separated by empty lines.
+
+            '
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/miningUpdateEventStream'
+              example: 'event:New Cut
+
+
+                event:New Cut
+
+
+                event:New Cut
+
+                '
+components:
+  schemas:
+    miningUpdateEventStream:
+      title: Mining Update Events
+      description: "A stream of server-sent events. **This is not a JSON array**.\nEvents are separated by empty lines (`\\n\\n`). Each event\nconsists of a single line:\n\n  event:New Cut\n"
+      type: array
+      items:
+        title: New Cut Event
+        description: 'A `New Cut` event. **This is not a JSON object**.
+
+          Each event consists of a single `event` propert.
+
+          '
+        properties:
+          event:
+            type: string
+            enum:
+            - New Cut
+      example: 'event:New Cut
+
+
+        event:New Cut
+
+
+        event:New Cut'
+    minerInfo:
+      title: Miner Info
+      properties:
+        account:
+          title: Account Name
+          description: Miner account name. Usually this is the same as the public key.
+          type: string
+          example: f880a433d6e2a13a32b6169030f56245efdd8c1b8a5027e9ce98a88e886bef27
+        predicate:
+          title: Key Predicate
+          enum:
+          - keys-all
+          - keys-any
+          example: keys-all
+          description: key predicate. For a single key this is usually `keys-all`.
+        public-keys:
+          type: array
+          items:
+            title: Miner Public Key
+            type: string
+            example: f880a433d6e2a13a32b6169030f56245efdd8c1b8a5027e9ce98a88e886bef27
+      example:
+        account: miner
+        predicate: keys-all
+        public-keys:
+        - f880a433d6e2a13a32b6169030f56245efdd8c1b8a5027e9ce98a88e886bef27
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
+  headers:
+    x-peer-addr:
+      description: Host and port of the client as observed by the remote node
+      schema:
+        $ref: '#/components/schemas/hostAddress'
+      example: 10.36.1.3:42988
+    x-server-timestamp:
+      description: The time of the clock of the remote node
+      schema:
+        $ref: '#/components/schemas/posixTimestamp'
+      example: 1618597601
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
+x-tagGroups:
+- name: chainweb_p2p
+  x-displayName: Chainweb P2P API
+  tags:
+  - p2p_api
+  - cut
+  - blockhash
+  - header
+  - payload
+  - mempool
+  - peer
+  - config
+- name: chainweb_service
+  x-displayName: Chainweb Service API
+  tags:
+  - service_api
+  - block
+  - misc
+  - mining
+  - pact
+- name: Common HTTP Headers
+  tags:
+  - commonResponseHeaders
+- name: Data Models
+  tags:
+  - cut_model
+  - header_model
+  - payload_model
+  - payloadWithOutputs_model
+  - peer_model
+  - nodeInfo_model
+  - page_model
+  - minerInfo_model
+  - miningUpdateEventStream_model
+- name: Binary Encodings
+  tags:
+  - binaryHeader
+  - binaryWorkHeader

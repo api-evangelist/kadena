@@ -1,0 +1,468 @@
+openapi: 3.0.0
+info:
+  title: Kadena Chainweb Node block cut API
+  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
+
+
+    Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
+
+    conservative extension of Bitcoin''s Nakamoto consensus that extends
+
+    Bitcoin''s single chain algorithm to multiple chains. This allows for
+
+    unlimited transaction throughput by horizontally scaling the number of chains.
+
+
+    Feedback and bug reports for the content of this site are welcome. Please
+
+    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
+
+    '
+  version: '0.0'
+  x-logo:
+    url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
+    alttext: Kadena Chainweb Logo
+servers:
+- url: https://api.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: 'Chainweb mainnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: https://api.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: 'Chainweb testnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: '{schema}://{domain}:{port}/chainweb/{apiVersion}/{chainwebVersion}'
+  description: 'An generic chainweb-node. It may serve only a subset of the endpoints.
+
+    '
+  variables:
+    schema:
+      default: http
+      enum:
+      - http
+      - https
+    domain:
+      default: api.chainweb.com
+    port:
+      default: '1848'
+    chainwebVersion:
+      default: mainnet01
+      enum:
+      - test-singleton
+      - development
+      - mainnet01
+      - testnet04
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: Chainweb mainnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us-e1
+      - us-e2
+      - us-e3
+      - us-w1
+      - us-w2
+      - us-w3
+      - fr1
+      - fr2
+      - fr3
+      - jp1
+      - jp2
+      - jp3
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: Chainweb testnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us1
+      - us2
+      - eu1
+      - eu2
+      - ap1
+      - ap2
+    apiVersion:
+      default: '0.0'
+tags:
+- name: cut
+  x-displayName: Cut Endpoints
+  description: 'A cut represents a distributed state of a chainweb. It references one
+
+    block header for each chain, such that those blocks are pairwise
+
+    concurrent.
+
+
+    Two blocks from two different chains are said to be concurrent if either
+
+    one of them is an adjacent parent (is a direct dependency) of the other or
+
+    if the blocks do not depend at all on each other.
+
+    '
+paths:
+  /cut:
+    summary: Cut Endpoints
+    description: 'A cut represents a distributed state of a chainweb. It references one
+
+      block header for each chain, such that those blocks are pairwise
+
+      concurrent.
+
+
+      Two blocks from two different chains are said to be concurrent if either
+
+      one of them is an adjacent parent (is a direct dependency) of the other or
+
+      if the blocks do not depend at all on each other.
+
+      '
+    get:
+      tags:
+      - cut
+      summary: Query the current cut
+      parameters:
+      - name: maxheight
+        in: query
+        description: Maximum cut height of the returned cut
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+      responses:
+        '200':
+          description: The current cut
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cut'
+              example:
+                $ref: '#/components/examples/cut'
+    put:
+      summary: Publish a cut
+      description: 'Publish a cut to a Chainweb node.
+
+
+        The cut must contain an origin property that is not `null`. The receiving node
+
+        will first try to obtain all missing dependencies from the node that is
+
+        indicated in by the origin property before searching for the dependencies in the
+
+        P2P network.
+
+        '
+      tags:
+      - cut
+      requestBody:
+        description: A cut with an origin property that is not `null`.
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/cut'
+              - required:
+                - origin
+            example:
+              $ref: '#/components/examples/cut'
+        required: true
+      responses:
+        '204':
+          description: The cut was added to the cut processing pipeline of the remote node
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+        '401':
+          description: The requester is not a peer of this node, and thus not allowed to send it cuts
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+components:
+  examples:
+    peers:
+      value:
+        next: inclusive:3
+        items:
+        - address:
+            hostname: 85.238.99.91
+            port: 30004
+          id: PRLmVUcc9AH3fyfMYiWeC4nV2i1iHwc0-aM7iAO8h18
+        - address:
+            hostname: us-w3.chainweb.com
+            port: 443
+          id: null
+        - address:
+            hostname: 95.111.232.151
+            port: 30004
+          id: DguFKLFMxp12vfl1z3cQIJQlh8xOpeZuBkpJU9Y-VLo
+        limit: 3
+    cut:
+      value:
+        origin: null
+        height: 30798466
+        weight: b0wYplmNiTBXCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        hashes:
+          '15':
+            height: 1539923
+            hash: jsc9rugvcHXDiBAuoO9_j8R_b_jchtJJ8b5596i8wVg
+          '7':
+            height: 1539923
+            hash: j_hJ9iiH_ATyeQeeRN3auGXjbBWiFgnTU0dYPIz8cKM
+          '13':
+            height: 1539923
+            hash: S-4TqMgWGlK1k33XRlU9w0Lfwr0RvkO5Jn78Au1OglM
+          '14':
+            height: 1539923
+            hash: xSuULf--S4TrgYNz82deaGhnPLWrg3pXkynGeUPUGwA
+          '0':
+            height: 1539923
+            hash: qEaSmWt_tDcJC9AGbgWY9x12LW5VED7hGgfyz9x_S3w
+          '19':
+            height: 1539923
+            hash: 1PrRg20XyQ_2cfgGOgNK9K-cqIJ1vO8-A-RJlfN5m00
+          '12':
+            height: 1539923
+            hash: -j1qcAS9Fs-WQmc3WEhzZ96VojxnlIA2TFpfyIv31Zs
+          '17':
+            height: 1539924
+            hash: xzVBXaQxzlUfUrakDgppUubQBRXGh-Uy0HBdMNwCq_Y
+          '1':
+            height: 1539923
+            hash: TJuC6nfhamfD517gspAZmqD9umR71nAgttDOi1JbBHw
+          '18':
+            height: 1539924
+            hash: 4VOHPAqwioySYRycdl5MxfscQHwtlwwCAt7AySYQT98
+          '4':
+            height: 1539923
+            hash: 0g0rOoSznVW2BJDBmK0Lbxz22F-sxTZUNIrUs_Q8Ye4
+          '16':
+            height: 1539923
+            hash: qs1aEY8kSxfUBb_JRVswv5dYINRXBjGJteC-6RC1hjc
+          '2':
+            height: 1539924
+            hash: 4ineCWfnO1rneWuBMLPzqTl2HF_sZpypT_3TEzf3VLc
+          '5':
+            height: 1539923
+            hash: 5y_TL-clnF_wELMBKyJk0Sz8RVShw_bGQETJdrMkADA
+          '8':
+            height: 1539924
+            hash: s7c3B55VbDsS6EJ-nc9S5k2kNbPOBGI8xxF3vUg4d4Q
+          '11':
+            height: 1539924
+            hash: TIhegjZ0GEC73T4m0BVuFtfLNGuS56IUWEuf93AJ5UU
+          '3':
+            height: 1539924
+            hash: ZEOMXB2ByqzL2HfYVKIZKAnoe4wIeJ2SaltnXDir59k
+          '6':
+            height: 1539923
+            hash: YkQKv6P4_C4jRM3RqKK9FWPxIneeLzlkKQS9ATAQYRk
+          '9':
+            height: 1539922
+            hash: bowQf63xSY9owHKhK1yGee2Q0Fn8yL_oCLaEUn-CGoA
+          '10':
+            height: 1539924
+            hash: uP-pHW4QKrV9fN1mlDGwKuaiIDlJW7xYSj1nW53EHM4
+        id: BBz7KeurYTeQ0hMGbwUbQC84cRbVcacoDQTye-3qkXI
+        instance: mainnet01
+  headers:
+    x-peer-addr:
+      description: Host and port of the client as observed by the remote node
+      schema:
+        $ref: '#/components/schemas/hostAddress'
+      example: 10.36.1.3:42988
+    x-server-timestamp:
+      description: The time of the clock of the remote node
+      schema:
+        $ref: '#/components/schemas/posixTimestamp'
+      example: 1618597601
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
+  schemas:
+    cut:
+      title: Cut
+      description: Cut datastruction of the chainweb API
+      required:
+      - height
+      - weight
+      - hashes
+      example:
+        $ref: '#/components/examples/cut'
+      properties:
+        origin:
+          $ref: '#/components/schemas/peer'
+        height:
+          description: 'The cut height is the sum of the height of all blocks of the cut.
+
+            Usage of this value should be avoided, because its semantics may
+
+            change in the future
+
+            '
+          type: integer
+          minimum: 0
+        weight:
+          description: The sum of the weights of all blocks in the cut
+          type: string
+          pattern: '[a-zA-Z0-9_-]{43}'
+        hashes:
+          type: object
+          required:
+          - '0'
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - '10'
+          description: 'An object that maps chain Ids to their respective block hash and
+
+            block height
+
+            '
+          additionalProperties:
+            $ref: '#/components/schemas/hashWithBlockHeight'
+        instance:
+          type: string
+        id:
+          type: string
+    hashWithBlockHeight:
+      title: Hash with block height
+      description: A block hash and the height of that block
+      required:
+      - hash
+      - height
+      example:
+        height: 1539924
+        hash: uP-pHW4QKrV9fN1mlDGwKuaiIDlJW7xYSj1nW53EHM4
+      type: object
+      properties:
+        hash:
+          type: string
+          pattern: '[a-zA-Z0-9_-]{43}'
+        height:
+          type: integer
+          minimum: 0
+    peer:
+      title: Peer
+      description: Peer info object
+      required:
+      - id
+      - address
+      example:
+        $ref: '#/components/examples/peers/value/items/0'
+      properties:
+        id:
+          description: 'The base64Url (without padding) encoded SHA256 fingerprint of the
+
+            SSL certificate of the node. This can be null only if the node uses
+
+            an official CA signed certificate
+
+            '
+          type: string
+          nullable: true
+          pattern: '[a-zA-Z0-9_-]{43}'
+        address:
+          required:
+          - hostname
+          - port
+          properties:
+            hostname:
+              description: 'A domain name or IP address. This must be a domain name only if
+
+                the respective node is using a valid CA signed SSL certificate.
+
+                '
+              type: string
+              oneOf:
+              - format: hostname
+              - format: ipv4
+              - format: ipv6
+            port:
+              description: Port number
+              type: integer
+              minimum: 1
+              maximum: 65535
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
+x-tagGroups:
+- name: chainweb_p2p
+  x-displayName: Chainweb P2P API
+  tags:
+  - p2p_api
+  - cut
+  - blockhash
+  - header
+  - payload
+  - mempool
+  - peer
+  - config
+- name: chainweb_service
+  x-displayName: Chainweb Service API
+  tags:
+  - service_api
+  - block
+  - misc
+  - mining
+  - pact
+- name: Common HTTP Headers
+  tags:
+  - commonResponseHeaders
+- name: Data Models
+  tags:
+  - cut_model
+  - header_model
+  - payload_model
+  - payloadWithOutputs_model
+  - peer_model
+  - nodeInfo_model
+  - page_model
+  - minerInfo_model
+  - miningUpdateEventStream_model
+- name: Binary Encodings
+  tags:
+  - binaryHeader
+  - binaryWorkHeader

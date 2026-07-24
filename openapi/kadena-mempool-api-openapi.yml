@@ -1,0 +1,403 @@
+openapi: 3.0.0
+info:
+  title: Kadena Chainweb Node block mempool API
+  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
+
+
+    Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
+
+    conservative extension of Bitcoin''s Nakamoto consensus that extends
+
+    Bitcoin''s single chain algorithm to multiple chains. This allows for
+
+    unlimited transaction throughput by horizontally scaling the number of chains.
+
+
+    Feedback and bug reports for the content of this site are welcome. Please
+
+    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
+
+    '
+  version: '0.0'
+  x-logo:
+    url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
+    alttext: Kadena Chainweb Logo
+servers:
+- url: https://api.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: 'Chainweb mainnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: https://api.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: 'Chainweb testnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: '{schema}://{domain}:{port}/chainweb/{apiVersion}/{chainwebVersion}'
+  description: 'An generic chainweb-node. It may serve only a subset of the endpoints.
+
+    '
+  variables:
+    schema:
+      default: http
+      enum:
+      - http
+      - https
+    domain:
+      default: api.chainweb.com
+    port:
+      default: '1848'
+    chainwebVersion:
+      default: mainnet01
+      enum:
+      - test-singleton
+      - development
+      - mainnet01
+      - testnet04
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: Chainweb mainnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us-e1
+      - us-e2
+      - us-e3
+      - us-w1
+      - us-w2
+      - us-w3
+      - fr1
+      - fr2
+      - fr3
+      - jp1
+      - jp2
+      - jp3
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: Chainweb testnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us1
+      - us2
+      - eu1
+      - eu2
+      - ap1
+      - ap2
+    apiVersion:
+      default: '0.0'
+tags:
+- name: mempool
+  x-displayName: Mempool P2P Endpoints
+  description: 'Mempool P2P endpoints for communication between mempools. Endusers are not
+
+    supposed to use these endpoints directly. Instead, the respective Pact
+
+    endpoints should be used for submitting transactions into the network.
+
+    '
+paths:
+  /chain/{chain}/mempool/getPending:
+    post:
+      summary: Get Pending Transactions from the Mempool
+      tags:
+      - mempool
+      parameters:
+      - $ref: '#/components/parameters/chain'
+      - name: nonce
+        in: query
+        description: Server nonce value
+        schema:
+          type: integer
+      - name: since
+        in: query
+        description: Mempool tx id value
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: recent state of pending transactions in the mempool
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            application/json:
+              schema:
+                properties:
+                  hashes:
+                    type: array
+                    items:
+                      type: string
+                  highwaterMark:
+                    type: array
+                    description: 'two-element array: `[nonce (integer), since (int64)]`'
+                    items:
+                      type: integer
+              examples:
+                singleton:
+                  value:
+                    hashes:
+                    - qx346ILpakzgbNZbE8oHqF5TZQghp-HPcV-0Ptc_n2s
+                    highwaterMark:
+                    - 7530864100535968633
+                    - 399
+                  summary: Result with one transaction
+                empty:
+                  value:
+                    hashes: []
+                    highwaterMark:
+                    - -4683248684880063035
+                    - 436
+                  summary: Empty result
+  /chain/{chain}/mempool/member:
+    post:
+      summary: Check for Pending Transactions in the Mempool
+      tags:
+      - mempool
+      parameters:
+      - $ref: '#/components/parameters/chain'
+      requestBody:
+        $ref: '#/components/requestBodies/requestKeyArray'
+      responses:
+        '200':
+          description: 'Array of boolean values that indicate whether the respective
+
+            transaction is in the mempool.
+
+
+            The array has the same size as the request body.
+
+            '
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: boolean
+              examples:
+                hit:
+                  value:
+                  - true
+                  summary: result for existing transaction
+                miss:
+                  value:
+                  - false
+                  summary: result for missing transaction
+                empty:
+                  value: []
+                  summary: result from empty request body
+  /chain/{chain}/mempool/lookup:
+    post:
+      summary: Lookup Pending Transactions in the Mempool
+      tags:
+      - mempool
+      parameters:
+      - $ref: '#/components/parameters/chain'
+      requestBody:
+        $ref: '#/components/requestBodies/requestKeyArray'
+      responses:
+        '200':
+          description: 'Array of lookup results for the respective transactions
+
+            '
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    tag:
+                      type: string
+                      enum:
+                      - Missing
+                      - Pending
+                    contents:
+                      $ref: '#/components/schemas/signedTxText'
+              examples:
+                hit:
+                  value:
+                  - tag: Pending
+                    contents: '{"hash":"y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw","sigs":[{"sig":"8ddc06b37c496f2cadc4f7412405a80faf3ab07482ff5553b9b5fcc73d1b4121275ad5948d9b4078e553b71f8b42eaf6b24135bf2fb4d5840c16bcdde0e35e0f"}],"cmd":"{\"networkId\":\"mainnet01\",\"payload\":{\"exec\":{\"data\":{\"account-keyset\":{\"pred\":\"keys-all\",\"keys\":[\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\"]}},\"code\":\"(coin.transfer-create \\\"60241f51ea34e05c61fbea9d\\\" \\\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\\\" (read-keyset \\\"account-keyset\\\") 5007.0000)\"}},\"signers\":[{\"pubKey\":\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\",\"clist\":[{\"args\":[\"60241f51ea34e05c61fbea9d\",\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\",5007],\"name\":\"coin.TRANSFER\"},{\"args\":[],\"name\":\"coin.GAS\"}]}],\"meta\":{\"creationTime\":1618949714,\"ttl\":300,\"gasLimit\":600,\"chainId\":\"0\",\"gasPrice\":1.0e-7,\"sender\":\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\"},\"nonce\":\"\\\"2021-04-20T20:16:13.645Z\\\"\"}"}'
+                  summary: result for existing transaction
+                miss:
+                  value:
+                  - tag: Missing
+                  summary: result for missing transaction
+                empty:
+                  value: []
+                  summary: result from empty request body
+  /chain/{chain}/mempool/insert:
+    put:
+      summary: Insert Transactions into the Mempool
+      tags:
+      - mempool
+      parameters:
+      - $ref: '#/components/parameters/chain'
+      requestBody:
+        description: Array of strings of JSON encoded signed transactions
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/signedTxText'
+            examples:
+              singleton:
+                summary: Singleton request body
+                value:
+                - '{"hash":"y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw","sigs":[{"sig":"8ddc06b37c496f2cadc4f7412405a80faf3ab07482ff5553b9b5fcc73d1b4121275ad5948d9b4078e553b71f8b42eaf6b24135bf2fb4d5840c16bcdde0e35e0f"}],"cmd":"{\"networkId\":\"mainnet01\",\"payload\":{\"exec\":{\"data\":{\"account-keyset\":{\"pred\":\"keys-all\",\"keys\":[\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\"]}},\"code\":\"(coin.transfer-create \\\"60241f51ea34e05c61fbea9d\\\" \\\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\\\" (read-keyset \\\"account-keyset\\\") 5007.0000)\"}},\"signers\":[{\"pubKey\":\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\",\"clist\":[{\"args\":[\"60241f51ea34e05c61fbea9d\",\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\",5007],\"name\":\"coin.TRANSFER\"},{\"args\":[],\"name\":\"coin.GAS\"}]}],\"meta\":{\"creationTime\":1618949714,\"ttl\":300,\"gasLimit\":600,\"chainId\":\"0\",\"gasPrice\":1.0e-7,\"sender\":\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\"},\"nonce\":\"\\\"2021-04-20T20:16:13.645Z\\\"\"}"}'
+              empty:
+                summary: Empty request body
+                value: []
+      responses:
+        '200':
+          description: Transactions were inserted
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+components:
+  requestBodies:
+    requestKeyArray:
+      description: Array of request keys
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/requestKey'
+          examples:
+            empty request body:
+              value: []
+            singleton request body:
+              value:
+              - qx346ILpakzgbNZbE8oHqF5TZQghp-HPcV-0Ptc_n2s
+  headers:
+    x-peer-addr:
+      description: Host and port of the client as observed by the remote node
+      schema:
+        $ref: '#/components/schemas/hostAddress'
+      example: 10.36.1.3:42988
+    x-server-timestamp:
+      description: The time of the clock of the remote node
+      schema:
+        $ref: '#/components/schemas/posixTimestamp'
+      example: 1618597601
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
+  parameters:
+    chain:
+      name: chain
+      in: path
+      description: the id of the chain to which the request is sent
+      required: true
+      schema:
+        type: integer
+        minimum: 0
+        example: 0
+  schemas:
+    signedTxText:
+      title: Signed Transaction Text
+      type: string
+      description: Text of a JSON encoded signed Pact transaction
+      example:
+        $ref: '#/components/examples/signedTxText'
+    requestKey:
+      title: Request Key
+      type: string
+      description: Base64Url-encoded, request key of a Pact transaction
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      minLength: 43
+      maxLength: 43
+      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
+  examples:
+    signedTxText:
+      value:
+        hash: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
+        sigs:
+        - sig: 8ddc06b37c496f2cadc4f7412405a80faf3ab07482ff5553b9b5fcc73d1b4121275ad5948d9b4078e553b71f8b42eaf6b24135bf2fb4d5840c16bcdde0e35e0f
+        cmd: '{"networkId":"mainnet01","payload":{"exec":{"data":{"account-keyset":{"pred":"keys-all","keys":["acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2"]}},"code":"(coin.transfer-create \"60241f51ea34e05c61fbea9d\" \"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\" (read-keyset \"account-keyset\") 5007.0000)"}},"signers":[{"pubKey":"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2","clist":[{"args":["60241f51ea34e05c61fbea9d","acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2",5007],"name":"coin.TRANSFER"},{"args":[],"name":"coin.GAS"}]}],"meta":{"creationTime":1618949714,"ttl":300,"gasLimit":600,"chainId":"0","gasPrice":1.0e-7,"sender":"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2"},"nonce":"\"2021-04-20T20:16:13.645Z\""}'
+x-tagGroups:
+- name: chainweb_p2p
+  x-displayName: Chainweb P2P API
+  tags:
+  - p2p_api
+  - cut
+  - blockhash
+  - header
+  - payload
+  - mempool
+  - peer
+  - config
+- name: chainweb_service
+  x-displayName: Chainweb Service API
+  tags:
+  - service_api
+  - block
+  - misc
+  - mining
+  - pact
+- name: Common HTTP Headers
+  tags:
+  - commonResponseHeaders
+- name: Data Models
+  tags:
+  - cut_model
+  - header_model
+  - payload_model
+  - payloadWithOutputs_model
+  - peer_model
+  - nodeInfo_model
+  - page_model
+  - minerInfo_model
+  - miningUpdateEventStream_model
+- name: Binary Encodings
+  tags:
+  - binaryHeader
+  - binaryWorkHeader

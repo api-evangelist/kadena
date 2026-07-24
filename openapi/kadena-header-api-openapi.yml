@@ -1,0 +1,761 @@
+openapi: 3.0.0
+info:
+  title: Kadena Chainweb Node block header API
+  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
+
+
+    Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
+
+    conservative extension of Bitcoin''s Nakamoto consensus that extends
+
+    Bitcoin''s single chain algorithm to multiple chains. This allows for
+
+    unlimited transaction throughput by horizontally scaling the number of chains.
+
+
+    Feedback and bug reports for the content of this site are welcome. Please
+
+    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
+
+    '
+  version: '0.0'
+  x-logo:
+    url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
+    alttext: Kadena Chainweb Logo
+servers:
+- url: https://api.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: 'Chainweb mainnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: https://api.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: 'Chainweb testnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: '{schema}://{domain}:{port}/chainweb/{apiVersion}/{chainwebVersion}'
+  description: 'An generic chainweb-node. It may serve only a subset of the endpoints.
+
+    '
+  variables:
+    schema:
+      default: http
+      enum:
+      - http
+      - https
+    domain:
+      default: api.chainweb.com
+    port:
+      default: '1848'
+    chainwebVersion:
+      default: mainnet01
+      enum:
+      - test-singleton
+      - development
+      - mainnet01
+      - testnet04
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: Chainweb mainnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us-e1
+      - us-e2
+      - us-e3
+      - us-w1
+      - us-w2
+      - us-w3
+      - fr1
+      - fr2
+      - fr3
+      - jp1
+      - jp2
+      - jp3
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: Chainweb testnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us1
+      - us2
+      - eu1
+      - eu2
+      - ap1
+      - ap2
+    apiVersion:
+      default: '0.0'
+tags:
+- name: header
+  x-displayName: Block Header Endpoints
+  description: "These endpoints return block headers from the chain database.\n\nSimilar to the block endpoints, block headers are generally returned in\nascending order and include headers of orphaned blocks.\n\nFor only querying block headers that are included in the winning branch of\nthe chain the `branch` endpoints can be used, which return block headers in\ndescending order starting from the leafs of branches of the block chain.\n\nBlock headers are returned in three different formats specified in the `accept` header of the request:\n*   `application/json`, returns block headers in base64Url (without padding)\n    encoded binary.\n*   `application/json;blockheader-encoding=object`, returns block headers in\n    JSON encoding.\n*   `application/octet-stream`, when supported by the endpoint, returns block\n    headers as binary.\n"
+paths:
+  /chain/{chain}/header:
+    get:
+      summary: Get Block Headers
+      description: 'A page of a collection of block headers in **ascending** order
+
+        that satisfies query parameters. Any block header from the chain
+
+        database is returned. **This includes headers of orphaned blocks.**
+
+        '
+      tags:
+      - header
+      parameters:
+      - $ref: '#/components/parameters/chain'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/next'
+      - $ref: '#/components/parameters/minheight'
+      - $ref: '#/components/parameters/maxheight'
+      responses:
+        '200':
+          description: The requested block headers
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            application/json:
+              schema:
+                allOf:
+                - properties:
+                    items:
+                      description: Array of base64 encoded block headers
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/base64Header'
+                - $ref: '#/components/schemas/page'
+              example:
+                $ref: '#/components/examples/base64HeaderPage'
+            application/json;blockheader-encoding=object:
+              schema:
+                allOf:
+                - properties:
+                    items:
+                      description: Array of JSON encoded block headers
+                      items:
+                        $ref: '#/components/schemas/blockHeader'
+                - $ref: '#/components/schemas/page'
+              example:
+                $ref: '#/components/examples/blockHeaderPage'
+        '404':
+          description: 'The `next` or `maxheight` parameter indicated a nonexistent block height.
+
+            '
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            application/json:
+              schema:
+                properties:
+                  reason:
+                    type: string
+                  key:
+                    $ref: '#/components/schemas/blockHash'
+  /chain/{chain}/header/{blockHash}:
+    get:
+      summary: Get Block Header by Hash
+      description: Query a block header by its hash
+      tags:
+      - header
+      parameters:
+      - $ref: '#/components/parameters/chain'
+      - $ref: '#/components/parameters/blockHash'
+      responses:
+        '200':
+          description: The block header with that hash was found
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/base64Header'
+              example:
+                value:
+                  $ref: '#/components/examples/base64HeaderPage/value/items/0'
+            application/json;blockheader-encoding=object:
+              schema:
+                $ref: '#/components/schemas/blockHeader'
+              example:
+                value:
+                  $ref: '#/components/examples/blockHeaderPage/value/items/0'
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/binaryHeader'
+        '404':
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          description: A block header with that block hash was not found.
+          content:
+            application/json:
+              schema:
+                properties:
+                  reason:
+                    type: string
+                  key:
+                    $ref: '#/components/schemas/blockHash'
+        '406':
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          description: The value of the `Accept` header is not supported.
+  /chain/{chain}/header/branch:
+    post:
+      summary: Get Block Header Branches
+      description: 'A page of block headers from branches of the block chain in
+
+        **descending** order.
+
+
+        Only blocks are returned that are ancestors of the some block in the
+
+        set of upper bounds and are not ancestors of any block in the set of
+
+        lower bounds.
+
+        '
+      tags:
+      - header
+      parameters:
+      - $ref: '#/components/parameters/chain'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/next'
+      - $ref: '#/components/parameters/minheight'
+      - $ref: '#/components/parameters/maxheight'
+      requestBody:
+        description: Upper and lower bounds of the queried branches
+        content:
+          application/json:
+            schema:
+              properties:
+                lower:
+                  description: 'No blocks are returned that are predecessors of any block with
+
+                    an hash from this array.
+
+                    '
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/blockHash'
+                upper:
+                  description: 'Returned block headers are predecessors of a block with an
+
+                    hash from this array. This includes blocks with hashes from
+
+                    this array.
+
+                    '
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/blockHash'
+            examples:
+              singletonLimited:
+                value:
+                  lower:
+                  - RClyuyZAacwvPpmLXKbTwrIRXWeUSjiNhJVP2esH8KM
+                  upper:
+                  - QxGCAz5AY1Y41nh1yWtgqhKhZ9pPiPRagFdIKNqBH74
+                summary: Ancestors of block that are not ancestors of another block
+              singleton:
+                value:
+                  lower: []
+                  upper:
+                  - QxGCAz5AY1Y41nh1yWtgqhKhZ9pPiPRagFdIKNqBH74
+                summary: Ancestors of one block
+              empty:
+                value:
+                  lower: []
+                  upper: []
+                summary: Empty branch
+              empty2:
+                value:
+                  lower:
+                  - QxGCAz5AY1Y41nh1yWtgqhKhZ9pPiPRagFdIKNqBH74
+                  upper:
+                  - QxGCAz5AY1Y41nh1yWtgqhKhZ9pPiPRagFdIKNqBH74
+                summary: Another example that returns an empty page
+      responses:
+        '200':
+          description: The block headers were found
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            application/json:
+              schema:
+                allOf:
+                - properties:
+                    items:
+                      description: Array of base64 encoded block headers
+                      items:
+                        $ref: '#/components/schemas/base64Header'
+                - $ref: '#/components/schemas/page'
+              example:
+                $ref: '#/components/examples/base64HeaderBranchPage'
+            application/json;blockheader-encoding=object:
+              schema:
+                allOf:
+                - properties:
+                    items:
+                      description: Array of JSON encoded block headers
+                      items:
+                        $ref: '#/components/schemas/blockHeader'
+                - $ref: '#/components/schemas/page'
+              example:
+                $ref: '#/components/examples/blockHeaderPage'
+        '400':
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          description: The branch bounds were exceeded.
+        '406':
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          description: The value of the `Accept` header is not supported.
+        '404':
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          description: A block header indicated by a required parameter was not found.
+          content:
+            application/json:
+              schema:
+                properties:
+                  reason:
+                    type: string
+                  key:
+                    $ref: '#/components/schemas/blockHash'
+components:
+  parameters:
+    minheight:
+      name: minheight
+      in: query
+      description: Minimum block height of the returned headers
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+      example: 500000
+    next:
+      name: next
+      in: query
+      description: 'The cursor for the next page. This value can be found as value of the
+
+        `next` property of the previous page.
+
+        '
+      required: false
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      description: 'Maximum number of records that may be returned. The actual number may be
+
+        lower.
+
+        '
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+    blockHash:
+      name: blockHash
+      in: path
+      description: Block hash of a block
+      required: true
+      schema:
+        $ref: '#/components/schemas/blockHash'
+      example:
+        $ref: '#/components/examples/blockHashes'
+    chain:
+      name: chain
+      in: path
+      description: the id of the chain to which the request is sent
+      required: true
+      schema:
+        type: integer
+        minimum: 0
+        example: 0
+    maxheight:
+      name: maxheight
+      in: query
+      description: Maximum block height of the returned headers
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+      example: 500000
+  headers:
+    x-server-timestamp:
+      description: The time of the clock of the remote node
+      schema:
+        $ref: '#/components/schemas/posixTimestamp'
+      example: 1618597601
+    x-peer-addr:
+      description: Host and port of the client as observed by the remote node
+      schema:
+        $ref: '#/components/schemas/hostAddress'
+      example: 10.36.1.3:42988
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
+  schemas:
+    blockHash:
+      title: Block Hash
+      description: Base64Url (without padding) encoded block hash
+      example: QxGCAz5AY1Y41nh1yWtgqhKhZ9pPiPRagFdIKNqBH7
+      allOf:
+      - $ref: '#/components/schemas/sha256Hash'
+    posixTimestampMicro:
+      title: POSIX Timestamp in Microseconds
+      type: integer
+      description: Microseconds since POSIX epoch
+      example: 1602382624629329
+      minimum: 0
+    blockHeight:
+      title: Block Height
+      description: 'The height of a block is the number of its predecessors in the block chain
+
+        '
+      type: integer
+      minimum: 0
+      example: 1000000
+    base64Header:
+      title: Base64Url Block Header
+      description: Base64Url (without padding) encoded binary block header
+      type: string
+      pattern: '[a-zA-Z0-9_-]+'
+      example:
+        value:
+          $ref: '#/components/examples/base64HeaderPage/value/items/0'
+    blockWeight:
+      title: Block Weight
+      description: 'The POW weight of a block is the sum of the difficulties of the block
+
+        and of all of its ancestors. The difficulty of a block is the maximum
+
+        difficulty divided by the target.
+
+
+        It represented as the base64Url (without padding) 256 bit little endian
+
+        encoding of the numerical value.
+
+        '
+      type: string
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      minLength: 43
+      maxLength: 43
+      example: iil_D0t2MGqjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    payloadHash:
+      title: Block Payload Hash
+      description: Base64Url (without padding) encoded block payload hash
+      example: GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA
+      allOf:
+      - $ref: '#/components/schemas/sha256Hash'
+    binaryHeader:
+      title: Binary Block Header
+      description: Binary representation of a block header
+      type: string
+      minLength: 318
+      maxLength: 318
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
+    blockHeader:
+      title: Block Header
+      description: JSON Encoded Block Header
+      required:
+      - creationTime
+      - parent
+      - height
+      - hash
+      - chainId
+      - weight
+      - featureFlags
+      - epochStart
+      - adjacents
+      - payloadHash
+      - chainwebVersion
+      - target
+      - nonce
+      example:
+        value:
+          $ref: '#/components/examples/blockHeaderPage/value/items/0'
+      properties:
+        creationTime:
+          $ref: '#/components/schemas/posixTimestampMicro'
+        parent:
+          $ref: '#/components/schemas/blockHash'
+        height:
+          $ref: '#/components/schemas/blockHeight'
+        hash:
+          $ref: '#/components/schemas/blockHash'
+        chainId:
+          $ref: '#/components/schemas/chainId'
+        weight:
+          $ref: '#/components/schemas/blockWeight'
+        featureFlags:
+          type: integer
+          description: A reserved value that must be 0.
+        epochStart:
+          $ref: '#/components/schemas/posixTimestampMicro'
+        adjacents:
+          description: 'The block hashes of the adjacent parents of the block. This is
+
+            represented as an associative array that maps the adjancent chain
+
+            ids to the respective block hash.
+
+            '
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/blockHash'
+        payloadHash:
+          $ref: '#/components/schemas/payloadHash'
+        chainwebVersion:
+          $ref: '#/components/schemas/chainwebVersion'
+        target:
+          $ref: '#/components/schemas/target'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+    page:
+      title: Page
+      description: Page of a collection of items
+      required:
+      - next
+      - limit
+      - items
+      example:
+        $ref: '#/components/examples/base64HeaderPage'
+      properties:
+        limit:
+          description: 'The number of items in the page. This number can be smaller but
+
+            never be larger than the number of requested items.
+
+            '
+          type: integer
+          minimum: 0
+          items:
+            description: Items of the returned collection
+            type: array
+        next:
+          description: 'A cursor that can be used to query the next page. It should be used
+
+            literally as value for the `next` parameter in a follow-up request.
+
+            '
+          oneOf:
+          - type: 'null'
+          - type: string
+          nullable: true
+          pattern: ^(inclusive|exclusive):.*$
+        items:
+          description: 'The items in the page.
+
+            '
+    chainwebVersion:
+      title: Chainweb Version
+      description: The version of the Chainweb network
+      enum:
+      - test-singleton
+      - development
+      - mainnet01
+      - testnet04
+    nonce:
+      title: PoW Nonce
+      description: 'PoW nonce of the block. This is computed by the miner such that the
+
+        block hash is smaller than the target.
+
+        '
+      type: string
+      pattern: '[0-9]+'
+      minLength: 1
+    target:
+      title: PoW Target
+      description: 'The PoW target of a block represented as the base64Url (without
+
+        padding) 256 bit little endian encoding of the numerical value.
+
+        '
+      type: string
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      minLength: 43
+      maxLength: 43
+      example: 2uMCnB4lWsErj9w1C1vAp1sHYd-sABf3kgcAAAAAAAA
+    sha256Hash:
+      title: SHA256 Hash
+      type: string
+      description: Base64Url (without padding) encoded SHA256 hash
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      minLength: 43
+      maxLength: 43
+      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
+    chainId:
+      title: Chain ID
+      description: 'A Chainweb chain ID. In Kadena Chainweb chains are named by numbers
+
+        starting form 0. Valid values depend on the current graph at the
+
+        respective block height of the chainweb version.
+
+        '
+      type: integer
+      minimum: 0
+      example: 0
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
+  examples:
+    base64HeaderBranchPage:
+      value:
+        next: inclusive:u9Va7MRkDSOCm0yWpsC2w-4Z0oyEMv-BjofkHeIln6g
+        items:
+        - AAAAAAAAAADX5AyHgcAFAEQpcrsmQGnMLz6Zi1ym08KyEV1nlEo4jYSVT9nrB_CjAwAFAAAA4BMlW68KbggSREOGDeH_oFFoUrpZ0zX0hM0TTdYrEAYKAAAARoxLy8ECsIIWebtW8zZsH1xfRGu4NOuSlgH4cAJLFcwPAAAAsHRn1laXo2DK2_85nOH7apQyC6Vr_gEctSElqdrCC03a4wKcHiVawSuP3DULW8CnWwdh36wAF_eSBwAAAAAAAA3PRGZVm8h4aY9cMgXAQf3QbYSNDUnFxjZnr8FwcknXAAAAAIopfw9LdjBqowAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA3LgXAAAAAAAFAAAAavQWLYHABQAOBvq0L1PrvEMRggM-QGNWONZ4dclrYKoSoWfaT4j0WoBXSCjagR--
+        - AAAAAAAAAAC46tSFgcAFANxrUMH15DY-83DeKwlvDWsj4DY4Sphc5I82jCVSpSuCAwAFAAAAwdorGxUmrIkWyssvz3oHm3uqurfNd5ywiD6NHsZQEr8KAAAA750C1IKC9doZZKtqCckOF8JmIaHMhDfopNobHeJvmXMPAAAA4pgr0U_1kQxou-NIc42nICYqOgLM1Vawamal-HuhLvfa4wKcHiVawSuP3DULW8CnWwdh36wAF_eSBwAAAAAAANdqRLGXd6y6OGwShrFC7vBrIWf_TLCfaYpLnu-q7A7AAAAAAI5IadugqQ5qowAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA27gXAAAAAAAFAAAAavQWLYHABQBFGVPEmhORyEQpcrsmQGnMLz6Zi1ym08KyEV1nlEo4jYSVT9nrB_Cj
+        limit: 2
+    blockHashes:
+      value:
+      - k0an0qEORusqQg9ZjKrxa-0Bo0-hQVYLXqWi5LHxg3k
+    blockHeaderPage:
+      value:
+        next: inclusive:o1S4NNFhKWg8T1HEkmDvsTH9Ut9l3_qHRpp00yRKZIk
+        items:
+        - creationTime: 1602382624629329
+          parent: HaXABq1PKSKlhncJk0_Mt75_lL7NS3wI627QfXZ_85k
+          height: 1000000
+          hash: k0an0qEORusqQg9ZjKrxa-0Bo0-hQVYLXqWi5LHxg3k
+          chainId: 0
+          weight: NQn4BGftuWAeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          featureFlags: 0
+          epochStart: 1602381443331834
+          adjacents:
+            '15': MItdqgHZxf7j6l0oE8X-G9-VyMbnQmZrtSniuRe_EJ8
+            '5': Mpic85rur2MYf3zli8s8bHxTFjriFoMPTr6ZPs8sjxM
+            '10': VBKuhU_hQmuvKlx88A5o-FH0rzNo59NsdxmOGNBQ-yc
+          payloadHash: GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA
+          chainwebVersion: mainnet01
+          target: QrcsbEm-3WjyCGAGlzIEhLEN3ZMWORoyYy8AAAAAAAA
+          nonce: '13095611958898437'
+        - creationTime: 1602382678045236
+          parent: k0an0qEORusqQg9ZjKrxa-0Bo0-hQVYLXqWi5LHxg3k
+          height: 1000001
+          hash: vhVa6Deh10RXLRf3L-MSQTYqaL-_IY_mi-v58MjP9R8
+          chainId: 0
+          weight: bOkHN2JUv2AeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          featureFlags: 0
+          epochStart: 1602381443331834
+          adjacents:
+            '15': Kv0sz_rTANjoiJwMrdZFCJNFwdH0U_M5ouwMr3BXBfo
+            '5': ALcxv1ZiwwQ_QX9eOBZMbzIop6n7XtveS1FqOFwyvGM
+            '10': C76ElC60qXSJQCHePpzzJxsCYvvrqvmkoHPyZnex-4Q
+          payloadHash: smUiDW9jfD_0vrdt4-fXKT_lqC90RsgEGObdp3FznFY
+          chainwebVersion: mainnet01
+          target: QrcsbEm-3WjyCGAGlzIEhLEN3ZMWORoyYy8AAAAAAAA
+          nonce: '110239794631051275'
+        limit: 2
+    base64HeaderPage:
+      value:
+        next: inclusive:o1S4NNFhKWg8T1HEkmDvsTH9Ut9l3_qHRpp00yRKZIk
+        items:
+        - AAAAAAAAAABRoiLHW7EFAB2lwAatTykipYZ3CZNPzLe-f5S-zUt8COtu0H12f_OZAwAFAAAAMpic85rur2MYf3zli8s8bHxTFjriFoMPTr6ZPs8sjxMKAAAAVBKuhU_hQmuvKlx88A5o-FH0rzNo59NsdxmOGNBQ-ycPAAAAMItdqgHZxf7j6l0oE8X-G9-VyMbnQmZrtSniuRe_EJ9CtyxsSb7daPIIYAaXMgSEsQ3dkxY5GjJjLwAAAAAAABqWlmx5B6wo0YWPIShNKmdVrAQWht2P85BS1drGLpkAAAAAADUJ-ARn7blgHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEIPAAAAAAAFAAAA-na5gFuxBQAFL-3CY4YuAJNGp9KhDkbrKkIPWYyq8WvtAaNPoUFWC16louSx8YN5
+        - AAAAAAAAAAA0slHKW7EFAJNGp9KhDkbrKkIPWYyq8WvtAaNPoUFWC16louSx8YN5AwAFAAAAALcxv1ZiwwQ_QX9eOBZMbzIop6n7XtveS1FqOFwyvGMKAAAAC76ElC60qXSJQCHePpzzJxsCYvvrqvmkoHPyZnex-4QPAAAAKv0sz_rTANjoiJwMrdZFCJNFwdH0U_M5ouwMr3BXBfpCtyxsSb7daPIIYAaXMgSEsQ3dkxY5GjJjLwAAAAAAALJlIg1vY3w_9L63bePn1yk_5agvdEbIBBjm3adxc5xWAAAAAGzpBzdiVL9gHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQUIPAAAAAAAFAAAA-na5gFuxBQALiBhXgqaHAb4VWug3oddEVy0X9y_jEkE2Kmi_vyGP5ovr-fDIz_Uf
+        limit: 2
+x-tagGroups:
+- name: chainweb_p2p
+  x-displayName: Chainweb P2P API
+  tags:
+  - p2p_api
+  - cut
+  - blockhash
+  - header
+  - payload
+  - mempool
+  - peer
+  - config
+- name: chainweb_service
+  x-displayName: Chainweb Service API
+  tags:
+  - service_api
+  - block
+  - misc
+  - mining
+  - pact
+- name: Common HTTP Headers
+  tags:
+  - commonResponseHeaders
+- name: Data Models
+  tags:
+  - cut_model
+  - header_model
+  - payload_model
+  - payloadWithOutputs_model
+  - peer_model
+  - nodeInfo_model
+  - page_model
+  - minerInfo_model
+  - miningUpdateEventStream_model
+- name: Binary Encodings
+  tags:
+  - binaryHeader
+  - binaryWorkHeader

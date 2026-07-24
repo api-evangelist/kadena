@@ -1,0 +1,236 @@
+openapi: 3.0.0
+info:
+  title: Kadena Chainweb Node block endpoint-private API
+  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
+
+
+    Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
+
+    conservative extension of Bitcoin''s Nakamoto consensus that extends
+
+    Bitcoin''s single chain algorithm to multiple chains. This allows for
+
+    unlimited transaction throughput by horizontally scaling the number of chains.
+
+
+    Feedback and bug reports for the content of this site are welcome. Please
+
+    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
+
+    '
+  version: '0.0'
+  x-logo:
+    url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
+    alttext: Kadena Chainweb Logo
+servers:
+- url: https://api.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: 'Chainweb mainnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: https://api.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: 'Chainweb testnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: '{schema}://{domain}:{port}/chainweb/{apiVersion}/{chainwebVersion}'
+  description: 'An generic chainweb-node. It may serve only a subset of the endpoints.
+
+    '
+  variables:
+    schema:
+      default: http
+      enum:
+      - http
+      - https
+    domain:
+      default: api.chainweb.com
+    port:
+      default: '1848'
+    chainwebVersion:
+      default: mainnet01
+      enum:
+      - test-singleton
+      - development
+      - mainnet01
+      - testnet04
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: Chainweb mainnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us-e1
+      - us-e2
+      - us-e3
+      - us-w1
+      - us-w2
+      - us-w3
+      - fr1
+      - fr2
+      - fr3
+      - jp1
+      - jp2
+      - jp3
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: Chainweb testnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us1
+      - us2
+      - eu1
+      - eu2
+      - ap1
+      - ap2
+    apiVersion:
+      default: '0.0'
+tags:
+- name: endpoint-private
+  x-displayName: Private transaction execution
+paths:
+  /private:
+    post:
+      description: 'Asynchronous submission of a single addressed command which
+
+        will be transmitted with end-to-end encryption only between addressed entity nodes.
+
+        Private payload metadata required.
+
+        '
+      tags:
+      - endpoint-private
+      summary: private
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/command'
+      responses:
+        '200':
+          description: The command was accepted.
+          content:
+            application/json:
+              type: object
+              schema:
+                properties:
+                  requestKeys:
+                    description: Request keys for use with `poll` or `listen` to retrieve results.
+                    type: array
+                    minItems: 1
+                    maxItems: 1
+                    items:
+                      $ref: '#/components/schemas/request-key'
+components:
+  schemas:
+    request-key:
+      title: Request Key
+      type: string
+      description: Unique ID of a pact transaction consisting of its hash.
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      contentEncoding: base64url
+      minLength: 43
+      maxLength: 43
+      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
+    webauthn-sig-string:
+      type: string
+      description: "Stringified JSON WebAuthn signature object.\n\nFor a WebAuthn signature string to be valid, its corresponding `Signer`\nmust have `scheme: \"WebAuthn\"`.\n\nThe schema of a Pact WebAuthn signature object resembles that of\nthe WebAuthn standard `CredentialResponse`.\nIts fields can be computed from the `response` field of a WebAuthn\n`CredentialResponse`. For example, to construct a WebAuthn signature\nstring in the browser:\n\n```\nconst resp = await navigator.credentials.get();\nconst auth = resp.response.authenticatorData();\nconst sig = resp.response.signature;\nJSON.stringify({\n  authenticatorData: base64url_to_base64(auth),\n  clientDataJSON: resp.response.clientDataJSON,\n  signature: base64url_to_base64(sig)\n})\n```\n"
+    command:
+      title: Pact Command
+      tags:
+      - model-command
+      description: Represents a single blockchain Pact transaction.
+      type: object
+      required:
+      - cmd
+      - hash
+      - sigs
+      example:
+        $ref: '#/components/examples/command'
+      properties:
+        cmd:
+          description: 'Stringified JSON `payload` object. Canonic non-malleable signed transaction data.
+
+            '
+          type: string
+        hash:
+          description: 'Unpadded Base64URL of Blake2s-256 hash of the `cmd` field value. Serves as a command
+
+            `requestKey` since each transaction must be unique.
+
+            '
+          type: string
+          contentEncoding: base64url
+          example: H6XjdPHzMai2HLa3_yVkXfkFYMgA0bGfsB0kOsHAMuI
+        sigs:
+          description: 'List of signatures corresponding one-to-one with `signers` array in the payload.
+
+            '
+          type: array
+          minItems: 0
+          items:
+            properties:
+              sig:
+                anyOf:
+                - type: string
+                  contentEncoding: base16
+                  description: 'Base16-encoded Ed25519 signature of `hash` field
+
+                    for corresponding signer in payload.
+
+                    '
+                  example: 8d452109cc0439234c093b5e204a7428bc0a54f22704402492e027aaa9375a34c910d8a468a12746d0d29e9353f4a3fbebe920d63bcc7963853995db015d060f
+                - $ref: '#/components/schemas/webauthn-sig-string'
+  examples:
+    command:
+      hash: H6XjdPHzMai2HLa3_yVkXfkFYMgA0bGfsB0kOsHAMuI
+      sigs:
+      - sig: 8d452109cc0439234c093b5e204a7428bc0a54f22704402492e027aaa9375a34c910d8a468a12746d0d29e9353f4a3fbebe920d63bcc7963853995db015d060f
+      cmd: '{"payload":{"exec":{"data":null,"code":"(+ 1 2)"}},"signers":[{"pubKey":"368820f80c324bbc7c2b0610688a7da43e39f91d118732671cd9c7500ff43cca"}],"meta":{"gasLimit":1000,"chainId":"0","gasPrice":1.0e-2,"sender":"368820f80c324bbc7c2b0610688a7da43e39f91d118732671cd9c7500ff43cca"},"nonce":"nonce-value"}'
+x-tagGroups:
+- name: chainweb_p2p
+  x-displayName: Chainweb P2P API
+  tags:
+  - p2p_api
+  - cut
+  - blockhash
+  - header
+  - payload
+  - mempool
+  - peer
+  - config
+- name: chainweb_service
+  x-displayName: Chainweb Service API
+  tags:
+  - service_api
+  - block
+  - misc
+  - mining
+  - pact
+- name: Common HTTP Headers
+  tags:
+  - commonResponseHeaders
+- name: Data Models
+  tags:
+  - cut_model
+  - header_model
+  - payload_model
+  - payloadWithOutputs_model
+  - peer_model
+  - nodeInfo_model
+  - page_model
+  - minerInfo_model
+  - miningUpdateEventStream_model
+- name: Binary Encodings
+  tags:
+  - binaryHeader
+  - binaryWorkHeader

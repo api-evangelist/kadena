@@ -1,0 +1,1087 @@
+openapi: 3.0.0
+info:
+  title: Kadena Chainweb Node block misc API
+  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
+
+
+    Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
+
+    conservative extension of Bitcoin''s Nakamoto consensus that extends
+
+    Bitcoin''s single chain algorithm to multiple chains. This allows for
+
+    unlimited transaction throughput by horizontally scaling the number of chains.
+
+
+    Feedback and bug reports for the content of this site are welcome. Please
+
+    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
+
+    '
+  version: '0.0'
+  x-logo:
+    url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
+    alttext: Kadena Chainweb Logo
+servers:
+- url: https://api.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: 'Chainweb mainnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: https://api.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: 'Chainweb testnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: '{schema}://{domain}:{port}/chainweb/{apiVersion}/{chainwebVersion}'
+  description: 'An generic chainweb-node. It may serve only a subset of the endpoints.
+
+    '
+  variables:
+    schema:
+      default: http
+      enum:
+      - http
+      - https
+    domain:
+      default: api.chainweb.com
+    port:
+      default: '1848'
+    chainwebVersion:
+      default: mainnet01
+      enum:
+      - test-singleton
+      - development
+      - mainnet01
+      - testnet04
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: Chainweb mainnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us-e1
+      - us-e2
+      - us-e3
+      - us-w1
+      - us-w2
+      - us-w3
+      - fr1
+      - fr2
+      - fr3
+      - jp1
+      - jp2
+      - jp3
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: Chainweb testnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us1
+      - us2
+      - eu1
+      - eu2
+      - ap1
+      - ap2
+    apiVersion:
+      default: '0.0'
+tags:
+- name: misc
+  x-displayName: Miscellaneous Endpoints
+paths:
+  /config:
+    get:
+      tags:
+      - misc
+      summary: Configuration of Chainweb Node
+      description: 'Returns the configuration of chainweb-node as a JSON structure.
+
+        Sensitive information is removed from the result. The JSON schema depends
+
+        on the chainweb node version and is not part of the stable chainweb-node
+
+        API.
+
+        '
+      responses:
+        '200':
+          description: Configuration of the chainweb node
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            application/json:
+              example:
+                $ref: '#/components/examples/nodeConfig'
+  /make-backup:
+    post:
+      summary: Start a backup job
+      description: "Backup jobs are identified by the Unix timestamp when they're begun.\n\nIf a backup job is already in progress, this endpoint will return its\nidentifier instead of starting a new one.\n\nThe RocksDB portion of the database is always backed up; if backupPact\nis set, the Sqlite (Pact) portion is backed up as well, taking much\nlonger.\n\nThere is no automatic backup retention policy - users need to delete old\nbackups.\n\nThis API is enabled by configuring the node thus:\n```yaml\nbackup:\n  api:\n    enabled: true\n  directory: {some file path to put backups in}\n```\nThe backup directory ideally will be located in the same partition as the\nRocksDB portion of the node database.\n\nRocksDB backups to the same partition as holds the active RocksDB\ndatabase will have almost zero space overhead immediately, but over time\nas the active database diverges from the backup the space overhead will\nincrease.  If the backup is to another partition, it will take longer\nand take as much disk space as the active RocksDB database.\n\nPact database backups always require about as much space as the active\nPact database does.\n"
+      tags:
+      - misc
+      parameters:
+      - $ref: '#/components/parameters/backupPact'
+      responses:
+        '200':
+          description: A backup job has been created
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/backupId'
+  /check-backup/{backupId}:
+    get:
+      summary: Check the status of a backup job
+      tags:
+      - misc
+      parameters:
+      - $ref: '#/components/parameters/backupId'
+      responses:
+        '200':
+          description: A backup job with that identifier exists, here is its status
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/backupStatus'
+        '404':
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          description: There is no backup job with that identifier
+  /health-check:
+    servers:
+    - url: https://api.chainweb.com
+      description: Chainweb service API for mainnet
+    - url: https://api.testnet.chainweb.com
+      description: Chainweb service API for testnet
+    - url: '{schema}://{domain}:{port}'
+      description: 'Service API endpoint of a chainweb-node. It may serve only a subset of
+
+        the endpoints.
+
+        '
+      variables:
+        schema:
+          default: http
+          enum:
+          - http
+          - https
+        domain:
+          default: api.chainweb.com
+        port:
+          default: '1848'
+    get:
+      tags:
+      - misc
+      summary: Health Check
+      description: 'Checks whether the chainweb-node is up and running and responding to API
+
+        requests. In order to check the state of consensus the
+
+        [/cut/get](#tag/cut/paths/~1cut/get) endpoint should be used instead.
+
+        '
+      responses:
+        '200':
+          description: The node is healthy
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: Health check OK.
+  /info:
+    servers:
+    - url: https://api.chainweb.com
+      description: Chainweb service API for mainnet
+    - url: https://api.testnet.chainweb.com
+      description: Chainweb service API for testnet
+    - url: '{schema}://{domain}:{port}'
+      description: 'Service API endpoint of a chainweb-node. It may serve only a subset of
+
+        the endpoints.
+
+        '
+      variables:
+        schema:
+          default: http
+          enum:
+          - http
+          - https
+        domain:
+          default: api.chainweb.com
+        port:
+          default: '1848'
+    get:
+      tags:
+      - misc
+      summary: General Node Info
+      description: Provides general information about the node and the chainweb version
+      responses:
+        '200':
+          description: General information about the node and the chainweb version
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/nodeInfo'
+              example:
+                $ref: '#/components/examples/info'
+  /header/updates:
+    get:
+      tags:
+      - misc
+      summary: Blocks Event Stream
+      description: 'A source of server events that emits a `BlockHeader` event for each new
+
+        block header that is added to the chain database of the remote node.
+
+
+        The stream contains blocks that may later become orphaned. It is
+
+        therefor recommended to buffer events on the client side for the most
+
+        recent block heights until the desired confirmation depth is reached.
+
+
+        The server may terminate this stream from time to time and it is up to
+
+        the client to reinitiate the stream.
+
+        '
+      responses:
+        '200':
+          description: 'A stream of `BlockHeader` events. **This is not a JSON array**.
+
+
+            Events are separated by empty lines. Each event consists of an
+
+            `event` property and a `data` property which are separated by
+
+            newlines.
+
+            '
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            text/event-stream:
+              schema:
+                description: 'A stream of `BlockHeader` events. **This is not a JSON array**.
+
+
+                  Events are separated by empty lines (`\n\n`). Each event
+
+                  consists of two newline (`\n`) separated properties.
+
+                  '
+                type: array
+                items:
+                  description: 'A `BlockHeader` event. **This is not a JSON object**.
+
+
+                    Each event consists of an `event` property and a `data`
+
+                    property which are separated by newlines.
+
+                    '
+                  properties:
+                    event:
+                      type: string
+                      enum:
+                      - BlockHeader
+                    data:
+                      properties:
+                        txCount:
+                          type: integer
+                          minimum: 0
+                          description: Number of transactions in the block
+                        powHash:
+                          type: string
+                          description: A custom representation of the POW hash for use in the block explorer UI
+                        header:
+                          $ref: '#/components/schemas/blockHeader'
+                        target:
+                          type: string
+                          description: A custom representation of the POW target for use in the block explorer UI
+              example: 'event:BlockHeader
+
+                data:{"txCount":0,"powHash":"00000000000006e0b164858ee0fcbfd112f4242d5010ff33d3a43d2cc3c15177","header":{"creationTime":1619037443761924,"parent":"qaUtvtXk75nXsWM9l6vkeGkQilZfE_YgzWkZm-7tLyE","height":1554652,"hash":"okI4V9Pez5-UPw4nys2Nk9iIPz3-n30HCag5_NQptlo","chainId":6,"weight":"d8mOCoZeFpajAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","featureFlags":0,"epochStart":1619035890499046,"adjacents":{"1":"OTcNZsNMA-TZ9RTlfWqegFiE0ZkBYcy3JCzh23gmm9Y","8":"nznrNdU8RWatTVlS8yTaVaxk8CT1ZjR4ZWta7GAaMDk","9":"CanRK_wW8RjyA1X9xSEQCXymsnk3VERAJtAB2abrY_M"},"payloadHash":"cT86RaKJUyCZXKB3gYqX9A9SNway-lUBrHSvNr7_SaM","chainwebVersion":"mainnet01","target":"zklwTetkWv91YxYIRmXCt6kUHpEBpiN8gwcAAAAAAAA","nonce":"3399765038640884059"},"target":"00000000000007837c23a601911e14a9b7c2654608166375ff5a64eb4d7049ce"}
+
+
+                event:BlockHeader
+
+                data:{"txCount":0,"powHash":"00000000000001c40ddfd6574f9962a443714f3817bbea773a55fec63c7d95c8","header":{"creationTime":1619037446256086,"parent":"usmNftUR_mHpXOm8gCvtbZ50_9VaefaIVvcMdrKwc5A","height":1554652,"hash":"SOfbK_kI_9BtgLemWmb3FWOgDCTxf1tPulKCq1ndmWA","chainId":18,"weight":"i7XsQnkhY9yLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","featureFlags":0,"epochStart":1619035885828397,"adjacents":{"19":"fQJ5JKQLdGEwZIoC5HrhJstk3Iibj_a2dfmJl9osG-o","17":"L-GeIWZE4fMCICSpPptsfYpsLj3oO5eCiyJimclYJiY","3":"V7m9ROQmJs2i1UI05t8J6rjkfg7m795esdsIjhqyqfc"},"payloadHash":"Ji7WisfH5IulPMcFglexGcVDnA59aS5k1YSE2_6L4t8","chainwebVersion":"mainnet01","target":"tvH4nBuGx3opw-50T8-i6ECi68IgpFLOjAcAAAAAAAA","nonce":"9499180874660840183"},"target":"000000000000078cce52a420c2eba240e8a2cf4f74eec3297ac7861b9cf8f1b6"}
+
+                '
+  /block/updates:
+    get:
+      tags:
+      - misc
+      summary: Blocks Event Stream
+      description: 'A source of server events that emits a `Block` event for each new
+
+        block that is added to the chain database of the remote node.
+
+
+        The stream contains blocks that may later become orphaned. It is
+
+        therefor recommended to buffer events on the client side for the most
+
+        recent block heights until the desired confirmation depth is reached.
+
+
+        The server may terminate this stream from time to time and it is up to
+
+        the client to reinitiate the stream.
+
+        '
+      responses:
+        '200':
+          description: 'A stream of `Block` events. **This is not a JSON array**.
+
+
+            Events are separated by empty lines. Each event consists of an
+
+            `event` property and a `data` property which are separated by
+
+            newlines.
+
+            '
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            text/event-stream:
+              schema:
+                description: 'A stream of `Block` events. **This is not a JSON array**.
+
+
+                  Events are separated by empty lines (`\n\n`). Each event
+
+                  consists of two newline (`\n`) separated properties.
+
+                  '
+                type: array
+                items:
+                  description: 'A `Block` event. **This is not a JSON object**.
+
+
+                    Each event consists of an `event` property and a `data`
+
+                    property which are separated by newlines.
+
+                    '
+                  properties:
+                    event:
+                      type: string
+                      enum:
+                      - Block
+                    data:
+                      properties:
+                        txCount:
+                          type: integer
+                          minimum: 0
+                          description: Number of transactions in the block
+                        powHash:
+                          type: string
+                          description: A custom representation of the POW hash for use in the block explorer UI
+                        header:
+                          $ref: '#/components/schemas/blockHeader'
+                        payloadWithOutputs:
+                          $ref: '#/components/schemas/payloadWithOutputs'
+                        target:
+                          type: string
+                          description: A custom representation of the POW target for use in the block explorer UI
+              example: 'event:Block
+
+                data:{"txCount":0,"powHash":"00000000000006e0b164858ee0fcbfd112f4242d5010ff33d3a43d2cc3c15177","header":{"creationTime":1619037443761924,"parent":"qaUtvtXk75nXsWM9l6vkeGkQilZfE_YgzWkZm-7tLyE","height":1554652,"hash":"okI4V9Pez5-UPw4nys2Nk9iIPz3-n30HCag5_NQptlo","chainId":6,"weight":"d8mOCoZeFpajAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","featureFlags":0,"epochStart":1619035890499046,"adjacents":{"1":"OTcNZsNMA-TZ9RTlfWqegFiE0ZkBYcy3JCzh23gmm9Y","8":"nznrNdU8RWatTVlS8yTaVaxk8CT1ZjR4ZWta7GAaMDk","9":"CanRK_wW8RjyA1X9xSEQCXymsnk3VERAJtAB2abrY_M"},"payloadHash":"cT86RaKJUyCZXKB3gYqX9A9SNway-lUBrHSvNr7_SaM","chainwebVersion":"mainnet01","target":"zklwTetkWv91YxYIRmXCt6kUHpEBpiN8gwcAAAAAAAA","nonce":"3399765038640884059"},"payloadWithOutputs":{"transactions":[],"minerData":"eyJhY2NvdW50IjoiOTljYjcwMDhkN2Q3MGM5NGYxMzhjYzM2NmE4MjVmMGQ5YzgzYThhMmY0YmE4MmM4NmM2NjZlMGFiNmZlY2YzYSIsInByZWRpY2F0ZSI6ImtleXMtYWxsIiwicHVibGljLWtleXMiOlsiOTljYjcwMDhkN2Q3MGM5NGYxMzhjYzM2NmE4MjVmMGQ5YzgzYThhMmY0YmE4MmM4NmM2NjZlMGFiNmZlY2YzYSJdfQ","transactionsHash":"g5dDASOa4cK0nAVmwkvXg-neTRAKG1hwfwRfbQyqpxU","outputsHash":"ZZV9pS034mPB5M0CT7IcoPhscy3lqI4Tyvx0BlPbR9k","payloadHash":"cT86RaKJUyCZXKB3gYqX9A9SNway-lUBrHSvNr7_SaM","coinbase":"eyJnYXMiOjAsInJlc3VsdCI6eyJzdGF0dXMiOiJzdWNjZXNzIiwiZGF0YSI6IldyaXRlIHN1Y2NlZWRlZCJ9LCJyZXFLZXkiOiJJbkZoVlhSMmRGaHJOelZ1V0hOWFRUbHNOblpyWlVkclVXbHNXbVpGWDFsbmVsZHJXbTB0TjNSTWVVVWkiLCJsb2dzIjoiMFZoS2xvckJNc3h6YlJxZWV0M2t1d2hYSk1HZDdFSXl1NEthNllJOG5pRSIsIm1ldGFEYXRhIjpudWxsLCJjb250aW51YXRpb24iOm51bGwsInR4SWQiOjE2MDc0MDN9"},"target":"00000000000007837c23a601911e14a9b7c2654608166375ff5a64eb4d7049ce"}
+
+
+                event:Block
+
+                data:{"txCount":0,"powHash":"00000000000001c40ddfd6574f9962a443714f3817bbea773a55fec63c7d95c8","header":{"creationTime":1619037446256086,"parent":"usmNftUR_mHpXOm8gCvtbZ50_9VaefaIVvcMdrKwc5A","height":1554652,"hash":"SOfbK_kI_9BtgLemWmb3FWOgDCTxf1tPulKCq1ndmWA","chainId":18,"weight":"i7XsQnkhY9yLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","featureFlags":0,"epochStart":1619035885828397,"adjacents":{"19":"fQJ5JKQLdGEwZIoC5HrhJstk3Iibj_a2dfmJl9osG-o","17":"L-GeIWZE4fMCICSpPptsfYpsLj3oO5eCiyJimclYJiY","3":"V7m9ROQmJs2i1UI05t8J6rjkfg7m795esdsIjhqyqfc"},"payloadHash":"Ji7WisfH5IulPMcFglexGcVDnA59aS5k1YSE2_6L4t8","chainwebVersion":"mainnet01","target":"tvH4nBuGx3opw-50T8-i6ECi68IgpFLOjAcAAAAAAAA","nonce":"9499180874660840183"},"payloadWithOutputs":{"transactions":[],"minerData":"eyJhY2NvdW50IjoiNmQ4N2ZkNmU1ZTQ3MTg1Y2I0MjE0NTlkMjg4OGJkZGJhN2E2YzBmMmM0YWU1MjQ2ZDVmMzhmOTkzODE4YmI4OSIsInByZWRpY2F0ZSI6ImtleXMtYWxsIiwicHVibGljLWtleXMiOlsiNmQ4N2ZkNmU1ZTQ3MTg1Y2I0MjE0NTlkMjg4OGJkZGJhN2E2YzBmMmM0YWU1MjQ2ZDVmMzhmOTkzODE4YmI4OSJdfQ","transactionsHash":"PZA7NIdgDatkTRZ8AOSI7dOOJzhGAhe7JkovnMp1xks","outputsHash":"YqWnNd_gQLasM2N-dFuT3FndTJCBRAznQyCwb0ttj2M","payloadHash":"Ji7WisfH5IulPMcFglexGcVDnA59aS5k1YSE2_6L4t8","coinbase":"eyJnYXMiOjAsInJlc3VsdCI6eyJzdGF0dXMiOiJzdWNjZXNzIiwiZGF0YSI6IldyaXRlIHN1Y2NlZWRlZCJ9LCJyZXFLZXkiOiJJblZ6YlU1bWRGVlNYMjFJY0ZoUGJUaG5RM1owWWxvMU1GODVWbUZsWm1GSlZuWmpUV1J5UzNkak5VRWkiLCJsb2dzIjoieFVreFdxMFloYW5waUxLR2dZaFhaYjB2QU9WRTJ1d1ZZQnBjRzZpdDVjZyIsIm1ldGFEYXRhIjpudWxsLCJjb250aW51YXRpb24iOm51bGwsInR4SWQiOjcxODI1N30"},"target":"000000000000078cce52a420c2eba240e8a2cf4f74eec3297ac7861b9cf8f1b6"}
+
+                '
+components:
+  headers:
+    x-server-timestamp:
+      description: The time of the clock of the remote node
+      schema:
+        $ref: '#/components/schemas/posixTimestamp'
+      example: 1618597601
+    x-peer-addr:
+      description: Host and port of the client as observed by the remote node
+      schema:
+        $ref: '#/components/schemas/hostAddress'
+      example: 10.36.1.3:42988
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
+  schemas:
+    blockHash:
+      title: Block Hash
+      description: Base64Url (without padding) encoded block hash
+      example: QxGCAz5AY1Y41nh1yWtgqhKhZ9pPiPRagFdIKNqBH7
+      allOf:
+      - $ref: '#/components/schemas/sha256Hash'
+    posixTimestampMicro:
+      title: POSIX Timestamp in Microseconds
+      type: integer
+      description: Microseconds since POSIX epoch
+      example: 1602382624629329
+      minimum: 0
+    blockHeight:
+      title: Block Height
+      description: 'The height of a block is the number of its predecessors in the block chain
+
+        '
+      type: integer
+      minimum: 0
+      example: 1000000
+    payloadWithOutputs:
+      title: Block Payload With Outputs
+      description: 'Payload with outputs of a Block including the Merkle roots for
+
+        transactions and transaction outputs
+
+        '
+      required:
+      - transactions
+      - minerData
+      - transactionsHash
+      - outputsHash
+      - payloadHash
+      - coinbase
+      example:
+        $ref: '#/components/examples/emptyPayload'
+      properties:
+        transactions:
+          type: array
+          description: 'Array of pairs of transactions and their outputs.
+
+            Signed Pact transactions and outputs are base64Url-encoded without padding.
+
+            '
+          items:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              anyOf:
+              - type: string
+                pattern: '[a-zA-Z0-9_-]+'
+                description: Base64Url (without padding) encoded JSON text of a signed Pact transaction
+              - type: string
+                pattern: '[a-zA-Z0-9_-]+'
+                description: Base64Url (without padding) encoded JSON text of a transaction output
+        minerData:
+          type: string
+          pattern: '[a-zA-Z0-9_-]+'
+          description: Base64Url (without padding) encoded JSON text of the miner data of the payload
+        transactionsHash:
+          $ref: '#/components/schemas/sha256Hash'
+        outputsHash:
+          $ref: '#/components/schemas/sha256Hash'
+        payloadHash:
+          $ref: '#/components/schemas/payloadHash'
+        coinbase:
+          type: string
+          pattern: '[a-zA-Z0-9_-]+'
+          description: Base64Url (without padding) encoded JSON text of coinbase output of the block
+    backupStatus:
+      title: Backup job status
+      type: string
+      pattern: backup-done|backup-in-progress|backup-failed
+    blockWeight:
+      title: Block Weight
+      description: 'The POW weight of a block is the sum of the difficulties of the block
+
+        and of all of its ancestors. The difficulty of a block is the maximum
+
+        difficulty divided by the target.
+
+
+        It represented as the base64Url (without padding) 256 bit little endian
+
+        encoding of the numerical value.
+
+        '
+      type: string
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      minLength: 43
+      maxLength: 43
+      example: iil_D0t2MGqjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    payloadHash:
+      title: Block Payload Hash
+      description: Base64Url (without padding) encoded block payload hash
+      example: GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA
+      allOf:
+      - $ref: '#/components/schemas/sha256Hash'
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
+    backupId:
+      title: Backup job identifier
+      description: Textual backup job identifier
+      type: string
+      pattern: '[a-zA-Z0-9_-]+'
+      example: 1648665437000
+    blockHeader:
+      title: Block Header
+      description: JSON Encoded Block Header
+      required:
+      - creationTime
+      - parent
+      - height
+      - hash
+      - chainId
+      - weight
+      - featureFlags
+      - epochStart
+      - adjacents
+      - payloadHash
+      - chainwebVersion
+      - target
+      - nonce
+      example:
+        value:
+          $ref: '#/components/examples/blockHeaderPage/value/items/0'
+      properties:
+        creationTime:
+          $ref: '#/components/schemas/posixTimestampMicro'
+        parent:
+          $ref: '#/components/schemas/blockHash'
+        height:
+          $ref: '#/components/schemas/blockHeight'
+        hash:
+          $ref: '#/components/schemas/blockHash'
+        chainId:
+          $ref: '#/components/schemas/chainId'
+        weight:
+          $ref: '#/components/schemas/blockWeight'
+        featureFlags:
+          type: integer
+          description: A reserved value that must be 0.
+        epochStart:
+          $ref: '#/components/schemas/posixTimestampMicro'
+        adjacents:
+          description: 'The block hashes of the adjacent parents of the block. This is
+
+            represented as an associative array that maps the adjancent chain
+
+            ids to the respective block hash.
+
+            '
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/blockHash'
+        payloadHash:
+          $ref: '#/components/schemas/payloadHash'
+        chainwebVersion:
+          $ref: '#/components/schemas/chainwebVersion'
+        target:
+          $ref: '#/components/schemas/target'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+    chainwebVersion:
+      title: Chainweb Version
+      description: The version of the Chainweb network
+      enum:
+      - test-singleton
+      - development
+      - mainnet01
+      - testnet04
+    nonce:
+      title: PoW Nonce
+      description: 'PoW nonce of the block. This is computed by the miner such that the
+
+        block hash is smaller than the target.
+
+        '
+      type: string
+      pattern: '[0-9]+'
+      minLength: 1
+    sha256Hash:
+      title: SHA256 Hash
+      type: string
+      description: Base64Url (without padding) encoded SHA256 hash
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      minLength: 43
+      maxLength: 43
+      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
+    target:
+      title: PoW Target
+      description: 'The PoW target of a block represented as the base64Url (without
+
+        padding) 256 bit little endian encoding of the numerical value.
+
+        '
+      type: string
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      minLength: 43
+      maxLength: 43
+      example: 2uMCnB4lWsErj9w1C1vAp1sHYd-sABf3kgcAAAAAAAA
+    chainId:
+      title: Chain ID
+      description: 'A Chainweb chain ID. In Kadena Chainweb chains are named by numbers
+
+        starting form 0. Valid values depend on the current graph at the
+
+        respective block height of the chainweb version.
+
+        '
+      type: integer
+      minimum: 0
+      example: 0
+    nodeInfo:
+      title: Chainweb Node Info
+      description: General information about a chainweb node
+      required:
+      - nodeNumberOfChains
+      - nodeApiVersion
+      - nodeChains
+      - nodeVersion
+      - nodeGraphHistory
+      example:
+        $ref: '#/components/examples/info'
+      properties:
+        nodeNumberOfChains:
+          type: integer
+          minimum: 10
+          example: 20
+        nodeApiVersion:
+          type: string
+          example: '0.0'
+        nodeChains:
+          type: array
+          items:
+            description: Chain identifiers
+            type: string
+          minItems: 0
+          example:
+          - '0'
+        nodeVersion:
+          type: string
+          enum:
+          - test-singleton
+          - development
+          - mainnet01
+          - testnet04
+          example: mainnet01
+        nodeGraphHistory:
+          description: 'Array of all chain graphs indexed by the height of the first block with the repective
+
+            graph. Graphs are encoded as adjacency lists.
+
+            '
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            description: A pair consisting of the height of the first block of a chain graph and the adjacency list of the graph.
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              oneOf:
+              - description: height of the first block of the graph
+                type: integer
+                minimum: 0
+              - description: adjacency list encoding of the chain graph.
+                type: array
+                items:
+                  description: A pair of the chain identifier and the list of chains adjacent to it.
+                  minItems: 2
+                  maxItems: 2
+                  type: array
+                  items:
+                    oneOf:
+                    - description: a chain identifier
+                      type: integer
+                      minimum: 0
+                    - description: an adjacency list for that chain
+                      type: array
+                      minItems: 0
+                      items:
+                        type: integer
+                        minimum: 0
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
+  examples:
+    emptyPayload:
+      value:
+        transactions: []
+        minerData: eyJhY2NvdW50IjoiYTFiMzE0MGNiN2NjODk1YzBlMDkxNzAyZWQwNTU3OWZiZTA1YzZlNjc0NWY4MmNlNjAzNzQ2YjQwMGM4MTU0OCIsInByZWRpY2F0ZSI6ImtleXMtYWxsIiwicHVibGljLWtleXMiOlsiYTFiMzE0MGNiN2NjODk1YzBlMDkxNzAyZWQwNTU3OWZiZTA1YzZlNjc0NWY4MmNlNjAzNzQ2YjQwMGM4MTU0OCJdfQ
+        transactionsHash: nT0j4xw2woMkdXXaopdurXIn24OG-jNMqQzUGfxV_MA
+        outputsHash: 4pXRrZ2K0_V0iGAxQCKrKdLjQTBZHBOQS7P-47kdnhY
+        payloadHash: GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA
+        coinbase: eyJnYXMiOjAsInJlc3VsdCI6eyJzdGF0dXMiOiJzdWNjZXNzIiwiZGF0YSI6IldyaXRlIHN1Y2NlZWRlZCJ9LCJyZXFLZXkiOiJJa2hoV0VGQ2NURlFTMU5MYkdodVkwcHJNRjlOZERjMVgyeE1OMDVUTTNkSk5qSTNVV1pZV2w4NE5Xc2kiLCJsb2dzIjoiZ3Noak1kWFJrVGxKYmIxalZkQWJ6SVVDcGpQb1JBQ2pEbExzRzBXNkJEMCIsIm1ldGFEYXRhIjpudWxsLCJjb250aW51YXRpb24iOm51bGwsInR4SWQiOjEyNzIzNTB9
+    blockHeaderPage:
+      value:
+        next: inclusive:o1S4NNFhKWg8T1HEkmDvsTH9Ut9l3_qHRpp00yRKZIk
+        items:
+        - creationTime: 1602382624629329
+          parent: HaXABq1PKSKlhncJk0_Mt75_lL7NS3wI627QfXZ_85k
+          height: 1000000
+          hash: k0an0qEORusqQg9ZjKrxa-0Bo0-hQVYLXqWi5LHxg3k
+          chainId: 0
+          weight: NQn4BGftuWAeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          featureFlags: 0
+          epochStart: 1602381443331834
+          adjacents:
+            '15': MItdqgHZxf7j6l0oE8X-G9-VyMbnQmZrtSniuRe_EJ8
+            '5': Mpic85rur2MYf3zli8s8bHxTFjriFoMPTr6ZPs8sjxM
+            '10': VBKuhU_hQmuvKlx88A5o-FH0rzNo59NsdxmOGNBQ-yc
+          payloadHash: GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA
+          chainwebVersion: mainnet01
+          target: QrcsbEm-3WjyCGAGlzIEhLEN3ZMWORoyYy8AAAAAAAA
+          nonce: '13095611958898437'
+        - creationTime: 1602382678045236
+          parent: k0an0qEORusqQg9ZjKrxa-0Bo0-hQVYLXqWi5LHxg3k
+          height: 1000001
+          hash: vhVa6Deh10RXLRf3L-MSQTYqaL-_IY_mi-v58MjP9R8
+          chainId: 0
+          weight: bOkHN2JUv2AeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          featureFlags: 0
+          epochStart: 1602381443331834
+          adjacents:
+            '15': Kv0sz_rTANjoiJwMrdZFCJNFwdH0U_M5ouwMr3BXBfo
+            '5': ALcxv1ZiwwQ_QX9eOBZMbzIop6n7XtveS1FqOFwyvGM
+            '10': C76ElC60qXSJQCHePpzzJxsCYvvrqvmkoHPyZnex-4Q
+          payloadHash: smUiDW9jfD_0vrdt4-fXKT_lqC90RsgEGObdp3FznFY
+          chainwebVersion: mainnet01
+          target: QrcsbEm-3WjyCGAGlzIEhLEN3ZMWORoyYy8AAAAAAAA
+          nonce: '110239794631051275'
+        limit: 2
+    nodeConfig:
+      value:
+        allowReadsInLocal: false
+        throttling:
+          local: 1
+          mining: 2
+          global: 200
+          putPeer: 21
+        serviceApi:
+          interface: invalid
+          port: 0
+        validateHashesOnReplay: false
+        chainwebVersion: mainnet01
+        pactQueueSize: 2000
+        mining:
+          coordination:
+            enabled: false
+            updateStreamTimeout: 240
+            limit: 1200
+            updateStreamLimit: 2000
+            miners: []
+          nodeMining:
+            miner:
+              account: ''
+              predicate: keys-all
+              public-keys: []
+            enabled: false
+        p2p:
+          peer:
+            certificateChainFile: null
+            key: null
+            interface: '*'
+            certificateChain: null
+            hostaddress:
+              hostname: 34.70.108.163
+              port: 1789
+            keyFile: null
+          maxPeerCount: 100
+          private: false
+          ignoreBootstrapNodes: false
+          maxSessionCount: 8
+          bootstrapReachability: 0.5
+          sessionTimeout: 300
+          peers:
+          - address:
+              hostname: us-e1.chainweb.com
+              port: 443
+            id: null
+          - address:
+              hostname: us-w1.chainweb.com
+              port: 443
+            id: null
+        transactionIndex:
+          enabled: true
+          configuration: {}
+        gasLimitOfBlock: 150000
+        reorgLimit: 480
+        headerStream: true
+        mempoolP2p:
+          enabled: true
+          configuration:
+            pollInterval: 30
+            maxSessionCount: 6
+            sessionTimeout: 240
+        reintroTxs: true
+        cuts:
+          pruneChainDatabase: none
+          fetchTimeout: 3000000
+          initialCutHeightLimit: null
+    info:
+      value:
+        nodeNumberOfChains: 20
+        nodeApiVersion: '0.0'
+        nodeChains:
+        - '12'
+        - '13'
+        - '14'
+        - '15'
+        - '8'
+        - '9'
+        - '10'
+        - '11'
+        - '4'
+        - '5'
+        - '6'
+        - '7'
+        - '0'
+        - '16'
+        - '1'
+        - '17'
+        - '2'
+        - '18'
+        - '3'
+        - '19'
+        nodeVersion: mainnet01
+        nodeGraphHistory:
+        - - 0
+          - - - 0
+              - - 5
+                - 2
+                - 3
+            - - 1
+              - - 4
+                - 6
+                - 3
+            - - 2
+              - - 4
+                - 7
+                - 0
+            - - 3
+              - - 8
+                - 0
+                - 1
+            - - 4
+              - - 9
+                - 1
+                - 2
+            - - 5
+              - - 9
+                - 6
+                - 0
+            - - 6
+              - - 5
+                - 7
+                - 1
+            - - 7
+              - - 8
+                - 6
+                - 2
+            - - 8
+              - - 9
+                - 7
+                - 3
+            - - 9
+              - - 8
+                - 4
+                - 5
+        - - 852054
+          - - - 0
+              - - 15
+                - 10
+                - 5
+            - - 1
+              - - 11
+                - 6
+                - 16
+            - - 2
+              - - 12
+                - 7
+                - 17
+            - - 3
+              - - 13
+                - 8
+                - 18
+            - - 4
+              - - 14
+                - 9
+                - 19
+            - - 5
+              - - 8
+                - 7
+                - 0
+            - - 6
+              - - 8
+                - 9
+                - 1
+            - - 7
+              - - 9
+                - 5
+                - 2
+            - - 8
+              - - 5
+                - 6
+                - 3
+            - - 9
+              - - 4
+                - 6
+                - 7
+            - - 10
+              - - 11
+                - 0
+                - 19
+            - - 11
+              - - 12
+                - 10
+                - 1
+            - - 12
+              - - 13
+                - 11
+                - 2
+            - - 13
+              - - 12
+                - 14
+                - 3
+            - - 14
+              - - 13
+                - 15
+                - 4
+            - - 15
+              - - 14
+                - 0
+                - 16
+            - - 16
+              - - 15
+                - 1
+                - 17
+            - - 17
+              - - 16
+                - 2
+                - 18
+            - - 18
+              - - 17
+                - 3
+                - 19
+            - - 19
+              - - 10
+                - 4
+                - 18
+  parameters:
+    backupId:
+      name: backupId
+      in: path
+      description: The identifier of the backup being checked
+      required: true
+      schema:
+        $ref: '#/components/schemas/backupId'
+    backupPact:
+      name: backupPact
+      in: query
+      description: 'Flag, if present back up the Pact databases too. Extra disk space and time required
+
+        '
+      required: false
+      allowEmptyValue: true
+x-tagGroups:
+- name: chainweb_p2p
+  x-displayName: Chainweb P2P API
+  tags:
+  - p2p_api
+  - cut
+  - blockhash
+  - header
+  - payload
+  - mempool
+  - peer
+  - config
+- name: chainweb_service
+  x-displayName: Chainweb Service API
+  tags:
+  - service_api
+  - block
+  - misc
+  - mining
+  - pact
+- name: Common HTTP Headers
+  tags:
+  - commonResponseHeaders
+- name: Data Models
+  tags:
+  - cut_model
+  - header_model
+  - payload_model
+  - payloadWithOutputs_model
+  - peer_model
+  - nodeInfo_model
+  - page_model
+  - minerInfo_model
+  - miningUpdateEventStream_model
+- name: Binary Encodings
+  tags:
+  - binaryHeader
+  - binaryWorkHeader

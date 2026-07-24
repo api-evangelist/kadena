@@ -1,0 +1,476 @@
+openapi: 3.0.0
+info:
+  title: Kadena Chainweb Node block peer API
+  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
+
+
+    Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
+
+    conservative extension of Bitcoin''s Nakamoto consensus that extends
+
+    Bitcoin''s single chain algorithm to multiple chains. This allows for
+
+    unlimited transaction throughput by horizontally scaling the number of chains.
+
+
+    Feedback and bug reports for the content of this site are welcome. Please
+
+    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
+
+    '
+  version: '0.0'
+  x-logo:
+    url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
+    alttext: Kadena Chainweb Logo
+servers:
+- url: https://api.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: 'Chainweb mainnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: https://api.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: 'Chainweb testnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: '{schema}://{domain}:{port}/chainweb/{apiVersion}/{chainwebVersion}'
+  description: 'An generic chainweb-node. It may serve only a subset of the endpoints.
+
+    '
+  variables:
+    schema:
+      default: http
+      enum:
+      - http
+      - https
+    domain:
+      default: api.chainweb.com
+    port:
+      default: '1848'
+    chainwebVersion:
+      default: mainnet01
+      enum:
+      - test-singleton
+      - development
+      - mainnet01
+      - testnet04
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: Chainweb mainnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us-e1
+      - us-e2
+      - us-e3
+      - us-w1
+      - us-w2
+      - us-w3
+      - fr1
+      - fr2
+      - fr3
+      - jp1
+      - jp2
+      - jp3
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: Chainweb testnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us1
+      - us2
+      - eu1
+      - eu2
+      - ap1
+      - ap2
+    apiVersion:
+      default: '0.0'
+tags:
+- name: peer
+  x-displayName: Peer Endpoints
+  description: 'The P2P communication between chainweb-nodes is sharded into several independent
+
+    P2P network. The `cut` network is exchanging consensus state. There is also one
+
+    mempool P2P network for each chain.
+
+    '
+paths:
+  /cut/peer:
+    get:
+      summary: Get Cut-Network Peer Info
+      tags:
+      - peer
+      parameters:
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/next'
+      responses:
+        '200':
+          description: Peers from the peer database of the remote node
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            application/json:
+              schema:
+                allOf:
+                - properties:
+                    items:
+                      description: Array of peers
+                      items:
+                        $ref: '#/components/schemas/peer'
+                - $ref: '#/components/schemas/page'
+              example:
+                $ref: '#/components/examples/peers'
+    put:
+      summary: Put Cut-Network Peer Info
+      tags:
+      - peer
+      requestBody:
+        description: 'The peer that is added to the peer database of the cut P2P network of
+
+          the remote host.
+
+          '
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/peer'
+              - properties:
+                  id:
+                    nullable: true
+      responses:
+        '204':
+          description: The peer got added to the peer database of the remote node.
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+        '400':
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          description: 'The request is invalid. It is either malformed or the provided peer
+
+            is not reachable.
+
+
+            Before the remote node adds a peer to its peer database it checks
+
+            whether the peer can be reached via the provided address. If this
+
+            check fails an error is returned.
+
+            '
+          content:
+            text/plain:
+              description: The reason for the failure.
+              example: 'Invalid hostaddress: IsNotReachable (PeerInfo {_peerId = Nothing, _peerAddr = HostAddress {_hostAddressHost = us-w1.chainweb.com, _hostAddressPort = 444}}) "\"HttpExceptionRequest Request {\\n  host                 = \\\"us-w1.chainweb.com\\\"\\n  port                 = 444\\n  secure               = True\\n  requestHeaders       = [(\\\"X-Chainweb-Node-Version\\\",\\\"2.6\\\")]\\n  path                 = \\\"/chainweb/0.0/mainnet01/cut/peer\\\"\\n  queryString          = \\\"\\\"\\n  method               = \\\"GET\\\"\\n  proxy                = Nothing\\n  rawBody              = False\\n  redirectCount        = 10\\n  responseTimeout      = ResponseTimeoutMicro 2000000\\n  requestVersion       = HTTP/1.1\\n}\\n ConnectionTimeout\""'
+  /chain/{chain}/mempool/peer:
+    get:
+      summary: Get Chain Mempool-Network Peer Info
+      tags:
+      - peer
+      parameters:
+      - $ref: '#/components/parameters/chain'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/next'
+      responses:
+        '200':
+          description: Peer information
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            application/json:
+              schema:
+                description: Peers from the peer database of the remote node
+                allOf:
+                - properties:
+                    items:
+                      description: Array of peers
+                      items:
+                        $ref: '#/components/schemas/peer'
+                - $ref: '#/components/schemas/page'
+              example:
+                $ref: '#/components/examples/peers'
+    put:
+      summary: Put Chain Mempool-Network Peer Info
+      tags:
+      - peer
+      parameters:
+      - $ref: '#/components/parameters/chain'
+      requestBody:
+        description: 'The peer that is added to the peer database of the mempoo P2P network of
+
+          the chain `{chain}` of remote host.
+
+          '
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/peer'
+              - properties:
+                  id:
+                    nullable: true
+      responses:
+        '204':
+          description: The peer got added to the peer database of the remote node.
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+        '400':
+          description: 'Bad Request.
+
+            The request is invalid. It is either malformed or the provided peer is not reachable.
+
+
+            Before the remote node addes a peer to its peer database it checks whether the peer can be reached
+
+            via the provided address. If this check fails an error is returned.
+
+            '
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            text/plain:
+              description: The reason for the failure.
+              example: 'Invalid hostaddress: IsNotReachable (PeerInfo {_peerId = Nothing, _peerAddr = HostAddress {_hostAddressHost = us-w1.chainweb.com, _hostAddressPort = 444}}) "\"HttpExceptionRequest Request {\\n  host                 = \\\"us-w1.chainweb.com\\\"\\n  port                 = 444\\n  secure               = True\\n  requestHeaders       = [(\\\"X-Chainweb-Node-Version\\\",\\\"2.6\\\")]\\n  path                 = \\\"/chainweb/0.0/mainnet01/cut/peer\\\"\\n  queryString          = \\\"\\\"\\n  method               = \\\"GET\\\"\\n  proxy                = Nothing\\n  rawBody              = False\\n  redirectCount        = 10\\n  responseTimeout      = ResponseTimeoutMicro 2000000\\n  requestVersion       = HTTP/1.1\\n}\\n ConnectionTimeout\""'
+components:
+  examples:
+    peers:
+      value:
+        next: inclusive:3
+        items:
+        - address:
+            hostname: 85.238.99.91
+            port: 30004
+          id: PRLmVUcc9AH3fyfMYiWeC4nV2i1iHwc0-aM7iAO8h18
+        - address:
+            hostname: us-w3.chainweb.com
+            port: 443
+          id: null
+        - address:
+            hostname: 95.111.232.151
+            port: 30004
+          id: DguFKLFMxp12vfl1z3cQIJQlh8xOpeZuBkpJU9Y-VLo
+        limit: 3
+    base64HeaderPage:
+      value:
+        next: inclusive:o1S4NNFhKWg8T1HEkmDvsTH9Ut9l3_qHRpp00yRKZIk
+        items:
+        - AAAAAAAAAABRoiLHW7EFAB2lwAatTykipYZ3CZNPzLe-f5S-zUt8COtu0H12f_OZAwAFAAAAMpic85rur2MYf3zli8s8bHxTFjriFoMPTr6ZPs8sjxMKAAAAVBKuhU_hQmuvKlx88A5o-FH0rzNo59NsdxmOGNBQ-ycPAAAAMItdqgHZxf7j6l0oE8X-G9-VyMbnQmZrtSniuRe_EJ9CtyxsSb7daPIIYAaXMgSEsQ3dkxY5GjJjLwAAAAAAABqWlmx5B6wo0YWPIShNKmdVrAQWht2P85BS1drGLpkAAAAAADUJ-ARn7blgHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEIPAAAAAAAFAAAA-na5gFuxBQAFL-3CY4YuAJNGp9KhDkbrKkIPWYyq8WvtAaNPoUFWC16louSx8YN5
+        - AAAAAAAAAAA0slHKW7EFAJNGp9KhDkbrKkIPWYyq8WvtAaNPoUFWC16louSx8YN5AwAFAAAAALcxv1ZiwwQ_QX9eOBZMbzIop6n7XtveS1FqOFwyvGMKAAAAC76ElC60qXSJQCHePpzzJxsCYvvrqvmkoHPyZnex-4QPAAAAKv0sz_rTANjoiJwMrdZFCJNFwdH0U_M5ouwMr3BXBfpCtyxsSb7daPIIYAaXMgSEsQ3dkxY5GjJjLwAAAAAAALJlIg1vY3w_9L63bePn1yk_5agvdEbIBBjm3adxc5xWAAAAAGzpBzdiVL9gHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQUIPAAAAAAAFAAAA-na5gFuxBQALiBhXgqaHAb4VWug3oddEVy0X9y_jEkE2Kmi_vyGP5ovr-fDIz_Uf
+        limit: 2
+  headers:
+    x-peer-addr:
+      description: Host and port of the client as observed by the remote node
+      schema:
+        $ref: '#/components/schemas/hostAddress'
+      example: 10.36.1.3:42988
+    x-server-timestamp:
+      description: The time of the clock of the remote node
+      schema:
+        $ref: '#/components/schemas/posixTimestamp'
+      example: 1618597601
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
+  schemas:
+    page:
+      title: Page
+      description: Page of a collection of items
+      required:
+      - next
+      - limit
+      - items
+      example:
+        $ref: '#/components/examples/base64HeaderPage'
+      properties:
+        limit:
+          description: 'The number of items in the page. This number can be smaller but
+
+            never be larger than the number of requested items.
+
+            '
+          type: integer
+          minimum: 0
+          items:
+            description: Items of the returned collection
+            type: array
+        next:
+          description: 'A cursor that can be used to query the next page. It should be used
+
+            literally as value for the `next` parameter in a follow-up request.
+
+            '
+          oneOf:
+          - type: 'null'
+          - type: string
+          nullable: true
+          pattern: ^(inclusive|exclusive):.*$
+        items:
+          description: 'The items in the page.
+
+            '
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
+    peer:
+      title: Peer
+      description: Peer info object
+      required:
+      - id
+      - address
+      example:
+        $ref: '#/components/examples/peers/value/items/0'
+      properties:
+        id:
+          description: 'The base64Url (without padding) encoded SHA256 fingerprint of the
+
+            SSL certificate of the node. This can be null only if the node uses
+
+            an official CA signed certificate
+
+            '
+          type: string
+          nullable: true
+          pattern: '[a-zA-Z0-9_-]{43}'
+        address:
+          required:
+          - hostname
+          - port
+          properties:
+            hostname:
+              description: 'A domain name or IP address. This must be a domain name only if
+
+                the respective node is using a valid CA signed SSL certificate.
+
+                '
+              type: string
+              oneOf:
+              - format: hostname
+              - format: ipv4
+              - format: ipv6
+            port:
+              description: Port number
+              type: integer
+              minimum: 1
+              maximum: 65535
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
+  parameters:
+    chain:
+      name: chain
+      in: path
+      description: the id of the chain to which the request is sent
+      required: true
+      schema:
+        type: integer
+        minimum: 0
+        example: 0
+    next:
+      name: next
+      in: query
+      description: 'The cursor for the next page. This value can be found as value of the
+
+        `next` property of the previous page.
+
+        '
+      required: false
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      description: 'Maximum number of records that may be returned. The actual number may be
+
+        lower.
+
+        '
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+x-tagGroups:
+- name: chainweb_p2p
+  x-displayName: Chainweb P2P API
+  tags:
+  - p2p_api
+  - cut
+  - blockhash
+  - header
+  - payload
+  - mempool
+  - peer
+  - config
+- name: chainweb_service
+  x-displayName: Chainweb Service API
+  tags:
+  - service_api
+  - block
+  - misc
+  - mining
+  - pact
+- name: Common HTTP Headers
+  tags:
+  - commonResponseHeaders
+- name: Data Models
+  tags:
+  - cut_model
+  - header_model
+  - payload_model
+  - payloadWithOutputs_model
+  - peer_model
+  - nodeInfo_model
+  - page_model
+  - minerInfo_model
+  - miningUpdateEventStream_model
+- name: Binary Encodings
+  tags:
+  - binaryHeader
+  - binaryWorkHeader

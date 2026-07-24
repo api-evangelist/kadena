@@ -1,0 +1,266 @@
+openapi: 3.0.0
+info:
+  title: Kadena Chainweb Node block config API
+  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
+
+
+    Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
+
+    conservative extension of Bitcoin''s Nakamoto consensus that extends
+
+    Bitcoin''s single chain algorithm to multiple chains. This allows for
+
+    unlimited transaction throughput by horizontally scaling the number of chains.
+
+
+    Feedback and bug reports for the content of this site are welcome. Please
+
+    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
+
+    '
+  version: '0.0'
+  x-logo:
+    url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
+    alttext: Kadena Chainweb Logo
+servers:
+- url: https://api.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: 'Chainweb mainnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: https://api.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: 'Chainweb testnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: '{schema}://{domain}:{port}/chainweb/{apiVersion}/{chainwebVersion}'
+  description: 'An generic chainweb-node. It may serve only a subset of the endpoints.
+
+    '
+  variables:
+    schema:
+      default: http
+      enum:
+      - http
+      - https
+    domain:
+      default: api.chainweb.com
+    port:
+      default: '1848'
+    chainwebVersion:
+      default: mainnet01
+      enum:
+      - test-singleton
+      - development
+      - mainnet01
+      - testnet04
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: Chainweb mainnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us-e1
+      - us-e2
+      - us-e3
+      - us-w1
+      - us-w2
+      - us-w3
+      - fr1
+      - fr2
+      - fr3
+      - jp1
+      - jp2
+      - jp3
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: Chainweb testnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us1
+      - us2
+      - eu1
+      - eu2
+      - ap1
+      - ap2
+    apiVersion:
+      default: '0.0'
+tags:
+- name: config
+  x-displayName: Config Endpoint
+paths:
+  /config:
+    get:
+      tags:
+      - config
+      summary: Configuration of Chainweb Node
+      description: 'Returns the configuration of chainweb-node as a JSON structure.
+
+        Sensitive information is removed from the result. The JSON schema depends
+
+        on the chainweb node version and is not part of the stable chainweb-node
+
+        API.
+
+        '
+      responses:
+        '200':
+          description: Configuration of the chainweb node
+          headers:
+            x-peer-addr:
+              $ref: '#/components/headers/x-peer-addr'
+            x-server-timestamp:
+              $ref: '#/components/headers/x-server-timestamp'
+            x-chainweb-node-version:
+              $ref: '#/components/headers/x-chainweb-node-version'
+          content:
+            application/json:
+              example:
+                $ref: '#/components/examples/nodeConfig'
+components:
+  headers:
+    x-peer-addr:
+      description: Host and port of the client as observed by the remote node
+      schema:
+        $ref: '#/components/schemas/hostAddress'
+      example: 10.36.1.3:42988
+    x-server-timestamp:
+      description: The time of the clock of the remote node
+      schema:
+        $ref: '#/components/schemas/posixTimestamp'
+      example: 1618597601
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
+  examples:
+    nodeConfig:
+      value:
+        allowReadsInLocal: false
+        throttling:
+          local: 1
+          mining: 2
+          global: 200
+          putPeer: 21
+        serviceApi:
+          interface: invalid
+          port: 0
+        validateHashesOnReplay: false
+        chainwebVersion: mainnet01
+        pactQueueSize: 2000
+        mining:
+          coordination:
+            enabled: false
+            updateStreamTimeout: 240
+            limit: 1200
+            updateStreamLimit: 2000
+            miners: []
+          nodeMining:
+            miner:
+              account: ''
+              predicate: keys-all
+              public-keys: []
+            enabled: false
+        p2p:
+          peer:
+            certificateChainFile: null
+            key: null
+            interface: '*'
+            certificateChain: null
+            hostaddress:
+              hostname: 34.70.108.163
+              port: 1789
+            keyFile: null
+          maxPeerCount: 100
+          private: false
+          ignoreBootstrapNodes: false
+          maxSessionCount: 8
+          bootstrapReachability: 0.5
+          sessionTimeout: 300
+          peers:
+          - address:
+              hostname: us-e1.chainweb.com
+              port: 443
+            id: null
+          - address:
+              hostname: us-w1.chainweb.com
+              port: 443
+            id: null
+        transactionIndex:
+          enabled: true
+          configuration: {}
+        gasLimitOfBlock: 150000
+        reorgLimit: 480
+        headerStream: true
+        mempoolP2p:
+          enabled: true
+          configuration:
+            pollInterval: 30
+            maxSessionCount: 6
+            sessionTimeout: 240
+        reintroTxs: true
+        cuts:
+          pruneChainDatabase: none
+          fetchTimeout: 3000000
+          initialCutHeightLimit: null
+  schemas:
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
+x-tagGroups:
+- name: chainweb_p2p
+  x-displayName: Chainweb P2P API
+  tags:
+  - p2p_api
+  - cut
+  - blockhash
+  - header
+  - payload
+  - mempool
+  - peer
+  - config
+- name: chainweb_service
+  x-displayName: Chainweb Service API
+  tags:
+  - service_api
+  - block
+  - misc
+  - mining
+  - pact
+- name: Common HTTP Headers
+  tags:
+  - commonResponseHeaders
+- name: Data Models
+  tags:
+  - cut_model
+  - header_model
+  - payload_model
+  - payloadWithOutputs_model
+  - peer_model
+  - nodeInfo_model
+  - page_model
+  - minerInfo_model
+  - miningUpdateEventStream_model
+- name: Binary Encodings
+  tags:
+  - binaryHeader
+  - binaryWorkHeader

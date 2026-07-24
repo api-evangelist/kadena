@@ -1,0 +1,726 @@
+openapi: 3.0.0
+info:
+  title: Kadena Chainweb Node block endpoint-local API
+  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
+
+
+    Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
+
+    conservative extension of Bitcoin''s Nakamoto consensus that extends
+
+    Bitcoin''s single chain algorithm to multiple chains. This allows for
+
+    unlimited transaction throughput by horizontally scaling the number of chains.
+
+
+    Feedback and bug reports for the content of this site are welcome. Please
+
+    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
+
+    '
+  version: '0.0'
+  x-logo:
+    url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
+    alttext: Kadena Chainweb Logo
+servers:
+- url: https://api.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: 'Chainweb mainnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: https://api.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: 'Chainweb testnet service API. It also serves some endpoints of the P2P API.
+
+    '
+  variables:
+    apiVersion:
+      default: '0.0'
+- url: '{schema}://{domain}:{port}/chainweb/{apiVersion}/{chainwebVersion}'
+  description: 'An generic chainweb-node. It may serve only a subset of the endpoints.
+
+    '
+  variables:
+    schema:
+      default: http
+      enum:
+      - http
+      - https
+    domain:
+      default: api.chainweb.com
+    port:
+      default: '1848'
+    chainwebVersion:
+      default: mainnet01
+      enum:
+      - test-singleton
+      - development
+      - mainnet01
+      - testnet04
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.chainweb.com/chainweb/{apiVersion}/mainnet01
+  description: Chainweb mainnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us-e1
+      - us-e2
+      - us-e3
+      - us-w1
+      - us-w2
+      - us-w3
+      - fr1
+      - fr2
+      - fr3
+      - jp1
+      - jp2
+      - jp3
+    apiVersion:
+      default: '0.0'
+- url: https://{location}.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
+  description: Chainweb testnet P2P bootstrap node. Only P2P API endpoints are served.
+  variables:
+    location:
+      default: us-e1
+      enum:
+      - us1
+      - us2
+      - eu1
+      - eu2
+      - ap1
+      - ap2
+    apiVersion:
+      default: '0.0'
+tags:
+- name: endpoint-local
+  x-displayName: Non-transactional execution
+paths:
+  /local:
+    post:
+      description: 'Blocking/sync call to submit a command for non-transactional execution. In a
+
+        blockchain environment this would be a node-local “dirty read”, which can
+
+        either serve as a node-local repl execution, or fully gassed transaction
+
+        simulation and transaction validation. Any database writes or changes to the
+
+        environment are rolled back.
+
+        '
+      tags:
+      - endpoint-local
+      summary: local
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/command'
+      parameters:
+      - name: preflight
+        in: query
+        description: 'Trigger fully-gassed mainnet transaction execution simulation and
+
+          transaction metadata validations.
+
+          '
+        required: false
+        schema:
+          type: boolean
+      - name: rewindDepth
+        in: query
+        description: 'Rewind transaction execution environment by a number of block
+
+          heights.
+
+          '
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+      - name: signatureVerification
+        in: query
+        description: 'Require user signature verification when validating transaction
+
+          metadata.
+
+          '
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: The command's result.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/command-result'
+                - $ref: '#/components/schemas/preflight-result'
+        '400':
+          description: The command was invalid.
+          content:
+            text/plain:
+              type: string
+              example: 'Validation failed: Invalid command: Failed reading: empty'
+              schema:
+                $ref: '#/components/schemas/validation-failure'
+components:
+  schemas:
+    pact-value:
+      description: Pact value compound type.
+      tags:
+      - model-pact-value
+      anyOf:
+      - title: String
+        description: Pact strings encode directly to JSON strings.
+        type: string
+      - title: Decimal
+        description: There are two alternative JSON representations for Decimal.
+        oneOf:
+        - title: Number
+          description: 'JSON numbers can be used whenever the precision is adequate
+
+            '
+          type: number
+        - title: Object
+          description: 'When JSON number precision is not enough, you can use an object with the number''s decimal representation as a string
+
+            '
+          type: object
+          required:
+          - decimal
+          properties:
+            decimal:
+              type: string
+              description: String representation of number to avoid rounding error
+              example: '1.23498218000001'
+      - title: Integer
+        description: There are two alternative JSON representations for Integer.
+        type: object
+        required:
+        - int
+        properties:
+          int:
+            oneOf:
+            - title: Number
+              description: 'JSON numbers are rounded to integer values.
+
+                '
+              type: number
+              example: 12345
+            - title: String
+              description: 'When JSON number precision is not enough, you can specify the integer as a string
+
+                '
+              type: string
+              example: '123456789'
+      - title: Boolean
+        description: JSON booleans encode to Pact booleans.
+        type: boolean
+      - title: Object
+        type: object
+        description: JSON objects not matching other Pact Value schemas become Pact objects.
+        additionalProperties:
+          $ref: '#/components/schemas/pact-value'
+      - title: Time
+        type: object
+        required:
+        - time
+        properties:
+          time:
+            type: string
+            description: Literal time value using the UTC time format.
+            example: '1970-01-01T00:00:00Z'
+      - title: List
+        description: JSON lists become Pact lists.
+        type: array
+        items:
+          $ref: '#/components/schemas/pact-value'
+      - title: Module Reference
+        description: Special pact value to directly reference a module or interface.
+        type: object
+        required:
+        - refName
+        - refSpec
+        example:
+          $ref: '#/components/examples/module_reference'
+        properties:
+          refName:
+            type: object
+            required:
+            - name
+            - namespace
+            description: The module name
+            properties:
+              name:
+                type: string
+                description: Bare name of a module
+              namespace:
+                type: string
+                nullable: true
+                description: Namespace of the indicated module
+          refSpec:
+            type: array
+            description: The module names to substitute for any references present in the module code
+            items:
+              type: object
+              required:
+              - name
+              - namespace
+              properties:
+                name:
+                  type: string
+                  description: Bare name of a module
+                namespace:
+                  type: string
+                  nullable: true
+                  description: Namespace of the indicated module
+      - title: Guard
+        description: Special pact value for guard types.
+        type: object
+        oneOf:
+        - title: Keyset
+          description: 'A keyset forms a rule made from a set of key/address values and a predicate function.
+
+            When enforced, transaction signer list is evaluated against keyset.
+
+            '
+          required:
+          - keys
+          - pred
+          properties:
+            keys:
+              type: array
+              description: Set of public key/address values. Native pact public keys are ED25519 in base16 encoding.
+              items:
+                type: string
+            pred:
+              type: string
+              description: 'A pact function name. Built-in values are `keys-all` (match all keys in set),
+
+                `keys-any` (match at least one), and `keys-2` (match at least 2).
+
+                Custom functions have a fully-qualified name and
+
+                must accept two integer arguments `count` (number of keys in set) and `matched`
+
+                (number of set keys found in transaction set).
+
+                '
+        - title: Keyset Reference
+          description: Refers to a keyset in the Pact environment/database installed with `define-keyset`.
+          required:
+          - keysetref
+          properties:
+            keysetref:
+              type: string
+              description: Installed keyset name.
+        - title: User Guard
+          description: 'Closure of call to "guard function" which is a boolean user function with arguments.
+
+            '
+          required:
+          - fun
+          - args
+          properties:
+            fun:
+              description: Fully-qualified guard function name.
+              type: string
+            args:
+              description: Argument values to the guard function.
+              type: array
+              items:
+                $ref: '#/components/schemas/pact-value'
+        - title: Module Guard
+          type: object
+          description: 'Autonomous guard that only allows module code access, or requires module admin.
+
+            '
+          required:
+          - moduleName
+          - name
+          properties:
+            moduleName:
+              required:
+              - name
+              - namespace
+              properties:
+                name:
+                  type: string
+                  description: module bare name
+                namespace:
+                  type: string
+                  description: module namespace
+            name:
+              type: string
+              description: Distinguishing/informative name for module guard.
+        - title: Pact Guard
+          type: object
+          description: 'Autonomous guard that only allows a particular pact execution, referenced by ID, to pass.
+
+            Two executions of the same defpact code result in distinct pact IDs. A pact guard
+
+            created inside of this execution will only pass when running that particular pact.
+
+            '
+          required:
+          - pactId
+          - name
+          properties:
+            pactId:
+              description: Defpact execution ID.
+              type: string
+            name:
+              type: string
+              description: Distinguishing/informative name for pact guard.
+    pact-error:
+      description: 'Verbose object describing failed execution.
+
+        '
+      type: object
+      required:
+      - message
+      properties:
+        message:
+          type: string
+          description: Descriptive error text.
+        callStack:
+          type: array
+          items:
+            type: string
+        info:
+          type: string
+        type:
+          type: string
+    event:
+      description: Pact output event.
+      type: object
+      properties:
+        name:
+          type: string
+          description: Event defcap name.
+        module:
+          type: object
+          description: Qualified module name of event defcap.
+          required:
+          - name
+          properties:
+            name:
+              type: string
+              description: module bare name
+            namespace:
+              type: string
+              description: module namespace
+        params:
+          type: array
+          items:
+            $ref: '#/components/schemas/pact-value'
+        moduleHash:
+          type: string
+          description: Hash of emitting module.
+    webauthn-sig-string:
+      type: string
+      description: "Stringified JSON WebAuthn signature object.\n\nFor a WebAuthn signature string to be valid, its corresponding `Signer`\nmust have `scheme: \"WebAuthn\"`.\n\nThe schema of a Pact WebAuthn signature object resembles that of\nthe WebAuthn standard `CredentialResponse`.\nIts fields can be computed from the `response` field of a WebAuthn\n`CredentialResponse`. For example, to construct a WebAuthn signature\nstring in the browser:\n\n```\nconst resp = await navigator.credentials.get();\nconst auth = resp.response.authenticatorData();\nconst sig = resp.response.signature;\nJSON.stringify({\n  authenticatorData: base64url_to_base64(auth),\n  clientDataJSON: resp.response.clientDataJSON,\n  signature: base64url_to_base64(sig)\n})\n```\n"
+    preflight-result:
+      title: Preflight /local result
+      tags:
+      - model-preflight-result
+      example:
+        $ref: '#/components/examples/preflight-result'
+      description: The result of attempting to execute preflight simulation for a single well-formed Pact command.
+      type: object
+      required:
+      - preflightResult
+      - preflightWarnings
+      properties:
+        preflightResult:
+          $ref: '#/components/schemas/command-result'
+        preflightWarnings:
+          description: A list of warnings associated with deprecated features in upcoming pact releases.
+          type: array
+          items:
+            type: string
+    command:
+      title: Pact Command
+      tags:
+      - model-command
+      description: Represents a single blockchain Pact transaction.
+      type: object
+      required:
+      - cmd
+      - hash
+      - sigs
+      example:
+        $ref: '#/components/examples/command'
+      properties:
+        cmd:
+          description: 'Stringified JSON `payload` object. Canonic non-malleable signed transaction data.
+
+            '
+          type: string
+        hash:
+          description: 'Unpadded Base64URL of Blake2s-256 hash of the `cmd` field value. Serves as a command
+
+            `requestKey` since each transaction must be unique.
+
+            '
+          type: string
+          contentEncoding: base64url
+          example: H6XjdPHzMai2HLa3_yVkXfkFYMgA0bGfsB0kOsHAMuI
+        sigs:
+          description: 'List of signatures corresponding one-to-one with `signers` array in the payload.
+
+            '
+          type: array
+          minItems: 0
+          items:
+            properties:
+              sig:
+                anyOf:
+                - type: string
+                  contentEncoding: base16
+                  description: 'Base16-encoded Ed25519 signature of `hash` field
+
+                    for corresponding signer in payload.
+
+                    '
+                  example: 8d452109cc0439234c093b5e204a7428bc0a54f22704402492e027aaa9375a34c910d8a468a12746d0d29e9353f4a3fbebe920d63bcc7963853995db015d060f
+                - $ref: '#/components/schemas/webauthn-sig-string'
+    validation-failure:
+      title: Validation Failure
+      type: string
+      description: Failure message of unexecuted command due to an invalid gas payer, meta, or other environments.
+    command-result:
+      title: Command Result
+      tags:
+      - model-command-result
+      example:
+        $ref: '#/components/examples/command-result'
+      description: The result of attempting to execute a single well-formed Pact command.
+      type: object
+      required:
+      - reqKey
+      - result
+      - logs
+      - metaData
+      - gas
+      properties:
+        reqKey:
+          $ref: '#/components/schemas/request-key'
+        result:
+          oneOf:
+          - title: Success
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - success
+              data:
+                $ref: '#/components/schemas/pact-value'
+          - title: Failure
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - failure
+              error:
+                $ref: '#/components/schemas/pact-error'
+        txId:
+          type: number
+          description: Database-internal transaction tracking ID.
+        logs:
+          type: string
+          description: Backend-specific value providing image of database logs.
+        metaData:
+          properties:
+            blockTime:
+              type: number
+              description: POSIX time of block
+            prevBlockHash:
+              type: string
+              description: Parent Block hash of containing block.
+            blockHash:
+              type: string
+              description: Block hash of containing block.
+            blockHeight:
+              type: number
+              description: Block height of containing block.
+            publicMeta:
+              type: object
+              description: Public metadata.
+              properties:
+                creationTime:
+                  type: number
+                  description: POSIX time the command was created
+                ttl:
+                  type: number
+                  description: Transaction time to live
+                gasLimit:
+                  type: number
+                  description: The transaction's gas limit
+                chainId:
+                  type: string
+                  description: Chain identifier
+                gasPrice:
+                  type: number
+                  description: The price of each unit of gas in KDA
+                sender:
+                  type: string
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/event'
+        continuation:
+          description: Describes result of a defpact execution.
+          properties:
+            pactId:
+              type: string
+              description: Identifies this defpact execution. On first step generally matches request key.
+            step:
+              type: number
+              description: Identifies which step executed in defpact.
+            stepCount:
+              type: number
+              description: Total number of steps in pact.
+            executed:
+              type: boolean
+              description: optional value for private pacts, indicates if step was skipped.
+            stepHasRollback:
+              type: boolean
+              description: indicates if pact step has rollback.
+            continuation:
+              description: Closure describing executed pact.
+              properties:
+                def:
+                  type: string
+                  description: Fully-qualified defpact name.
+                args:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/pact-value'
+            yield:
+              description: Value yielded during pact step, optionally indicating cross-chain execution.
+              properties:
+                data:
+                  type: object
+                  description: Pact value object containing yielded data.
+                  additionalProperties:
+                    $ref: '#/components/schemas/pact-value'
+                source:
+                  type: string
+                  description: Source chain ID.
+                provenance:
+                  properties:
+                    targetChainId:
+                      type: string
+                      description: Chain ID of target chain for next step.
+                    moduleHash:
+                      description: Hash of module executing defpact.
+                      type: string
+        gas:
+          type: number
+    request-key:
+      title: Request Key
+      type: string
+      description: Unique ID of a pact transaction consisting of its hash.
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      contentEncoding: base64url
+      minLength: 43
+      maxLength: 43
+      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
+  examples:
+    command:
+      hash: H6XjdPHzMai2HLa3_yVkXfkFYMgA0bGfsB0kOsHAMuI
+      sigs:
+      - sig: 8d452109cc0439234c093b5e204a7428bc0a54f22704402492e027aaa9375a34c910d8a468a12746d0d29e9353f4a3fbebe920d63bcc7963853995db015d060f
+      cmd: '{"payload":{"exec":{"data":null,"code":"(+ 1 2)"}},"signers":[{"pubKey":"368820f80c324bbc7c2b0610688a7da43e39f91d118732671cd9c7500ff43cca"}],"meta":{"gasLimit":1000,"chainId":"0","gasPrice":1.0e-2,"sender":"368820f80c324bbc7c2b0610688a7da43e39f91d118732671cd9c7500ff43cca"},"nonce":"nonce-value"}'
+    command-result:
+      gas: 123
+      result:
+        status: success
+        data: 3
+      reqKey: cQ-guhschk0wTvMBtrqc92M7iYm4S2MYhipQ2vNKxoI
+      logs: wsATyGqckuIvlm89hhd2j4t6RMkCrcwJe_oeCYr7Th8
+      metaData: null
+      continuation: null
+      txId: '456'
+      events:
+      - name: TRANSFER
+        params:
+        - Alice
+        - Bob
+        - 10.0
+        module: coin
+        moduleHash: ut_J_ZNkoyaPUEJhiwVeWnkSQn9JT9sQCWKdjjVVrWo
+    module_reference:
+      refName:
+        namespace: null
+        name: coin
+      refSpec:
+      - namespace: null
+        name: fungible-v2
+    preflight-result:
+      preflightResult:
+        gas: 123
+        result:
+          status: success
+          data: 3
+        reqKey: cQ-guhschk0wTvMBtrqc92M7iYm4S2MYhipQ2vNKxoI
+        logs: wsATyGqckuIvlm89hhd2j4t6RMkCrcwJe_oeCYr7Th8
+        metaData: null
+        continuation: null
+        txId: '456'
+        events:
+        - name: TRANSFER
+          params:
+          - Alice
+          - Bob
+          - 10.0
+          module: coin
+          moduleHash: ut_J_ZNkoyaPUEJhiwVeWnkSQn9JT9sQCWKdjjVVrWo
+      preflightWarnings:
+      - 'Warning: Using deprecated native +: decimal/integer operator overload is deprecated'
+x-tagGroups:
+- name: chainweb_p2p
+  x-displayName: Chainweb P2P API
+  tags:
+  - p2p_api
+  - cut
+  - blockhash
+  - header
+  - payload
+  - mempool
+  - peer
+  - config
+- name: chainweb_service
+  x-displayName: Chainweb Service API
+  tags:
+  - service_api
+  - block
+  - misc
+  - mining
+  - pact
+- name: Common HTTP Headers
+  tags:
+  - commonResponseHeaders
+- name: Data Models
+  tags:
+  - cut_model
+  - header_model
+  - payload_model
+  - payloadWithOutputs_model
+  - peer_model
+  - nodeInfo_model
+  - page_model
+  - minerInfo_model
+  - miningUpdateEventStream_model
+- name: Binary Encodings
+  tags:
+  - binaryHeader
+  - binaryWorkHeader
