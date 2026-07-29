@@ -1,0 +1,103 @@
+generated: '2026-07-19'
+method: searched
+source: https://www.npmjs.com/org/kadena
+notes: >-
+  All packages are published under the official @kadena npm scope from the
+  kadena-community/kadena.js monorepo (first-party). Kadena also ships Pact (the
+  smart-contract language) and chainweb-node as Haskell projects distributed as
+  source/binaries via GitHub, not a language package registry.
+packages:
+- language: javascript
+  registry: npm
+  name: "@kadena/client"
+  version: 1.18.3
+  url: https://www.npmjs.com/package/@kadena/client
+  install: npm install @kadena/client
+  description: Core library for building Pact expressions to send to the Kadena blockchain.
+  official: true
+- language: javascript
+  registry: npm
+  name: "@kadena/chainweb-node-client"
+  version: 0.9.5
+  url: https://www.npmjs.com/package/@kadena/chainweb-node-client
+  install: npm install @kadena/chainweb-node-client
+  description: Typed JavaScript wrapper (fetch) for the Chainweb Node / Pact REST API.
+  official: true
+- language: javascript
+  registry: npm
+  name: "@kadena/client-utils"
+  version: 0.13.4
+  url: https://www.npmjs.com/package/@kadena/client-utils
+  install: npm install @kadena/client-utils
+  description: Utility wrappers around @kadena/client for interacting with specific contracts.
+  official: true
+- language: javascript
+  registry: npm
+  name: "@kadena/pactjs"
+  version: 0.6.0
+  url: https://www.npmjs.com/package/@kadena/pactjs
+  install: npm install @kadena/pactjs
+  description: Collection of pactjs-related utility functions.
+  official: true
+- language: javascript
+  registry: npm
+  name: "@kadena/pactjs-cli"
+  version: 1.18.3
+  url: https://www.npmjs.com/package/@kadena/pactjs-cli
+  install: npm install -D @kadena/pactjs-cli
+  description: CLI to generate TypeScript type definitions for Pact modules.
+  official: true
+  cli: true
+- language: javascript
+  registry: npm
+  name: "@kadena/kadena-cli"
+  version: 1.4.6
+  url: https://www.npmjs.com/package/@kadena/kadena-cli
+  install: npm install -g @kadena/kadena-cli
+  description: Kadena CLI tool to interact with the Kadena blockchain from the terminal.
+  official: true
+  cli: true
+- language: javascript
+  registry: npm
+  name: "@kadena/cryptography-utils"
+  version: 0.4.4
+  url: https://www.npmjs.com/package/@kadena/cryptography-utils
+  install: npm install @kadena/cryptography-utils
+  description: Collection of Kadena cryptography utility functions (signing, hashing).
+  official: true
+- language: javascript
+  registry: npm
+  name: "@kadena/hd-wallet"
+  version: 0.6.2
+  url: https://www.npmjs.com/package/@kadena/hd-wallet
+  install: npm install @kadena/hd-wallet
+  description: Hierarchical Deterministic (HD) key derivation for Kadena wallets.
+  official: true
+- language: javascript
+  registry: npm
+  name: "@kadena/types"
+  version: 0.7.0
+  url: https://www.npmjs.com/package/@kadena/types
+  install: npm install @kadena/types
+  description: Shared TypeScript types for the Kadena.js libraries.
+  official: true
+- language: javascript
+  registry: npm
+  name: "@kadena/graph"
+  version: 2.2.7
+  url: https://www.npmjs.com/package/@kadena/graph
+  install: npm install @kadena/graph
+  description: GraphQL server over Chainweb data for running your own GraphQL endpoint.
+  official: true
+- language: haskell
+  registry: github
+  name: pact
+  url: https://github.com/kadena-io/pact
+  description: The Pact smart-contract language interpreter (source/binary, not a registry package).
+  official: true
+- language: haskell
+  registry: github
+  name: chainweb-node
+  url: https://github.com/kadena-io/chainweb-node
+  description: The Chainweb node reference implementation (source/binary via GitHub releases).
+  official: true

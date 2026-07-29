@@ -1,8 +1,21 @@
 aid: kadena
 name: Kadena
-description: 'Kadena is a company surfaced as a portfolio company of multicoin-capital and added to the
-  API Evangelist network as a stub for enrichment. Sector: crypto-web3. This profile is a lead awaiting
-  the enrichment pipeline.'
+description: >-
+  Kadena was a layer-1 Proof-of-Work blockchain platform built around Chainweb, a
+  braided, parallelized Nakamoto-consensus protocol that scales Bitcoin-style
+  security across many chains for high transaction throughput, together with Pact,
+  its human-readable, Turing-incomplete smart-contract language. Kadena exposed two
+  primary public APIs: the Chainweb Node API (P2P and service endpoints for cuts,
+  blocks, headers, payloads, the mempool, mining, and node info) and the Pact REST
+  API (local, send, poll, listen, spv) for submitting and querying smart-contract
+  transactions on mainnet and testnet. The developer surface includes the kadena.js
+  TypeScript client libraries, the pactjs CLI for type generation, and extensive
+  docs at docs.kadena.io. Kadena Eco supported an ecosystem of dApps, the Marmalade
+  NFT standard, and tooling. NOTE: Kadena the company announced it would cease
+  operations on 2025-10-21; Kadena Mainnet stopped producing blocks on 2025-11-15
+  and the kadena-io GitHub organization was archived on 2025-12-23. A community
+  edition (kda-community) forked from mainnet on 2025-11-08 and continues the
+  open-source protocol. This profile documents the public API surface as published.
 url: https://raw.githubusercontent.com/api-evangelist/kadena/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -10,18 +23,391 @@ x-backed-by:
 - multicoin-capital
 x-tier: stub
 x-tier-reason: portfolio-lead
+x-status: ceased-operations
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
+image: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
 tags:
 - Company
 - Crypto Web3
-apis: []
+- Blockchain
+- Smart Contracts
+- Proof of Work
+- Layer 1
+- Web3
+- Cryptocurrency
+- Developer Tools
+- Decentralized
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: kadena:kadena-block-api
+  name: Kadena block API
+  description: >-
+    These endpoints return whole blocks, headers and payloads, from the chain
+
+    database.
+
+
+    Generally, blocks are returned in ascending order and include orphaned
+
+    blocks.
+
+
+    For only querying blocks that are included in the winning branch of the
+
+    chain the `branch` endpoints can be used, which return blocks in descending
+
+    order starting from the leafs of branches of the block chain.
+
+
+    Blocks are returned in only one format, with block headers and payloads in
+
+    JSON encoding.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - block
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-block-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-blockhash-api
+  name: Kadena blockhash API
+  description: >-
+    These endpoints return block hashes from the chain database.
+
+
+    Generally, block hashes are returned in ascending order and include hashes
+
+    from orphaned blocks.
+
+
+    For only querying blocks that are included in the winning branch of the
+
+    chain the `branch` endpoint can be used, which returns blocks in descending
+
+    order starting from the leafs of branches of the block chain.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - blockhash
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-blockhash-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-config-api
+  name: Kadena config API
+  description: The config API from Kadena — 1 operation(s) for config.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - config
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-config-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-cut-api
+  name: Kadena cut API
+  description: >-
+    A cut represents a distributed state of a chainweb. It references one
+
+    block header for each chain, such that those blocks are pairwise
+
+    concurrent.
+
+
+    Two blocks from two different chains are said to be concurrent if either
+
+    one of them is an adjacent parent (is a direct dependency) of the other or
+
+    if the blocks do not depend at all on each other.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - cut
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-cut-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-endpoint-listen-api
+  name: Kadena endpoint-listen API
+  description: The endpoint-listen API from Kadena — 1 operation(s) for endpoint-listen.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - endpoint-listen
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-endpoint-listen-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-endpoint-local-api
+  name: Kadena endpoint-local API
+  description: The endpoint-local API from Kadena — 1 operation(s) for endpoint-local.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - endpoint-local
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-endpoint-local-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-endpoint-poll-api
+  name: Kadena endpoint-poll API
+  description: The endpoint-poll API from Kadena — 1 operation(s) for endpoint-poll.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - endpoint-poll
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-endpoint-poll-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-endpoint-private-api
+  name: Kadena endpoint-private API
+  description: The endpoint-private API from Kadena — 1 operation(s) for endpoint-private.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - endpoint-private
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-endpoint-private-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-endpoint-send-api
+  name: Kadena endpoint-send API
+  description: The endpoint-send API from Kadena — 1 operation(s) for endpoint-send.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - endpoint-send
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-endpoint-send-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-endpoint-spv-api
+  name: Kadena endpoint-spv API
+  description: The endpoint-spv API from Kadena — 1 operation(s) for endpoint-spv.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - endpoint-spv
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-endpoint-spv-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-header-api
+  name: Kadena header API
+  description: >-
+    These endpoints return block headers from the chain database.
+
+
+    Similar to the block endpoints, block headers are generally returned in
+
+    ascending order and include headers of orphaned blocks.
+
+
+    For only querying block headers that are included in the winning branch of
+
+    the chain the `branch` endpoints can be used, which return block headers in
+
+    descending order starting from the leafs of branches of the block chain.
+
+
+    Block headers are returned in three different formats specified in the `accept` header of the request:
+
+    *   `application/json`, returns block headers in base64Url (without padding)
+        encoded binary.
+    *   `application/json;blockheader-encoding=object`, returns block headers in
+        JSON encoding.
+    *   `application/octet-stream`, when supported by the endpoint, returns block
+        headers as binary.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - header
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-header-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-mempool-api
+  name: Kadena mempool API
+  description: >-
+    Mempool P2P endpoints for communication between mempools. Endusers are not
+
+    supposed to use these endpoints directly. Instead, the respective Pact
+
+    endpoints should be used for submitting transactions into the network.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - mempool
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-mempool-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-mining-api
+  name: Kadena mining API
+  description: >-
+    The Mining API of Chainweb node is disabled by default. It can be enabled
+
+    and configured in the configuration file.
+
+
+
+    The mining API consists of the following endpoints that
+
+    are described in detail on the
+
+    [Chainweb mining wiki page](https://github.com/kadena-io/chainweb-node/wiki/Mining-API)
+
+
+    *   `GET mining/work`
+
+    *   `POST mining/solved`
+
+    *   `GET mining/updates`
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - mining
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-mining-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-misc-api
+  name: Kadena misc API
+  description: The misc API from Kadena — 7 operation(s) for misc.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - misc
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-misc-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-payload-api
+  name: Kadena payload API
+  description: >-
+    Raw literal Block Payloads in the form in which they are stored on the chain.
+
+    By default only the payload data is returned which is sufficient for validating
+
+    the blockchain Merkle Tree. It is also sufficient as input to Pact for
+
+    executing the Pact transactions of the block and recomputing the outputs.
+
+
+    It is also possible to query the transaction outputs along with the payload data.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - payload
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-payload-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
+- aid: kadena:kadena-peer-api
+  name: Kadena peer API
+  description: >-
+    The P2P communication between chainweb-nodes is sharded into several independent
+
+    P2P network. The `cut` network is exchanging consensus state. There is also one
+
+    mempool P2P network for each chain.
+  humanURL: https://docs.kadena.io/api/chainweb-api
+  baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
+  tags:
+  - peer
+  properties:
+  - type: OpenAPI
+    url: openapi/kadena-peer-api-openapi.yml
+  - type: APIReference
+    url: https://kadena-io.github.io/chainweb-openapi/
 common:
+- type: AgenticAccess
+  url: agentic-access/kadena-agentic-access.yml
+- type: DomainSecurity
+  url: security/kadena-domain-security.yml
 - type: Website
   url: https://kadena.io
+- type: DeveloperPortal
+  url: https://docs.kadena.io
+- type: Documentation
+  url: https://docs.kadena.io
+- type: APIReference
+  url: https://kadena-io.github.io/chainweb-openapi/
+- type: GettingStarted
+  url: https://docs.kadena.io/build/quickstart
+- type: Blog
+  url: https://medium.com/kadena-io
+- type: GitHubOrganization
+  url: https://github.com/kadena-io
+- type: ChangeLog
+  url: https://docs.kadena.io/changelogs/chainweb-node
+- type: ChangeLog
+  name: Kadena changelog artifact
+  url: changelog/kadena-changelog.yml
+- type: Packages
+  url: packages/kadena-packages.yml
+- type: SDKs
+  url: packages/kadena-packages.yml
+- type: CLI
+  url: cli/kadena-cli.yml
+- type: MCPServer
+  url: mcp/kadena-mcp.yml
+- type: LLMsTxt
+  url: llms/kadena-llms.txt
+- type: Overlay
+  name: Chainweb Node API overlay
+  url: overlays/kadena-chainweb-overlay.yaml
+- type: Overlay
+  name: Pact REST API overlay
+  url: overlays/kadena-pact-overlay.yaml
+- type: Conformance
+  url: conformance/kadena-conformance.yml
+- type: ErrorCatalog
+  url: errors/kadena-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/kadena-lifecycle.yml
+- type: Conventions
+  url: conventions/kadena-conventions.yml
+- type: Sandbox
+  url: sandbox/kadena-sandbox.yml
+- type: DataModel
+  url: data-model/kadena-data-model.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

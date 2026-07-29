@@ -1,0 +1,47 @@
+generated: '2026-07-19'
+method: derived
+status: candidate
+source: openapi/kadena-pact-openapi-original.yml, openapi/kadena-chainweb-openapi-original.yml
+note: >-
+  No official Kadena-hosted/remote MCP server was found (searched docs, npm
+  @modelcontextprotocol, MCP registries). This is a CANDIDATE tool list derived from
+  the most agent-useful Pact REST and Chainweb Node operations. The source spec
+  declares no operationIds, so source_operation references use METHOD + path.
+server:
+  name: kadena
+  transport: http
+  url: null
+tools:
+- name: pact_local
+  description: Non-transactional execution / preflight of a Pact command (read-only query).
+  source_operation: openapi/kadena-pact-openapi-original.yml#POST /local
+- name: pact_send
+  description: Submit one or more signed Pact commands to the mempool; returns request keys.
+  source_operation: openapi/kadena-pact-openapi-original.yml#POST /send
+- name: pact_poll
+  description: Poll the results of submitted commands by request key.
+  source_operation: openapi/kadena-pact-openapi-original.yml#POST /poll
+- name: pact_listen
+  description: Block until the result for a single request key is available.
+  source_operation: openapi/kadena-pact-openapi-original.yml#POST /listen
+- name: pact_spv
+  description: Request a simple payment verification (SPV) proof for a cross-chain transaction.
+  source_operation: openapi/kadena-pact-openapi-original.yml#POST /spv
+- name: get_cut
+  description: Query the current cut (the network tip across all chains).
+  source_operation: openapi/kadena-chainweb-openapi-original.yml#GET /cut
+- name: get_block
+  description: Get a block on a chain.
+  source_operation: openapi/kadena-chainweb-openapi-original.yml#GET /chain/{chain}/block
+- name: get_block_header
+  description: Get a block header by hash.
+  source_operation: openapi/kadena-chainweb-openapi-original.yml#GET /chain/{chain}/header/{blockHash}
+- name: get_block_payload
+  description: Get a block payload by payload hash.
+  source_operation: openapi/kadena-chainweb-openapi-original.yml#GET /chain/{chain}/payload/{payloadHash}
+- name: node_info
+  description: Get general node info (version, chains, graph history).
+  source_operation: openapi/kadena-chainweb-openapi-original.yml#GET /info
+- name: health_check
+  description: Check node liveness.
+  source_operation: openapi/kadena-chainweb-openapi-original.yml#GET /health-check

@@ -1,0 +1,32 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/kadena-chainweb-openapi-original.yml, openapi/kadena-pact-openapi-original.yml
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: Both APIs are published as OpenAPI 3.0.0 documents.
+- id: rest
+  conforms: true
+  evidence: Resource-oriented HTTP endpoints over JSON (and binary) representations.
+- id: server-sent-events
+  conforms: true
+  evidence: /header/updates, /block/updates, /mining/updates return text/event-stream.
+- id: cursor-pagination
+  conforms: true
+  evidence: page schema with limit/items/next cursor.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors are plain status+text or in-body pact-error, not application/problem+json.
+- id: oauth2
+  conforms: false
+  evidence: No OAuth2 security schemes; public unauthenticated node API.
+- id: openidconnect
+  conforms: false
+- id: json-api
+  conforms: false
+- id: fhir
+  conforms: false
+- id: scim
+  conforms: false
+- id: odata
+  conforms: false

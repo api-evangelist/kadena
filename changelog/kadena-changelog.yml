@@ -1,0 +1,26 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.kadena.io/changelogs/chainweb-node
+releases: https://github.com/kadena-io/chainweb-node/releases
+scheme: semver
+component: chainweb-node
+current_version: '2.x'
+note: >-
+  Chainweb node published a dated CHANGELOG.md and GitHub Releases. The kadena-io
+  repository was archived on 2025-12-23; the final maintained line continues under
+  the community fork kda-community/chainweb-node (Release 3.0). Entries below are the
+  recent highlights recorded on the public changelog; consult the source for the
+  authoritative dated list.
+entries:
+- version: community-edition
+  date: '2025-11-08'
+  breaking: true
+  highlights:
+  - Community Edition forked from Kadena mainnet; node upgrade required to participate.
+- version: pact-4.13
+  date: null
+  breaking: false
+  highlights:
+  - Upgraded to Pact 4.13.
+  - Database compaction with significant performance improvements.
+  - Verifier Plugin support for Hyperlane merkle proofs (Hyperlane protocol compliance).

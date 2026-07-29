@@ -1,0 +1,18 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Kadena Pact REST API
+  version: 1.0.0
+extends: openapi/kadena-pact-openapi-original.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-catalog: kadena
+    x-apievangelist-artifacts:
+    - conventions/kadena-conventions.yml
+    - errors/kadena-problem-types.yml
+    - data-model/kadena-data-model.yml
+    - sandbox/kadena-sandbox.yml
+    x-apievangelist-auth: >-
+      No HTTP auth; authorization is cryptographic — commands submitted to /send are
+      signed (ED25519 / WebAuthn) and verified on-chain. Idempotency is intrinsic via
+      the request key (base64url command hash); retrieve results with /poll and /listen.

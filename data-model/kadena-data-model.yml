@@ -1,0 +1,87 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/kadena-chainweb-openapi-original.yml, openapi/kadena-pact-openapi-original.yml
+summary: >-
+  Entity-relationship graph derived from the Chainweb Node and Pact REST API schemas.
+  Chainweb is a braided multi-chain PoW network: a Cut is the set of latest block
+  headers across all chains; each chain is a sequence of block headers whose payloads
+  reference transactions and their outputs. Pact commands are the transaction unit.
+entities:
+- name: cut
+  schema: kadena-chainweb-openapi-original.yml#/components/schemas/cut
+  description: The current set of latest block headers, one per chain, forming the network tip.
+- name: chain
+  key: chainId
+  description: One parallel chain in the braid; addressed by chainId in the path.
+- name: blockHeader
+  schema: kadena-chainweb-openapi-original.yml#/components/schemas/blockHeader
+  key: blockHash
+  description: Header of a block on a chain (height, weight, target, nonce, parent, adjacents).
+- name: block
+  schema: kadena-chainweb-openapi-original.yml#/components/schemas/block
+  description: A block header together with its payload.
+- name: payload
+  schema: kadena-chainweb-openapi-original.yml#/components/schemas/payload
+  key: payloadHash
+  description: The transaction payload referenced by a block header.
+- name: payloadWithOutputs
+  schema: kadena-chainweb-openapi-original.yml#/components/schemas/payloadWithOutputs
+  description: Payload plus per-transaction execution outputs.
+- name: command
+  schema: kadena-pact-openapi-original.yml#/components/schemas/command
+  description: A signed Pact transaction submitted to /send.
+- name: commandResult
+  schema: kadena-pact-openapi-original.yml#/components/schemas/command-result
+  key: reqKey
+  description: The result of executing one command, retrieved by request key.
+- name: requestKey
+  schema: kadena-pact-openapi-original.yml#/components/schemas/request-key
+  description: base64url hash (43 chars) uniquely identifying a command.
+- name: peer
+  schema: kadena-chainweb-openapi-original.yml#/components/schemas/peer
+  description: A node in the P2P cut or mempool network.
+relationships:
+- from: cut
+  type: has_many
+  to: blockHeader
+  via: latest-header-per-chain
+- from: chain
+  type: has_many
+  to: blockHeader
+  via: chainId
+- from: blockHeader
+  type: belongs_to
+  to: chain
+  via: chainId
+- from: blockHeader
+  type: has_one
+  to: payload
+  via: payloadHash
+- from: block
+  type: has_one
+  to: blockHeader
+- from: block
+  type: has_one
+  to: payload
+- from: payloadWithOutputs
+  type: has_many
+  to: command
+  via: transactions
+- from: commandResult
+  type: belongs_to
+  to: command
+  via: reqKey
+- from: command
+  type: has_one
+  to: requestKey
+  via: hash
+identifiers:
+- entity: blockHeader
+  id: blockHash
+  encoding: base64url sha256
+- entity: payload
+  id: payloadHash
+  encoding: base64url
+- entity: command
+  id: requestKey
+  pattern: "^[a-zA-Z0-9_-]{43}$"

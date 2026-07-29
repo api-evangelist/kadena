@@ -1,0 +1,61 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/kadena-chainweb-openapi-original.yml, openapi/kadena-pact-openapi-original.yml
+summary: >-
+  Cross-cutting request/response semantics of the Chainweb Node API and Pact REST
+  API, derived from the published OpenAPI. These are public, unauthenticated node
+  APIs; there is no API key, OAuth, or idempotency-key contract.
+authentication:
+  style: none
+  note: >-
+    The service/REST endpoints are public and unauthenticated. Authorization is
+    cryptographic at the transaction layer: Pact commands submitted to /send are
+    signed (ED25519 / WebAuthn) and verified on-chain; there is no HTTP auth scheme.
+    The P2P PUT /cut endpoint is peer-gated (401 for non-peers) via mutual node trust.
+idempotency:
+  supported: false
+  note: >-
+    No Idempotency-Key header. De-duplication is intrinsic: a Pact transaction is
+    identified by its request key (the base64url hash of the signed command), so
+    resubmitting the same signed command to /send is naturally idempotent and results
+    are retrieved by request key via /poll and /listen.
+  request_key:
+    schema: openapi/kadena-pact-openapi-original.yml#/components/schemas/request-key
+    pattern: "^[a-zA-Z0-9_-]{43}$"
+pagination:
+  style: cursor
+  note: >-
+    Collection endpoints (block hashes/headers) return a `page` object with `limit`,
+    `items`, and a `next` cursor token; pass `next` and `limit` query params to page.
+  params: [limit, next, minheight, maxheight]
+  response_fields: [limit, items, next]
+  schema: openapi/kadena-chainweb-openapi-original.yml#/components/schemas/page
+versioning:
+  style: uri-path-variable
+  current: '0.0'
+  network_in_path: true
+  note: apiVersion path variable plus network segment (mainnet01 / testnet04); Pact API is v1.
+content_negotiation:
+  note: >-
+    Block/header endpoints support both JSON and binary base64 encodings selected via
+    the Accept header; an unsupported Accept value returns 406.
+event_streams:
+  style: server-sent-events
+  endpoints:
+  - GET /header/updates
+  - GET /block/updates
+  - GET /mining/updates
+  note: >-
+    Real-time updates are delivered as SSE text/event-stream, not webhooks and not an
+    AsyncAPI-published channel surface.
+error_envelope:
+  http: plain status code + text body
+  pact: result.status "failure" with a pact-error object inside a 200 command-result
+  ref: errors/kadena-problem-types.yml
+rate_limiting:
+  signaled: false
+  note: No documented rate-limit headers on the public node API; operators may impose their own.
+cross_links:
+  errors: errors/kadena-problem-types.yml
+  lifecycle: lifecycle/kadena-lifecycle.yml
+  data_model: data-model/kadena-data-model.yml

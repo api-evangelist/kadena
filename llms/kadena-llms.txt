@@ -1,0 +1,33 @@
+# Kadena
+
+> Kadena was a layer-1 Proof-of-Work blockchain platform built on Chainweb — a braided, parallelized Nakamoto-consensus protocol that scales Bitcoin-style security across many chains — together with Pact, its human-readable smart-contract language. Kadena exposed two public APIs: the Chainweb Node API and the Pact REST API. NOTE: the company ceased operations on 2025-10-21 and mainnet halted 2025-11-15; a community fork (kda-community) continues the open-source protocol.
+
+## APIs
+
+- [Kadena Chainweb Node API](https://docs.kadena.io/api/chainweb-api): Cuts, blocks, headers, payloads, mempool, mining, node info, and SSE update streams.
+- [Kadena Pact REST API](https://docs.kadena.io/api/pact-api): local, send, poll, listen, private, and spv for Pact smart-contract transactions.
+
+## Specs
+
+- [Chainweb Node OpenAPI](https://raw.githubusercontent.com/api-evangelist/kadena/refs/heads/main/openapi/kadena-chainweb-openapi-original.yml)
+- [Pact REST OpenAPI](https://raw.githubusercontent.com/api-evangelist/kadena/refs/heads/main/openapi/kadena-pact-openapi-original.yml)
+- [Interactive API reference](https://kadena-io.github.io/chainweb-openapi/)
+
+## Artifacts
+
+- [Packages / SDKs](https://raw.githubusercontent.com/api-evangelist/kadena/refs/heads/main/packages/kadena-packages.yml)
+- [CLI](https://raw.githubusercontent.com/api-evangelist/kadena/refs/heads/main/cli/kadena-cli.yml)
+- [Conventions](https://raw.githubusercontent.com/api-evangelist/kadena/refs/heads/main/conventions/kadena-conventions.yml)
+- [Error catalog](https://raw.githubusercontent.com/api-evangelist/kadena/refs/heads/main/errors/kadena-problem-types.yml)
+- [Data model](https://raw.githubusercontent.com/api-evangelist/kadena/refs/heads/main/data-model/kadena-data-model.yml)
+- [Lifecycle](https://raw.githubusercontent.com/api-evangelist/kadena/refs/heads/main/lifecycle/kadena-lifecycle.yml)
+- [Sandbox / testnet](https://raw.githubusercontent.com/api-evangelist/kadena/refs/heads/main/sandbox/kadena-sandbox.yml)
+
+## Docs
+
+- [Kadena Docs](https://docs.kadena.io)
+- [Quickstart](https://docs.kadena.io/build/quickstart)
+- [kadena.js client reference](https://docs.kadena.io/reference/kadena-client)
+- [Chainweb node changelog](https://docs.kadena.io/changelogs/chainweb-node)
+- [GitHub organization](https://github.com/kadena-io)
+- [kadena.js monorepo](https://github.com/kadena-community/kadena.js)

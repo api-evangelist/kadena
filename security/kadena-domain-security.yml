@@ -1,0 +1,28 @@
+generated: '2026-07-19'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: kadena.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Aug 21 16:00:08 2026 GMT
+  hsts: null
+- host: docs.kadena.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 10 03:02:25 2026 GMT
+  hsts: null
+- host: api.chainweb.com
+  https: false
+domains:
+- domain: kadena.io
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine
+- domain: chainweb.com
+  dnssec: false
+  caa: []
+  spf: false
+  dmarc: false

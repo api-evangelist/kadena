@@ -1,0 +1,46 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.kadena.io/reference/kadena-cli
+notes: >-
+  Kadena ships two first-party CLIs on npm. @kadena/kadena-cli is the general
+  blockchain interaction tool; @kadena/pactjs-cli generates TypeScript types from
+  Pact modules. Binaries are catalogued in packages/kadena-packages.yml.
+clis:
+- name: kadena-cli
+  binary: kadena
+  package: "@kadena/kadena-cli"
+  install:
+  - npm install -g @kadena/kadena-cli
+  docs: https://docs.kadena.io/reference/kadena-cli
+  description: >-
+    Terminal tool to manage accounts, keys, networks, and to build, sign, and send
+    transactions to Chainweb nodes.
+  command_groups:
+  - name: account
+    summary: Create and manage Kadena accounts (add, fund, details, list).
+  - name: key
+    summary: Generate and manage key pairs and HD wallets.
+  - name: wallet
+    summary: Create and manage local wallets.
+  - name: tx
+    summary: Build, sign, test, and send transactions (command templates).
+  - name: dapp
+    summary: Scaffold a new dapp project.
+  - name: networks
+    summary: Configure and manage network profiles (mainnet, testnet, devnet).
+  - name: config
+    summary: Manage CLI configuration.
+- name: pactjs-cli
+  binary: pactjs
+  package: "@kadena/pactjs-cli"
+  install:
+  - npm install -D @kadena/pactjs-cli
+  docs: https://docs.kadena.io/reference/kadena-client
+  description: >-
+    Generates TypeScript type definitions for Pact modules so @kadena/client gives
+    code completion for module functions and capabilities.
+  command_groups:
+  - name: generate
+    summary: Generate type definitions from a contract, a running node, or a Pact file.
+  - name: retrieve-contract
+    summary: Fetch a deployed contract's interface from a node for type generation.

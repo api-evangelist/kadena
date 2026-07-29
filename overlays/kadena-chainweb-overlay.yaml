@@ -1,0 +1,18 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Kadena Chainweb Node API
+  version: 1.0.0
+extends: openapi/kadena-chainweb-openapi-original.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-catalog: kadena
+    x-apievangelist-artifacts:
+    - conventions/kadena-conventions.yml
+    - errors/kadena-problem-types.yml
+    - data-model/kadena-data-model.yml
+    - lifecycle/kadena-lifecycle.yml
+    x-apievangelist-lifecycle: ceased-operations
+    x-apievangelist-note: >-
+      Public unauthenticated Proof-of-Work node API. Mainnet halted 2025-11-15;
+      community fork continues the protocol. Real-time updates via SSE, not webhooks.

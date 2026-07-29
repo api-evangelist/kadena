@@ -1,0 +1,36 @@
+generated: '2026-07-19'
+method: searched
+source: openapi/kadena-pact-openapi-original.yml, https://docs.kadena.io
+summary: >-
+  Kadena provided a public test network (testnet04) that mirrors mainnet for
+  development, plus local devnet options. There are no secret test keys or test
+  cards; developers generate their own key pairs and fund test accounts from the
+  Kadena testnet faucet. Values below are the published network endpoints (verbatim
+  from the OpenAPI servers[]).
+environments:
+- name: testnet
+  network: testnet04
+  chainweb_base: https://api.testnet.chainweb.com/chainweb/0.0/testnet04
+  pact_base: https://api.testnet.chainweb.com/chainweb/0.0/testnet04/chain/{chainId}/pact/api/v1
+  description: Public Kadena test network for building and testing dApps.
+- name: mainnet
+  network: mainnet01
+  chainweb_base: https://api.chainweb.com/chainweb/0.0/mainnet01
+  pact_base: https://api.chainweb.com/chainweb/0.0/mainnet01/chain/{chainId}/pact/api/v1
+  description: "Production network (note: mainnet halted 2025-11-15; see lifecycle/)."
+- name: devnet
+  description: >-
+    Local development network runnable via the kadena/devnet Docker image / kadena-cli
+    for isolated testing.
+test_funding:
+  faucet_docs: https://docs.kadena.io/build/quickstart
+  note: >-
+    Testnet KDA is obtained from the Kadena testnet faucet (historically served from
+    tools.kadena.io, now offline post-sunset) by supplying a public key / account; no
+    hosted secret credentials are published (developers self-generate keys via
+    kadena-cli or @kadena/hd-wallet).
+key_generation:
+  tools:
+  - kadena-cli (key generate)
+  - "@kadena/hd-wallet"
+  - "@kadena/cryptography-utils"

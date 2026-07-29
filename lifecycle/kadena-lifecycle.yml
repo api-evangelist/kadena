@@ -1,0 +1,38 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.kadena.io/changelogs/chainweb-node
+status: ceased-operations
+summary: >-
+  Kadena the company announced it would cease operations on 2025-10-21. Kadena
+  Mainnet stopped producing blocks on 2025-11-15T23:26:15Z and the kadena-io GitHub
+  organization was archived on 2025-12-23. A community edition (kda-community) forked
+  from mainnet on 2025-11-08 and continues the open-source protocol.
+versioning:
+  scheme: uri-path-variable
+  current: '0.0'
+  note: >-
+    The Chainweb Node and Pact REST APIs carry an {apiVersion} path variable
+    (default "0.0"); the network is selected by path segment (mainnet01 / testnet04)
+    and Pact API version is v1.
+  docs: https://kadena-io.github.io/chainweb-openapi/
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: >-
+    No RFC 8594 Sunset/Deprecation header policy was published. Effective network
+    sunset was operational (mainnet halted 2025-11-15), not header-signalled.
+sunset:
+  company_operations_ceased: '2025-10-21'
+  mainnet_last_block: '2025-11-15'
+  github_org_archived: '2025-12-23'
+  community_fork: https://github.com/kda-community/chainweb-node
+  community_fork_date: '2025-11-08'
+sla:
+  url: null
+  uptime_target: null
+status_page: null
+status_page_note: >-
+  No dedicated status page (e.g. status.kadena.io) was found. Node liveness was
+  observable via the /health-check and /info endpoints on each Chainweb node.
+changelog: https://docs.kadena.io/changelogs/chainweb-node
+releases: https://github.com/kadena-io/chainweb-node/releases

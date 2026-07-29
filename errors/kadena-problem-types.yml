@@ -1,0 +1,56 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/kadena-chainweb-openapi-original.yml, openapi/kadena-pact-openapi-original.yml
+format: custom
+envelope:
+  note: >-
+    Kadena does NOT use RFC 9457 application/problem+json. HTTP-level failures return
+    a plain status code with a short text/plain body. Pact execution failures are
+    returned INSIDE a 200 command-result via the `pact-error` object
+    (result.status = "failure", result.error), not as an HTTP error. A malformed or
+    unpayable command is rejected with a `validation-failure` string.
+pact_error_object:
+  schema: openapi/kadena-pact-openapi-original.yml#/components/schemas/pact-error
+  fields:
+  - message   # descriptive error text (required)
+  - callStack
+  - info
+  - type
+validation_failure:
+  schema: openapi/kadena-pact-openapi-original.yml#/components/schemas/validation-failure
+  meaning: Command not executed due to invalid gas payer, meta, or environment.
+problems:
+- status: 400
+  title: Bad Request
+  meaning: The request is malformed, branch bounds were exceeded, or the command is invalid.
+  operations:
+  - PUT /cut/peer
+  - POST /chain/{chain}/block/branch
+  - POST /chain/{chain}/header/branch
+  - PUT /chain/{chain}/mempool/peer
+  - POST /local (pact)
+  - POST /send (pact)
+  - POST /spv (pact)
+- status: 401
+  title: Unauthorized
+  meaning: The requester is not a peer of this node (P2P cut publication).
+  operations:
+  - PUT /cut
+- status: 404
+  title: Not Found
+  meaning: >-
+    A referenced block hash, header, payload, block height/branch, or backup id does
+    not exist on this node.
+  operations:
+  - GET /chain/{chain}/hash
+  - GET /chain/{chain}/block
+  - GET /chain/{chain}/header/{blockHash}
+  - GET /chain/{chain}/payload/{payloadHash}
+  - GET /check-backup/{backupId}
+- status: 406
+  title: Not Acceptable
+  meaning: The value of the Accept header is not supported (binary vs JSON encoding).
+  operations:
+  - POST /chain/{chain}/block/branch
+  - GET /chain/{chain}/header/{blockHash}
+  - POST /chain/{chain}/header/branch
