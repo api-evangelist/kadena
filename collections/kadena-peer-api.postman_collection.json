@@ -1,0 +1,732 @@
+{
+  "item": [
+    {
+      "id": "ffa53337-f0ad-444d-b8d2-3c0d5b7dc996",
+      "name": "peer",
+      "description": {
+        "content": "The P2P communication between chainweb-nodes is sharded into several independent\nP2P network. The `cut` network is exchanging consensus state. There is also one\nmempool P2P network for each chain.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2dec700c-177e-4e06-b4b0-425d676ad572",
+          "name": "Get Cut-Network Peer Info",
+          "request": {
+            "name": "Get Cut-Network Peer Info",
+            "description": {},
+            "url": {
+              "path": [
+                "cut",
+                "peer"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Maximum number of records that may be returned. The actual number may be\nlower.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "next",
+                  "value": "<string>",
+                  "description": "The cursor for the next page. This value can be found as value of the\n`next` property of the previous page.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "61368206-6e92-43cc-a5d1-a673d08753ee",
+              "name": "Peers from the peer database of the remote node",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cut",
+                    "peer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "next",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "0771m1930x8937$9760:4"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": {\n    \"next\": \"inclusive:3\",\n    \"items\": [\n      {\n        \"address\": {\n          \"hostname\": \"85.238.99.91\",\n          \"port\": 30004\n        },\n        \"id\": \"PRLmVUcc9AH3fyfMYiWeC4nV2i1iHwc0-aM7iAO8h18\"\n      },\n      {\n        \"address\": {\n          \"hostname\": \"us-w3.chainweb.com\",\n          \"port\": 443\n        },\n        \"id\": null\n      },\n      {\n        \"address\": {\n          \"hostname\": \"95.111.232.151\",\n          \"port\": 30004\n        },\n        \"id\": \"DguFKLFMxp12vfl1z3cQIJQlh8xOpeZuBkpJU9Y-VLo\"\n      }\n    ],\n    \"limit\": 3\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e8c1be0a-3d3f-4fd7-91d0-26e9a926e6e7",
+          "name": "Put Cut-Network Peer Info",
+          "request": {
+            "name": "Put Cut-Network Peer Info",
+            "description": {},
+            "url": {
+              "path": [
+                "cut",
+                "peer"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": \"<Error: Could not resolve allOf schema\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7929bd98-d964-4311-b4fa-fd9f552e0ef3",
+              "name": "The peer got added to the peer database of the remote node.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cut",
+                    "peer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"<Error: Could not resolve allOf schema\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2ead9761-0efe-4f52-b8de-51b56a26bd87",
+              "name": "The request is invalid. It is either malformed or the provided peer\nis not reachable.\n\nBefore the remote node adds a peer to its peer database it checks\nwhether the peer can be reached via the provided address. If this\ncheck fails an error is returned.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cut",
+                    "peer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"<Error: Could not resolve allOf schema\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "Invalid hostaddress: IsNotReachable (PeerInfo {_peerId = Nothing, _peerAddr = HostAddress {_hostAddressHost = us-w1.chainweb.com, _hostAddressPort = 444}}) \"\\\"HttpExceptionRequest Request {\\\\n  host                 = \\\\\\\"us-w1.chainweb.com\\\\\\\"\\\\n  port                 = 444\\\\n  secure               = True\\\\n  requestHeaders       = [(\\\\\\\"X-Chainweb-Node-Version\\\\\\\",\\\\\\\"2.6\\\\\\\")]\\\\n  path                 = \\\\\\\"/chainweb/0.0/mainnet01/cut/peer\\\\\\\"\\\\n  queryString          = \\\\\\\"\\\\\\\"\\\\n  method               = \\\\\\\"GET\\\\\\\"\\\\n  proxy                = Nothing\\\\n  rawBody              = False\\\\n  redirectCount        = 10\\\\n  responseTimeout      = ResponseTimeoutMicro 2000000\\\\n  requestVersion       = HTTP/1.1\\\\n}\\\\n ConnectionTimeout\\\"\"",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fc531b1e-ee51-4919-b6bb-769cd7866950",
+          "name": "Get Chain Mempool-Network Peer Info",
+          "request": {
+            "name": "Get Chain Mempool-Network Peer Info",
+            "description": {},
+            "url": {
+              "path": [
+                "chain",
+                ":chain",
+                "mempool",
+                "peer"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Maximum number of records that may be returned. The actual number may be\nlower.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "next",
+                  "value": "<string>",
+                  "description": "The cursor for the next page. This value can be found as value of the\n`next` property of the previous page.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "chain",
+                  "description": "(Required) the id of the chain to which the request is sent"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6ce1bbba-61b2-4182-80aa-34f293337fde",
+              "name": "Peer information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "mempool",
+                    "peer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "next",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": {\n    \"next\": \"inclusive:3\",\n    \"items\": [\n      {\n        \"address\": {\n          \"hostname\": \"85.238.99.91\",\n          \"port\": 30004\n        },\n        \"id\": \"PRLmVUcc9AH3fyfMYiWeC4nV2i1iHwc0-aM7iAO8h18\"\n      },\n      {\n        \"address\": {\n          \"hostname\": \"us-w3.chainweb.com\",\n          \"port\": 443\n        },\n        \"id\": null\n      },\n      {\n        \"address\": {\n          \"hostname\": \"95.111.232.151\",\n          \"port\": 30004\n        },\n        \"id\": \"DguFKLFMxp12vfl1z3cQIJQlh8xOpeZuBkpJU9Y-VLo\"\n      }\n    ],\n    \"limit\": 3\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3816c9fb-97cc-486f-b40b-6581bad5d57f",
+          "name": "Put Chain Mempool-Network Peer Info",
+          "request": {
+            "name": "Put Chain Mempool-Network Peer Info",
+            "description": {},
+            "url": {
+              "path": [
+                "chain",
+                ":chain",
+                "mempool",
+                "peer"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "chain",
+                  "description": "(Required) the id of the chain to which the request is sent"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": \"<Error: Could not resolve allOf schema\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "95a466e2-aa25-47c4-8b67-b545416d1fb6",
+              "name": "The peer got added to the peer database of the remote node.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "mempool",
+                    "peer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"<Error: Could not resolve allOf schema\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c7fde18a-0d44-41cb-88fd-4b6d16f694e8",
+              "name": "Bad Request.\nThe request is invalid. It is either malformed or the provided peer is not reachable.\n\nBefore the remote node addes a peer to its peer database it checks whether the peer can be reached\nvia the provided address. If this check fails an error is returned.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "mempool",
+                    "peer"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": \"<Error: Could not resolve allOf schema\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "Invalid hostaddress: IsNotReachable (PeerInfo {_peerId = Nothing, _peerAddr = HostAddress {_hostAddressHost = us-w1.chainweb.com, _hostAddressPort = 444}}) \"\\\"HttpExceptionRequest Request {\\\\n  host                 = \\\\\\\"us-w1.chainweb.com\\\\\\\"\\\\n  port                 = 444\\\\n  secure               = True\\\\n  requestHeaders       = [(\\\\\\\"X-Chainweb-Node-Version\\\\\\\",\\\\\\\"2.6\\\\\\\")]\\\\n  path                 = \\\\\\\"/chainweb/0.0/mainnet01/cut/peer\\\\\\\"\\\\n  queryString          = \\\\\\\"\\\\\\\"\\\\n  method               = \\\\\\\"GET\\\\\\\"\\\\n  proxy                = Nothing\\\\n  rawBody              = False\\\\n  redirectCount        = 10\\\\n  responseTimeout      = ResponseTimeoutMicro 2000000\\\\n  requestVersion       = HTTP/1.1\\\\n}\\\\n ConnectionTimeout\\\"\"",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "0.0",
+      "key": "apiVersion"
+    },
+    {
+      "type": "string",
+      "value": "https://api.chainweb.com/chainweb/{{apiVersion}}/mainnet01",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "1505eef2-cf7d-48a8-855f-cade3360c311",
+    "name": "Kadena Chainweb Node block peer API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API of [chainweb-node](https://github.com/kadena-io/chainweb-node)\n\nChainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an\nconservative extension of Bitcoin's Nakamoto consensus that extends\nBitcoin's single chain algorithm to multiple chains. This allows for\nunlimited transaction throughput by horizontally scaling the number of chains.\n\nFeedback and bug reports for the content of this site are welcome. Please\nopen an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).\n",
+      "type": "text/plain"
+    }
+  }
+}

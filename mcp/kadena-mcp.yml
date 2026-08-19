@@ -2,11 +2,10 @@ generated: '2026-07-19'
 method: derived
 status: candidate
 source: openapi/kadena-pact-openapi-original.yml, openapi/kadena-chainweb-openapi-original.yml
-note: >-
-  No official Kadena-hosted/remote MCP server was found (searched docs, npm
-  @modelcontextprotocol, MCP registries). This is a CANDIDATE tool list derived from
-  the most agent-useful Pact REST and Chainweb Node operations. The source spec
-  declares no operationIds, so source_operation references use METHOD + path.
+note: No official Kadena-hosted/remote MCP server was found (searched docs, npm @modelcontextprotocol,
+  MCP registries). This is a CANDIDATE tool list derived from the most agent-useful Pact REST and Chainweb
+  Node operations. The source spec declares no operationIds, so source_operation references use METHOD
+  + path.
 server:
   name: kadena
   transport: http
@@ -45,3 +44,9 @@ tools:
 - name: health_check
   description: Check node liveness.
   source_operation: openapi/kadena-chainweb-openapi-original.yml#GET /health-check
+deployment:
+  mode: none
+  verified: derived
+  tools: 11
+  checked: '2026-08-12'
+  source: catalog MCP census

@@ -1,0 +1,53 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kadena Chainweb Node block endpoint-local API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "endpoint-local",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "local",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/local",
+            "params": [
+              {
+                "name": "preflight",
+                "value": "",
+                "type": "query",
+                "description": "Trigger fully-gassed mainnet transaction execution simulation and\ntransaction metadata validations.\n"
+              },
+              {
+                "name": "rewindDepth",
+                "value": "",
+                "type": "query",
+                "description": "Rewind transaction execution environment by a number of block\nheights.\n"
+              },
+              {
+                "name": "signatureVerification",
+                "value": "",
+                "type": "query",
+                "description": "Require user signature verification when validating transaction\nmetadata.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Blocking/sync call to submit a command for non-transactional execution. In a\nblockchain environment this would be a node-local “dirty read”, which can\neither serve as a node-local repl execution, or fully gassed transaction\nsimulation and transaction validation. Any database writes or changes to the\nenvironment are rolled back.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

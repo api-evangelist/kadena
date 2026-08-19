@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kadena Chainweb Node block mining API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "mining",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Mining Work",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/mining/work",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "A new BlockHeader to mine on"
+        },
+        {
+          "info": {
+            "name": "Solved Mining Work",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chainweb/0.0/mainnet01/mining/solved"
+          },
+          "docs": "Submit a solution for a new block"
+        },
+        {
+          "info": {
+            "name": "Notification of Updated Work",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/mining/updates"
+          },
+          "docs": "An server-sent event sources that notifies miners when new mining\nwork becomes available.\n\nThe stream is terminated by the server in regular intervals and\nit is up to the client to request a new stream.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kadena Chainweb Node block endpoint-send API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "endpoint-send",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "send",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/send",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Asynchronous submission of one or more public (unencrypted) commands\nto the blockchain for execution.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

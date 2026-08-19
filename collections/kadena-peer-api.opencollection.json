@@ -1,0 +1,112 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kadena Chainweb Node block peer API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "peer",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Cut-Network Peer Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/cut/peer",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records that may be returned. The actual number may be\nlower.\n"
+              },
+              {
+                "name": "next",
+                "value": "",
+                "type": "query",
+                "description": "The cursor for the next page. This value can be found as value of the\n`next` property of the previous page.\n"
+              }
+            ]
+          },
+          "docs": "Get Cut-Network Peer Info"
+        },
+        {
+          "info": {
+            "name": "Put Cut-Network Peer Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/cut/peer",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Put Cut-Network Peer Info"
+        },
+        {
+          "info": {
+            "name": "Get Chain Mempool-Network Peer Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/mempool/peer",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records that may be returned. The actual number may be\nlower.\n"
+              },
+              {
+                "name": "next",
+                "value": "",
+                "type": "query",
+                "description": "The cursor for the next page. This value can be found as value of the\n`next` property of the previous page.\n"
+              }
+            ]
+          },
+          "docs": "Get Chain Mempool-Network Peer Info"
+        },
+        {
+          "info": {
+            "name": "Put Chain Mempool-Network Peer Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/mempool/peer",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Put Chain Mempool-Network Peer Info"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

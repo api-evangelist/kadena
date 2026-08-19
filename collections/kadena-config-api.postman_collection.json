@@ -1,0 +1,149 @@
+{
+  "item": [
+    {
+      "id": "5a2992a1-5dad-4749-8bec-0cd5cb1c8017",
+      "name": "config",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "42c8a193-b139-43b2-adc0-6ce7783b8b8b",
+          "name": "Configuration of Chainweb Node",
+          "request": {
+            "name": "Configuration of Chainweb Node",
+            "description": {
+              "content": "Returns the configuration of chainweb-node as a JSON structure.\nSensitive information is removed from the result. The JSON schema depends\non the chainweb node version and is not part of the stable chainweb-node\nAPI.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "config"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eb9ce303-4ae9-401a-8924-4edebfcedb3d",
+              "name": "Configuration of the chainweb node",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "2134.3006p0717;8299:3819672"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": {\n    \"allowReadsInLocal\": false,\n    \"throttling\": {\n      \"local\": 1,\n      \"mining\": 2,\n      \"global\": 200,\n      \"putPeer\": 21\n    },\n    \"serviceApi\": {\n      \"interface\": \"invalid\",\n      \"port\": 0\n    },\n    \"validateHashesOnReplay\": false,\n    \"chainwebVersion\": \"mainnet01\",\n    \"pactQueueSize\": 2000,\n    \"mining\": {\n      \"coordination\": {\n        \"enabled\": false,\n        \"updateStreamTimeout\": 240,\n        \"limit\": 1200,\n        \"updateStreamLimit\": 2000,\n        \"miners\": []\n      },\n      \"nodeMining\": {\n        \"miner\": {\n          \"account\": \"\",\n          \"predicate\": \"keys-all\",\n          \"public-keys\": []\n        },\n        \"enabled\": false\n      }\n    },\n    \"p2p\": {\n      \"peer\": {\n        \"certificateChainFile\": null,\n        \"key\": null,\n        \"interface\": \"*\",\n        \"certificateChain\": null,\n        \"hostaddress\": {\n          \"hostname\": \"34.70.108.163\",\n          \"port\": 1789\n        },\n        \"keyFile\": null\n      },\n      \"maxPeerCount\": 100,\n      \"private\": false,\n      \"ignoreBootstrapNodes\": false,\n      \"maxSessionCount\": 8,\n      \"bootstrapReachability\": 0.5,\n      \"sessionTimeout\": 300,\n      \"peers\": [\n        {\n          \"address\": {\n            \"hostname\": \"us-e1.chainweb.com\",\n            \"port\": 443\n          },\n          \"id\": null\n        },\n        {\n          \"address\": {\n            \"hostname\": \"us-w1.chainweb.com\",\n            \"port\": 443\n          },\n          \"id\": null\n        }\n      ]\n    },\n    \"transactionIndex\": {\n      \"enabled\": true,\n      \"configuration\": {}\n    },\n    \"gasLimitOfBlock\": 150000,\n    \"reorgLimit\": 480,\n    \"headerStream\": true,\n    \"mempoolP2p\": {\n      \"enabled\": true,\n      \"configuration\": {\n        \"pollInterval\": 30,\n        \"maxSessionCount\": 6,\n        \"sessionTimeout\": 240\n      }\n    },\n    \"reintroTxs\": true,\n    \"cuts\": {\n      \"pruneChainDatabase\": \"none\",\n      \"fetchTimeout\": 3000000,\n      \"initialCutHeightLimit\": null\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "0.0",
+      "key": "apiVersion"
+    },
+    {
+      "type": "string",
+      "value": "https://api.chainweb.com/chainweb/{{apiVersion}}/mainnet01",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d591529d-8bd0-4a53-ab69-61cf8d5caeeb",
+    "name": "Kadena Chainweb Node block config API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API of [chainweb-node](https://github.com/kadena-io/chainweb-node)\n\nChainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an\nconservative extension of Bitcoin's Nakamoto consensus that extends\nBitcoin's single chain algorithm to multiple chains. This allows for\nunlimited transaction throughput by horizontally scaling the number of chains.\n\nFeedback and bug reports for the content of this site are welcome. Please\nopen an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).\n",
+      "type": "text/plain"
+    }
+  }
+}

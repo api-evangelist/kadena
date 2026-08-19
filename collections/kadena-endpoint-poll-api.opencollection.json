@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kadena Chainweb Node block endpoint-poll API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "endpoint-poll",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "poll",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/poll",
+            "params": [
+              {
+                "name": "confirmationDepth",
+                "value": "",
+                "type": "query",
+                "description": "Configures how many blocks should be mined until the requested transaction is ready.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Allows polling for one or more command results by request key.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

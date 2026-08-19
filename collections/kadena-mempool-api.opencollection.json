@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kadena Chainweb Node block mempool API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "mempool",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Pending Transactions from the Mempool",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/mempool/getPending",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              },
+              {
+                "name": "nonce",
+                "value": "",
+                "type": "query",
+                "description": "Server nonce value"
+              },
+              {
+                "name": "since",
+                "value": "",
+                "type": "query",
+                "description": "Mempool tx id value"
+              }
+            ]
+          },
+          "docs": "Get Pending Transactions from the Mempool"
+        },
+        {
+          "info": {
+            "name": "Check for Pending Transactions in the Mempool",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/mempool/member",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Check for Pending Transactions in the Mempool"
+        },
+        {
+          "info": {
+            "name": "Lookup Pending Transactions in the Mempool",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/mempool/lookup",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lookup Pending Transactions in the Mempool"
+        },
+        {
+          "info": {
+            "name": "Insert Transactions into the Mempool",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/mempool/insert",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Insert Transactions into the Mempool"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

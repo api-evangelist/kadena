@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kadena Chainweb Node block misc API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "misc",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Configuration of Chainweb Node",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/config"
+          },
+          "docs": "Returns the configuration of chainweb-node as a JSON structure.\nSensitive information is removed from the result. The JSON schema depends\non the chainweb node version and is not part of the stable chainweb-node\nAPI.\n"
+        },
+        {
+          "info": {
+            "name": "Start a backup job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/make-backup",
+            "params": [
+              {
+                "name": "backupPact",
+                "value": "",
+                "type": "query",
+                "description": "Flag, if present back up the Pact databases too. Extra disk space and time required\n"
+              }
+            ]
+          },
+          "docs": "Backup jobs are identified by the Unix timestamp when they're begun.\n\nIf a backup job is already in progress, this endpoint will return its\nidentifier instead of starting a new one.\n\nThe RocksDB portion of the database is always backed up; if backupPact\nis set, the Sqlite (Pact) portion is backed up as well, taking much\nlonger.\n\nThere is no automatic backup retention policy - users need to delete old\nbackups.\n\nThis API is enabled by configuring the node thus:\n```yaml\nbackup:\n  api:\n    enabled: "
+        },
+        {
+          "info": {
+            "name": "Check the status of a backup job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/check-backup/:backupId",
+            "params": [
+              {
+                "name": "backupId",
+                "value": "",
+                "type": "path",
+                "description": "The identifier of the backup being checked"
+              }
+            ]
+          },
+          "docs": "Check the status of a backup job"
+        },
+        {
+          "info": {
+            "name": "Health Check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/health-check"
+          },
+          "docs": "Checks whether the chainweb-node is up and running and responding to API\nrequests. In order to check the state of consensus the\n[/cut/get](#tag/cut/paths/~1cut/get) endpoint should be used instead.\n"
+        },
+        {
+          "info": {
+            "name": "General Node Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/info"
+          },
+          "docs": "Provides general information about the node and the chainweb version"
+        },
+        {
+          "info": {
+            "name": "Blocks Event Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/header/updates"
+          },
+          "docs": "A source of server events that emits a `BlockHeader` event for each new\nblock header that is added to the chain database of the remote node.\n\nThe stream contains blocks that may later become orphaned. It is\ntherefor recommended to buffer events on the client side for the most\nrecent block heights until the desired confirmation depth is reached.\n\nThe server may terminate this stream from time to time and it is up to\nthe client to reinitiate the stream.\n"
+        },
+        {
+          "info": {
+            "name": "Blocks Event Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/block/updates"
+          },
+          "docs": "A source of server events that emits a `Block` event for each new\nblock that is added to the chain database of the remote node.\n\nThe stream contains blocks that may later become orphaned. It is\ntherefor recommended to buffer events on the client side for the most\nrecent block heights until the desired confirmation depth is reached.\n\nThe server may terminate this stream from time to time and it is up to\nthe client to reinitiate the stream.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

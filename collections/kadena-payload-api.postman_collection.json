@@ -1,0 +1,794 @@
+{
+  "item": [
+    {
+      "id": "a1b629f0-35e3-4c58-b8b1-16565fd5d08a",
+      "name": "payload",
+      "description": {
+        "content": "Raw literal Block Payloads in the form in which they are stored on the chain.\nBy default only the payload data is returned which is sufficient for validating\nthe blockchain Merkle Tree. It is also sufficient as input to Pact for\nexecuting the Pact transactions of the block and recomputing the outputs.\n\nIt is also possible to query the transaction outputs along with the payload data.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "11d9f9a2-e36d-4681-91b5-17c5c965c4eb",
+          "name": "Get Block Payload",
+          "request": {
+            "name": "Get Block Payload",
+            "description": {},
+            "url": {
+              "path": [
+                "chain",
+                ":chain",
+                "payload",
+                ":payloadHash"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "height",
+                  "value": "<integer>",
+                  "description": "Height of a block"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "chain",
+                  "description": "(Required) the id of the chain to which the request is sent"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "payloadHash",
+                  "description": "(Required) Payload hash of a block"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c729db58-24b0-4651-b65e-f75cd19d09c6",
+              "name": "The payload data of for the given block payload hash",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "payload",
+                    ":payloadHash"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "height",
+                      "value": "3000000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payloadHash",
+                      "description": "(Required) Payload hash of a block"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "1070^7138?2337w5370:98363"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"$ref\": \"#/components/examples/payloads/value/1\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "993018dc-ee37-4df2-a8d7-07e76e1ce4c4",
+              "name": "The block payload with that hash was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "payload",
+                    ":payloadHash"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "height",
+                      "value": "3000000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payloadHash",
+                      "description": "(Required) Payload hash of a block"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"key not found\",\n  \"key\": \"k1H3DsInAPvJ0W_zPxnrpkeSNdPUT0S9U8bqDLG739w\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "492e94e9-aebf-4463-a304-d9136ce6c0f6",
+          "name": "Get Batch of Block Payload",
+          "request": {
+            "name": "Get Batch of Block Payload",
+            "description": {},
+            "url": {
+              "path": [
+                "chain",
+                ":chain",
+                "payload",
+                "batch"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "chain",
+                  "description": "(Required) the id of the chain to which the request is sent"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  \"<string>\",\n  \"<string>\"\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "174bdebb-c672-466f-80d5-6c47ed023408",
+              "name": "Array of the some or all of the requested block payloads. The\npayloads may be returned in any order.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "payload",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"$ref\": \"#/components/examples/payloads\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7c92d87f-c18c-477e-b57c-3a65fee13585",
+          "name": "Get Block Payload With Outputs",
+          "request": {
+            "name": "Get Block Payload With Outputs",
+            "description": {},
+            "url": {
+              "path": [
+                "chain",
+                ":chain",
+                "payload",
+                ":payloadHash",
+                "outputs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "height",
+                  "value": "<integer>",
+                  "description": "Height of a block"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "chain",
+                  "description": "(Required) the id of the chain to which the request is sent"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "payloadHash",
+                  "description": "(Required) Payload hash of a block"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c10f5921-4075-42e9-baae-d0cd19cf69d6",
+              "name": "The payload with outputs for the given block payload hash",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "payload",
+                    ":payloadHash",
+                    "outputs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "height",
+                      "value": "3000000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payloadHash",
+                      "description": "(Required) Payload hash of a block"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"$ref\": \"#/components/examples/payloadWithTransactions\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55e65414-425f-4c98-89f7-8279f089fe2a",
+              "name": "A block payload with that hash was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "payload",
+                    ":payloadHash",
+                    "outputs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "height",
+                      "value": "3000000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "payloadHash",
+                      "description": "(Required) Payload hash of a block"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"key not found\",\n  \"key\": \"k1H3DsInAPvJ0W_zPxnrpkeSNdPUT0S9U8bqDLG739w\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8ec43fbc-e3f2-4006-903b-85cc6f8f0c4a",
+          "name": "Get Batch of Block Payload With Outputs",
+          "request": {
+            "name": "Get Batch of Block Payload With Outputs",
+            "description": {},
+            "url": {
+              "path": [
+                "chain",
+                ":chain",
+                "payload",
+                "outputs",
+                "batch"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "chain",
+                  "description": "(Required) the id of the chain to which the request is sent"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  \"<string>\",\n  \"<string>\"\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "78dfc4a4-ac50-4ccb-8161-6a9d02189ab8",
+              "name": "Array of the some or all of the requested block payloads with\noutputs. Result items maybe returned in any order.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "payload",
+                    "outputs",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"$ref\": \"#/components/examples/payloadsWithOutputs\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "0.0",
+      "key": "apiVersion"
+    },
+    {
+      "type": "string",
+      "value": "https://api.chainweb.com/chainweb/{{apiVersion}}/mainnet01",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "0c8ae984-5456-4b24-be31-d4073c5b8946",
+    "name": "Kadena Chainweb Node block payload API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API of [chainweb-node](https://github.com/kadena-io/chainweb-node)\n\nChainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an\nconservative extension of Bitcoin's Nakamoto consensus that extends\nBitcoin's single chain algorithm to multiple chains. This allows for\nunlimited transaction throughput by horizontally scaling the number of chains.\n\nFeedback and bug reports for the content of this site are welcome. Please\nopen an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).\n",
+      "type": "text/plain"
+    }
+  }
+}

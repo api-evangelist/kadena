@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kadena Chainweb Node block API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "block",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Block",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/block",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records that may be returned. The actual number may be\nlower.\n"
+              },
+              {
+                "name": "next",
+                "value": "",
+                "type": "query",
+                "description": "The cursor for the next page. This value can be found as value of the\n`next` property of the previous page.\n"
+              },
+              {
+                "name": "minheight",
+                "value": "500000",
+                "type": "query",
+                "description": "Minimum block height of the returned headers"
+              },
+              {
+                "name": "maxheight",
+                "value": "500000",
+                "type": "query",
+                "description": "Maximum block height of the returned headers"
+              }
+            ]
+          },
+          "docs": "A page of a collection of blocks in **ascending** order that satisfies\nquery parameters. Any block from the chain database is returned. **This\nincludes orphaned blocks.**\n"
+        },
+        {
+          "info": {
+            "name": "Get Block Branches",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/block/branch",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records that may be returned. The actual number may be\nlower.\n"
+              },
+              {
+                "name": "next",
+                "value": "",
+                "type": "query",
+                "description": "The cursor for the next page. This value can be found as value of the\n`next` property of the previous page.\n"
+              },
+              {
+                "name": "minheight",
+                "value": "500000",
+                "type": "query",
+                "description": "Minimum block height of the returned headers"
+              },
+              {
+                "name": "maxheight",
+                "value": "500000",
+                "type": "query",
+                "description": "Maximum block height of the returned headers"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "A page of blocks from branches of the block chain in **descending**\norder.\n\nBlocks are returned that are ancestors of the block in the set of upper\nbounds and are not ancestors of any block in the set of lower bounds.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

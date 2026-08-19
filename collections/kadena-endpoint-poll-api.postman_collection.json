@@ -1,0 +1,164 @@
+{
+  "item": [
+    {
+      "id": "8177c0a5-64d7-4cae-825d-e5320d91e9e1",
+      "name": "endpoint-poll",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1e5e31fe-fc8b-484a-8e01-f6dcfdfd5846",
+          "name": "poll",
+          "request": {
+            "name": "poll",
+            "description": {
+              "content": "Allows polling for one or more command results by request key.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "poll"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "confirmationDepth",
+                  "value": "<integer>",
+                  "description": "Configures how many blocks should be mined until the requested transaction is ready.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestKeys\": [\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cf209f94-5363-4742-8945-965ad7e98fbb",
+              "name": "The command results for some of the requested request keys.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "poll"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "confirmationDepth",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"requestKeys\": [\n    \"y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": {\n    \"reqKey\": \"y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw\",\n    \"result\": {\n      \"status\": \"success\",\n      \"data\": \"string\"\n    },\n    \"logs\": \"string\",\n    \"metaData\": {\n      \"blockTime\": 6301.5112039090045,\n      \"prevBlockHash\": \"string\",\n      \"blockHash\": \"string\",\n      \"blockHeight\": 3609.438342488278,\n      \"publicMeta\": {\n        \"creationTime\": 1324.3365988628375,\n        \"ttl\": 4027.727195100329,\n        \"gasLimit\": 5658.220057221222,\n        \"chainId\": \"string\",\n        \"gasPrice\": 2765.6487415312467,\n        \"sender\": \"string\"\n      }\n    },\n    \"gas\": 9092.47097772281,\n    \"txId\": 341.74767281618944,\n    \"events\": [\n      {\n        \"name\": \"string\",\n        \"module\": {\n          \"name\": \"string\",\n          \"namespace\": \"string\"\n        },\n        \"params\": [\n          \"string\",\n          \"string\"\n        ],\n        \"moduleHash\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"module\": {\n          \"name\": \"string\",\n          \"namespace\": \"string\"\n        },\n        \"params\": [\n          \"string\",\n          \"string\"\n        ],\n        \"moduleHash\": \"string\"\n      }\n    ],\n    \"continuation\": {\n      \"pactId\": \"string\",\n      \"step\": 9363.775933831494,\n      \"stepCount\": 2248.3797377217916,\n      \"executed\": true,\n      \"stepHasRollback\": false,\n      \"continuation\": {\n        \"def\": \"string\",\n        \"args\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"yield\": {\n        \"data\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\",\n          \"key_3\": \"string\",\n          \"key_4\": \"string\"\n        },\n        \"source\": \"string\",\n        \"provenance\": {\n          \"targetChainId\": \"string\",\n          \"moduleHash\": \"string\"\n        }\n      }\n    }\n  },\n  \"key_1\": {\n    \"reqKey\": \"y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw\",\n    \"result\": {\n      \"status\": \"success\",\n      \"data\": \"string\"\n    },\n    \"logs\": \"string\",\n    \"metaData\": {\n      \"blockTime\": 5553.971265540537,\n      \"prevBlockHash\": \"string\",\n      \"blockHash\": \"string\",\n      \"blockHeight\": 7924.54148942361,\n      \"publicMeta\": {\n        \"creationTime\": 7185.318141145034,\n        \"ttl\": 5687.68308520088,\n        \"gasLimit\": 8828.929134298844,\n        \"chainId\": \"string\",\n        \"gasPrice\": 6712.435139881116,\n        \"sender\": \"string\"\n      }\n    },\n    \"gas\": 1940.181617863097,\n    \"txId\": 7479.768849147425,\n    \"events\": [\n      {\n        \"name\": \"string\",\n        \"module\": {\n          \"name\": \"string\",\n          \"namespace\": \"string\"\n        },\n        \"params\": [\n          \"string\",\n          \"string\"\n        ],\n        \"moduleHash\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"module\": {\n          \"name\": \"string\",\n          \"namespace\": \"string\"\n        },\n        \"params\": [\n          \"string\",\n          \"string\"\n        ],\n        \"moduleHash\": \"string\"\n      }\n    ],\n    \"continuation\": {\n      \"pactId\": \"string\",\n      \"step\": 7677.858971300594,\n      \"stepCount\": 9585.390407984327,\n      \"executed\": false,\n      \"stepHasRollback\": true,\n      \"continuation\": {\n        \"def\": \"string\",\n        \"args\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"yield\": {\n        \"data\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        },\n        \"source\": \"string\",\n        \"provenance\": {\n          \"targetChainId\": \"string\",\n          \"moduleHash\": \"string\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "0.0",
+      "key": "apiVersion"
+    },
+    {
+      "type": "string",
+      "value": "https://api.chainweb.com/chainweb/{{apiVersion}}/mainnet01",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "2d1a3dac-938c-4c02-9775-c3d73be9ff38",
+    "name": "Kadena Chainweb Node block endpoint-poll API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API of [chainweb-node](https://github.com/kadena-io/chainweb-node)\n\nChainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an\nconservative extension of Bitcoin's Nakamoto consensus that extends\nBitcoin's single chain algorithm to multiple chains. This allows for\nunlimited transaction throughput by horizontally scaling the number of chains.\n\nFeedback and bug reports for the content of this site are welcome. Please\nopen an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).\n",
+      "type": "text/plain"
+    }
+  }
+}

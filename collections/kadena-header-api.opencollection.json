@@ -1,0 +1,133 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kadena Chainweb Node block header API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "header",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Block Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/header",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records that may be returned. The actual number may be\nlower.\n"
+              },
+              {
+                "name": "next",
+                "value": "",
+                "type": "query",
+                "description": "The cursor for the next page. This value can be found as value of the\n`next` property of the previous page.\n"
+              },
+              {
+                "name": "minheight",
+                "value": "500000",
+                "type": "query",
+                "description": "Minimum block height of the returned headers"
+              },
+              {
+                "name": "maxheight",
+                "value": "500000",
+                "type": "query",
+                "description": "Maximum block height of the returned headers"
+              }
+            ]
+          },
+          "docs": "A page of a collection of block headers in **ascending** order\nthat satisfies query parameters. Any block header from the chain\ndatabase is returned. **This includes headers of orphaned blocks.**\n"
+        },
+        {
+          "info": {
+            "name": "Get Block Header by Hash",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/header/:blockHash",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              },
+              {
+                "name": "blockHash",
+                "value": "[object Object]",
+                "type": "path",
+                "description": "Block hash of a block"
+              }
+            ]
+          },
+          "docs": "Query a block header by its hash"
+        },
+        {
+          "info": {
+            "name": "Get Block Header Branches",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/header/branch",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of records that may be returned. The actual number may be\nlower.\n"
+              },
+              {
+                "name": "next",
+                "value": "",
+                "type": "query",
+                "description": "The cursor for the next page. This value can be found as value of the\n`next` property of the previous page.\n"
+              },
+              {
+                "name": "minheight",
+                "value": "500000",
+                "type": "query",
+                "description": "Minimum block height of the returned headers"
+              },
+              {
+                "name": "maxheight",
+                "value": "500000",
+                "type": "query",
+                "description": "Maximum block height of the returned headers"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "A page of block headers from branches of the block chain in\n**descending** order.\n\nOnly blocks are returned that are ancestors of the some block in the\nset of upper bounds and are not ancestors of any block in the set of\nlower bounds.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kadena Chainweb Node block payload API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "payload",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Block Payload",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/payload/:payloadHash",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              },
+              {
+                "name": "payloadHash",
+                "value": "[object Object]",
+                "type": "path",
+                "description": "Payload hash of a block"
+              },
+              {
+                "name": "height",
+                "value": "3000000",
+                "type": "query",
+                "description": "Height of a block"
+              }
+            ]
+          },
+          "docs": "Get Block Payload"
+        },
+        {
+          "info": {
+            "name": "Get Batch of Block Payload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/payload/batch",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get Batch of Block Payload"
+        },
+        {
+          "info": {
+            "name": "Get Block Payload With Outputs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/payload/:payloadHash/outputs",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              },
+              {
+                "name": "payloadHash",
+                "value": "[object Object]",
+                "type": "path",
+                "description": "Payload hash of a block"
+              },
+              {
+                "name": "height",
+                "value": "3000000",
+                "type": "query",
+                "description": "Height of a block"
+              }
+            ]
+          },
+          "docs": "Get Block Payload With Outputs"
+        },
+        {
+          "info": {
+            "name": "Get Batch of Block Payload With Outputs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/:chain/payload/outputs/batch",
+            "params": [
+              {
+                "name": "chain",
+                "value": "",
+                "type": "path",
+                "description": "the id of the chain to which the request is sent"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get Batch of Block Payload With Outputs"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

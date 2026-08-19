@@ -1,0 +1,342 @@
+{
+  "item": [
+    {
+      "id": "bbc67087-d4d0-4f37-8617-f638cb18813c",
+      "name": "cut",
+      "description": {
+        "content": "A cut represents a distributed state of a chainweb. It references one\nblock header for each chain, such that those blocks are pairwise\nconcurrent.\n\nTwo blocks from two different chains are said to be concurrent if either\none of them is an adjacent parent (is a direct dependency) of the other or\nif the blocks do not depend at all on each other.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0698aecf-4cd3-46ed-b726-6da40a20035a",
+          "name": "Query the current cut",
+          "request": {
+            "name": "Query the current cut",
+            "description": {},
+            "url": {
+              "path": [
+                "cut"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "maxheight",
+                  "value": "<integer>",
+                  "description": "Maximum cut height of the returned cut"
+                }
+              ],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d03442b6-a3cb-4a51-a3a6-f0b313ea5a47",
+              "name": "The current cut",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cut"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "maxheight",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "6294N7932@6558=0669:5"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": {\n    \"origin\": null,\n    \"height\": 30798466,\n    \"weight\": \"b0wYplmNiTBXCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\n    \"hashes\": {\n      \"0\": {\n        \"height\": 1539923,\n        \"hash\": \"qEaSmWt_tDcJC9AGbgWY9x12LW5VED7hGgfyz9x_S3w\"\n      },\n      \"1\": {\n        \"height\": 1539923,\n        \"hash\": \"TJuC6nfhamfD517gspAZmqD9umR71nAgttDOi1JbBHw\"\n      },\n      \"2\": {\n        \"height\": 1539924,\n        \"hash\": \"4ineCWfnO1rneWuBMLPzqTl2HF_sZpypT_3TEzf3VLc\"\n      },\n      \"3\": {\n        \"height\": 1539924,\n        \"hash\": \"ZEOMXB2ByqzL2HfYVKIZKAnoe4wIeJ2SaltnXDir59k\"\n      },\n      \"4\": {\n        \"height\": 1539923,\n        \"hash\": \"0g0rOoSznVW2BJDBmK0Lbxz22F-sxTZUNIrUs_Q8Ye4\"\n      },\n      \"5\": {\n        \"height\": 1539923,\n        \"hash\": \"5y_TL-clnF_wELMBKyJk0Sz8RVShw_bGQETJdrMkADA\"\n      },\n      \"6\": {\n        \"height\": 1539923,\n        \"hash\": \"YkQKv6P4_C4jRM3RqKK9FWPxIneeLzlkKQS9ATAQYRk\"\n      },\n      \"7\": {\n        \"height\": 1539923,\n        \"hash\": \"j_hJ9iiH_ATyeQeeRN3auGXjbBWiFgnTU0dYPIz8cKM\"\n      },\n      \"8\": {\n        \"height\": 1539924,\n        \"hash\": \"s7c3B55VbDsS6EJ-nc9S5k2kNbPOBGI8xxF3vUg4d4Q\"\n      },\n      \"9\": {\n        \"height\": 1539922,\n        \"hash\": \"bowQf63xSY9owHKhK1yGee2Q0Fn8yL_oCLaEUn-CGoA\"\n      },\n      \"10\": {\n        \"height\": 1539924,\n        \"hash\": \"uP-pHW4QKrV9fN1mlDGwKuaiIDlJW7xYSj1nW53EHM4\"\n      },\n      \"11\": {\n        \"height\": 1539924,\n        \"hash\": \"TIhegjZ0GEC73T4m0BVuFtfLNGuS56IUWEuf93AJ5UU\"\n      },\n      \"12\": {\n        \"height\": 1539923,\n        \"hash\": \"-j1qcAS9Fs-WQmc3WEhzZ96VojxnlIA2TFpfyIv31Zs\"\n      },\n      \"13\": {\n        \"height\": 1539923,\n        \"hash\": \"S-4TqMgWGlK1k33XRlU9w0Lfwr0RvkO5Jn78Au1OglM\"\n      },\n      \"14\": {\n        \"height\": 1539923,\n        \"hash\": \"xSuULf--S4TrgYNz82deaGhnPLWrg3pXkynGeUPUGwA\"\n      },\n      \"15\": {\n        \"height\": 1539923,\n        \"hash\": \"jsc9rugvcHXDiBAuoO9_j8R_b_jchtJJ8b5596i8wVg\"\n      },\n      \"16\": {\n        \"height\": 1539923,\n        \"hash\": \"qs1aEY8kSxfUBb_JRVswv5dYINRXBjGJteC-6RC1hjc\"\n      },\n      \"17\": {\n        \"height\": 1539924,\n        \"hash\": \"xzVBXaQxzlUfUrakDgppUubQBRXGh-Uy0HBdMNwCq_Y\"\n      },\n      \"18\": {\n        \"height\": 1539924,\n        \"hash\": \"4VOHPAqwioySYRycdl5MxfscQHwtlwwCAt7AySYQT98\"\n      },\n      \"19\": {\n        \"height\": 1539923,\n        \"hash\": \"1PrRg20XyQ_2cfgGOgNK9K-cqIJ1vO8-A-RJlfN5m00\"\n      }\n    },\n    \"id\": \"BBz7KeurYTeQ0hMGbwUbQC84cRbVcacoDQTye-3qkXI\",\n    \"instance\": \"mainnet01\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "173729cc-5df7-48b6-ba0b-543242272f08",
+          "name": "Publish a cut",
+          "request": {
+            "name": "Publish a cut",
+            "description": {
+              "content": "Publish a cut to a Chainweb node.\n\nThe cut must contain an origin property that is not `null`. The receiving node\nwill first try to obtain all missing dependencies from the node that is\nindicated in by the origin property before searching for the dependencies in the\nP2P network.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cut"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hashes\": {\n    \"0\": {\n      \"hash\": \"<string>\",\n      \"height\": \"<integer>\"\n    },\n    \"1\": {\n      \"hash\": \"<string>\",\n      \"height\": \"<integer>\"\n    },\n    \"2\": {\n      \"hash\": \"<string>\",\n      \"height\": \"<integer>\"\n    },\n    \"3\": {\n      \"hash\": \"<string>\",\n      \"height\": \"<integer>\"\n    },\n    \"4\": {\n      \"hash\": \"<string>\",\n      \"height\": \"<integer>\"\n    },\n    \"5\": {\n      \"hash\": \"<string>\",\n      \"height\": \"<integer>\"\n    },\n    \"6\": {\n      \"hash\": \"<string>\",\n      \"height\": \"<integer>\"\n    },\n    \"7\": {\n      \"hash\": \"<string>\",\n      \"height\": \"<integer>\"\n    },\n    \"8\": {\n      \"hash\": \"<string>\",\n      \"height\": \"<integer>\"\n    },\n    \"9\": {\n      \"hash\": \"<string>\",\n      \"height\": \"<integer>\"\n    },\n    \"10\": {\n      \"hash\": \"<string>\",\n      \"height\": \"<integer>\"\n    }\n  },\n  \"height\": \"<integer>\",\n  \"origin\": {\n    \"id\": \"<string>\",\n    \"address\": {\n      \"hostname\": {},\n      \"port\": \"<integer>\"\n    }\n  },\n  \"weight\": \"<string>\",\n  \"instance\": \"<string>\",\n  \"id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3280ca40-2781-4247-bcff-c1e757ccddc7",
+              "name": "The cut was added to the cut processing pipeline of the remote node",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cut"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": {\n    \"origin\": null,\n    \"height\": 30798466,\n    \"weight\": \"b0wYplmNiTBXCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\n    \"hashes\": {\n      \"0\": {\n        \"height\": 1539923,\n        \"hash\": \"qEaSmWt_tDcJC9AGbgWY9x12LW5VED7hGgfyz9x_S3w\"\n      },\n      \"1\": {\n        \"height\": 1539923,\n        \"hash\": \"TJuC6nfhamfD517gspAZmqD9umR71nAgttDOi1JbBHw\"\n      },\n      \"2\": {\n        \"height\": 1539924,\n        \"hash\": \"4ineCWfnO1rneWuBMLPzqTl2HF_sZpypT_3TEzf3VLc\"\n      },\n      \"3\": {\n        \"height\": 1539924,\n        \"hash\": \"ZEOMXB2ByqzL2HfYVKIZKAnoe4wIeJ2SaltnXDir59k\"\n      },\n      \"4\": {\n        \"height\": 1539923,\n        \"hash\": \"0g0rOoSznVW2BJDBmK0Lbxz22F-sxTZUNIrUs_Q8Ye4\"\n      },\n      \"5\": {\n        \"height\": 1539923,\n        \"hash\": \"5y_TL-clnF_wELMBKyJk0Sz8RVShw_bGQETJdrMkADA\"\n      },\n      \"6\": {\n        \"height\": 1539923,\n        \"hash\": \"YkQKv6P4_C4jRM3RqKK9FWPxIneeLzlkKQS9ATAQYRk\"\n      },\n      \"7\": {\n        \"height\": 1539923,\n        \"hash\": \"j_hJ9iiH_ATyeQeeRN3auGXjbBWiFgnTU0dYPIz8cKM\"\n      },\n      \"8\": {\n        \"height\": 1539924,\n        \"hash\": \"s7c3B55VbDsS6EJ-nc9S5k2kNbPOBGI8xxF3vUg4d4Q\"\n      },\n      \"9\": {\n        \"height\": 1539922,\n        \"hash\": \"bowQf63xSY9owHKhK1yGee2Q0Fn8yL_oCLaEUn-CGoA\"\n      },\n      \"10\": {\n        \"height\": 1539924,\n        \"hash\": \"uP-pHW4QKrV9fN1mlDGwKuaiIDlJW7xYSj1nW53EHM4\"\n      },\n      \"11\": {\n        \"height\": 1539924,\n        \"hash\": \"TIhegjZ0GEC73T4m0BVuFtfLNGuS56IUWEuf93AJ5UU\"\n      },\n      \"12\": {\n        \"height\": 1539923,\n        \"hash\": \"-j1qcAS9Fs-WQmc3WEhzZ96VojxnlIA2TFpfyIv31Zs\"\n      },\n      \"13\": {\n        \"height\": 1539923,\n        \"hash\": \"S-4TqMgWGlK1k33XRlU9w0Lfwr0RvkO5Jn78Au1OglM\"\n      },\n      \"14\": {\n        \"height\": 1539923,\n        \"hash\": \"xSuULf--S4TrgYNz82deaGhnPLWrg3pXkynGeUPUGwA\"\n      },\n      \"15\": {\n        \"height\": 1539923,\n        \"hash\": \"jsc9rugvcHXDiBAuoO9_j8R_b_jchtJJ8b5596i8wVg\"\n      },\n      \"16\": {\n        \"height\": 1539923,\n        \"hash\": \"qs1aEY8kSxfUBb_JRVswv5dYINRXBjGJteC-6RC1hjc\"\n      },\n      \"17\": {\n        \"height\": 1539924,\n        \"hash\": \"xzVBXaQxzlUfUrakDgppUubQBRXGh-Uy0HBdMNwCq_Y\"\n      },\n      \"18\": {\n        \"height\": 1539924,\n        \"hash\": \"4VOHPAqwioySYRycdl5MxfscQHwtlwwCAt7AySYQT98\"\n      },\n      \"19\": {\n        \"height\": 1539923,\n        \"hash\": \"1PrRg20XyQ_2cfgGOgNK9K-cqIJ1vO8-A-RJlfN5m00\"\n      }\n    },\n    \"id\": \"BBz7KeurYTeQ0hMGbwUbQC84cRbVcacoDQTye-3qkXI\",\n    \"instance\": \"mainnet01\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "521f80e5-39a8-4320-a185-e592130d5c0b",
+              "name": "The requester is not a peer of this node, and thus not allowed to send it cuts",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cut"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"value\": {\n    \"origin\": null,\n    \"height\": 30798466,\n    \"weight\": \"b0wYplmNiTBXCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\n    \"hashes\": {\n      \"0\": {\n        \"height\": 1539923,\n        \"hash\": \"qEaSmWt_tDcJC9AGbgWY9x12LW5VED7hGgfyz9x_S3w\"\n      },\n      \"1\": {\n        \"height\": 1539923,\n        \"hash\": \"TJuC6nfhamfD517gspAZmqD9umR71nAgttDOi1JbBHw\"\n      },\n      \"2\": {\n        \"height\": 1539924,\n        \"hash\": \"4ineCWfnO1rneWuBMLPzqTl2HF_sZpypT_3TEzf3VLc\"\n      },\n      \"3\": {\n        \"height\": 1539924,\n        \"hash\": \"ZEOMXB2ByqzL2HfYVKIZKAnoe4wIeJ2SaltnXDir59k\"\n      },\n      \"4\": {\n        \"height\": 1539923,\n        \"hash\": \"0g0rOoSznVW2BJDBmK0Lbxz22F-sxTZUNIrUs_Q8Ye4\"\n      },\n      \"5\": {\n        \"height\": 1539923,\n        \"hash\": \"5y_TL-clnF_wELMBKyJk0Sz8RVShw_bGQETJdrMkADA\"\n      },\n      \"6\": {\n        \"height\": 1539923,\n        \"hash\": \"YkQKv6P4_C4jRM3RqKK9FWPxIneeLzlkKQS9ATAQYRk\"\n      },\n      \"7\": {\n        \"height\": 1539923,\n        \"hash\": \"j_hJ9iiH_ATyeQeeRN3auGXjbBWiFgnTU0dYPIz8cKM\"\n      },\n      \"8\": {\n        \"height\": 1539924,\n        \"hash\": \"s7c3B55VbDsS6EJ-nc9S5k2kNbPOBGI8xxF3vUg4d4Q\"\n      },\n      \"9\": {\n        \"height\": 1539922,\n        \"hash\": \"bowQf63xSY9owHKhK1yGee2Q0Fn8yL_oCLaEUn-CGoA\"\n      },\n      \"10\": {\n        \"height\": 1539924,\n        \"hash\": \"uP-pHW4QKrV9fN1mlDGwKuaiIDlJW7xYSj1nW53EHM4\"\n      },\n      \"11\": {\n        \"height\": 1539924,\n        \"hash\": \"TIhegjZ0GEC73T4m0BVuFtfLNGuS56IUWEuf93AJ5UU\"\n      },\n      \"12\": {\n        \"height\": 1539923,\n        \"hash\": \"-j1qcAS9Fs-WQmc3WEhzZ96VojxnlIA2TFpfyIv31Zs\"\n      },\n      \"13\": {\n        \"height\": 1539923,\n        \"hash\": \"S-4TqMgWGlK1k33XRlU9w0Lfwr0RvkO5Jn78Au1OglM\"\n      },\n      \"14\": {\n        \"height\": 1539923,\n        \"hash\": \"xSuULf--S4TrgYNz82deaGhnPLWrg3pXkynGeUPUGwA\"\n      },\n      \"15\": {\n        \"height\": 1539923,\n        \"hash\": \"jsc9rugvcHXDiBAuoO9_j8R_b_jchtJJ8b5596i8wVg\"\n      },\n      \"16\": {\n        \"height\": 1539923,\n        \"hash\": \"qs1aEY8kSxfUBb_JRVswv5dYINRXBjGJteC-6RC1hjc\"\n      },\n      \"17\": {\n        \"height\": 1539924,\n        \"hash\": \"xzVBXaQxzlUfUrakDgppUubQBRXGh-Uy0HBdMNwCq_Y\"\n      },\n      \"18\": {\n        \"height\": 1539924,\n        \"hash\": \"4VOHPAqwioySYRycdl5MxfscQHwtlwwCAt7AySYQT98\"\n      },\n      \"19\": {\n        \"height\": 1539923,\n        \"hash\": \"1PrRg20XyQ_2cfgGOgNK9K-cqIJ1vO8-A-RJlfN5m00\"\n      }\n    },\n    \"id\": \"BBz7KeurYTeQ0hMGbwUbQC84cRbVcacoDQTye-3qkXI\",\n    \"instance\": \"mainnet01\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "0.0",
+      "key": "apiVersion"
+    },
+    {
+      "type": "string",
+      "value": "https://api.chainweb.com/chainweb/{{apiVersion}}/mainnet01",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "33bf483f-cb38-4c4e-8460-8980d2701287",
+    "name": "Kadena Chainweb Node block cut API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API of [chainweb-node](https://github.com/kadena-io/chainweb-node)\n\nChainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an\nconservative extension of Bitcoin's Nakamoto consensus that extends\nBitcoin's single chain algorithm to multiple chains. This allows for\nunlimited transaction throughput by horizontally scaling the number of chains.\n\nFeedback and bug reports for the content of this site are welcome. Please\nopen an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).\n",
+      "type": "text/plain"
+    }
+  }
+}

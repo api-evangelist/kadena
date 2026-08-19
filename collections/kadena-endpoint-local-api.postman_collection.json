@@ -1,0 +1,250 @@
+{
+  "item": [
+    {
+      "id": "6f6eb305-b894-4348-8562-f8fda48b78b0",
+      "name": "endpoint-local",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "af931679-f98a-4fd1-bab3-1f866d77ab9f",
+          "name": "local",
+          "request": {
+            "name": "local",
+            "description": {
+              "content": "Blocking/sync call to submit a command for non-transactional execution. In a\nblockchain environment this would be a node-local “dirty read”, which can\neither serve as a node-local repl execution, or fully gassed transaction\nsimulation and transaction validation. Any database writes or changes to the\nenvironment are rolled back.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "local"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "preflight",
+                  "value": "<boolean>",
+                  "description": "Trigger fully-gassed mainnet transaction execution simulation and\ntransaction metadata validations.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "rewindDepth",
+                  "value": "<integer>",
+                  "description": "Rewind transaction execution environment by a number of block\nheights.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "signatureVerification",
+                  "value": "<boolean>",
+                  "description": "Require user signature verification when validating transaction\nmetadata.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cmd\": \"<string>\",\n  \"hash\": \"<string>\",\n  \"sigs\": [\n    {\n      \"sig\": \"<string>\"\n    },\n    {\n      \"sig\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "161b90e5-320c-4637-bf55-2de808f61e34",
+              "name": "The command's result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "local"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "preflight",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "rewindDepth",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "signatureVerification",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cmd\": \"<string>\",\n  \"hash\": \"H6XjdPHzMai2HLa3_yVkXfkFYMgA0bGfsB0kOsHAMuI\",\n  \"sigs\": [\n    {\n      \"sig\": \"8d452109cc0439234c093b5e204a7428bc0a54f22704402492e027aaa9375a34c910d8a468a12746d0d29e9353f4a3fbebe920d63bcc7963853995db015d060f\"\n    },\n    {\n      \"sig\": \"8d452109cc0439234c093b5e204a7428bc0a54f22704402492e027aaa9375a34c910d8a468a12746d0d29e9353f4a3fbebe920d63bcc7963853995db015d060f\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reqKey\": \"y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw\",\n  \"result\": {\n    \"status\": \"success\",\n    \"data\": \"string\"\n  },\n  \"logs\": \"string\",\n  \"metaData\": {\n    \"blockTime\": 2344.5462089454304,\n    \"prevBlockHash\": \"string\",\n    \"blockHash\": \"string\",\n    \"blockHeight\": 117.61451175611116,\n    \"publicMeta\": {\n      \"creationTime\": 910.3226333202963,\n      \"ttl\": 2057.8958985665176,\n      \"gasLimit\": 122.39533119252188,\n      \"chainId\": \"string\",\n      \"gasPrice\": 9739.232056317433,\n      \"sender\": \"string\"\n    }\n  },\n  \"gas\": 1302.2444940525968,\n  \"txId\": 5575.852863897377,\n  \"events\": [\n    {\n      \"name\": \"string\",\n      \"module\": {\n        \"name\": \"string\",\n        \"namespace\": \"string\"\n      },\n      \"params\": [\n        \"string\",\n        \"string\"\n      ],\n      \"moduleHash\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"module\": {\n        \"name\": \"string\",\n        \"namespace\": \"string\"\n      },\n      \"params\": [\n        \"string\",\n        \"string\"\n      ],\n      \"moduleHash\": \"string\"\n    }\n  ],\n  \"continuation\": {\n    \"pactId\": \"string\",\n    \"step\": 7773.060237040957,\n    \"stepCount\": 311.19110723965224,\n    \"executed\": false,\n    \"stepHasRollback\": true,\n    \"continuation\": {\n      \"def\": \"string\",\n      \"args\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"yield\": {\n      \"data\": {\n        \"key_0\": \"string\"\n      },\n      \"source\": \"string\",\n      \"provenance\": {\n        \"targetChainId\": \"string\",\n        \"moduleHash\": \"string\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c16e1993-c81a-434a-ba25-c398828e1062",
+              "name": "The command was invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "local"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "preflight",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "rewindDepth",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "signatureVerification",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cmd\": \"<string>\",\n  \"hash\": \"H6XjdPHzMai2HLa3_yVkXfkFYMgA0bGfsB0kOsHAMuI\",\n  \"sigs\": [\n    {\n      \"sig\": \"8d452109cc0439234c093b5e204a7428bc0a54f22704402492e027aaa9375a34c910d8a468a12746d0d29e9353f4a3fbebe920d63bcc7963853995db015d060f\"\n    },\n    {\n      \"sig\": \"8d452109cc0439234c093b5e204a7428bc0a54f22704402492e027aaa9375a34c910d8a468a12746d0d29e9353f4a3fbebe920d63bcc7963853995db015d060f\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "Validation failed: Invalid command: Failed reading: empty",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "0.0",
+      "key": "apiVersion"
+    },
+    {
+      "type": "string",
+      "value": "https://api.chainweb.com/chainweb/{{apiVersion}}/mainnet01",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d097ab61-e297-4e4a-a24d-2b431d98f67d",
+    "name": "Kadena Chainweb Node block endpoint-local API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API of [chainweb-node](https://github.com/kadena-io/chainweb-node)\n\nChainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an\nconservative extension of Bitcoin's Nakamoto consensus that extends\nBitcoin's single chain algorithm to multiple chains. This allows for\nunlimited transaction throughput by horizontally scaling the number of chains.\n\nFeedback and bug reports for the content of this site are welcome. Please\nopen an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).\n",
+      "type": "text/plain"
+    }
+  }
+}

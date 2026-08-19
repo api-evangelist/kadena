@@ -1,0 +1,600 @@
+{
+  "item": [
+    {
+      "id": "6d8ccc8b-0848-47d7-be58-01897efce4f4",
+      "name": "mempool",
+      "description": {
+        "content": "Mempool P2P endpoints for communication between mempools. Endusers are not\nsupposed to use these endpoints directly. Instead, the respective Pact\nendpoints should be used for submitting transactions into the network.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "38f20e93-8228-4496-b2f7-8a28e4525b88",
+          "name": "Get Pending Transactions from the Mempool",
+          "request": {
+            "name": "Get Pending Transactions from the Mempool",
+            "description": {},
+            "url": {
+              "path": [
+                "chain",
+                ":chain",
+                "mempool",
+                "getPending"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "nonce",
+                  "value": "<integer>",
+                  "description": "Server nonce value"
+                },
+                {
+                  "disabled": false,
+                  "key": "since",
+                  "value": "<long>",
+                  "description": "Mempool tx id value"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "chain",
+                  "description": "(Required) the id of the chain to which the request is sent"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f08dc7a6-9cf3-4259-8779-ede5b3b38792",
+              "name": "recent state of pending transactions in the mempool",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "mempool",
+                    "getPending"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "nonce",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "since",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "3821-92760601889018:0466"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"hashes\": [\n    \"qx346ILpakzgbNZbE8oHqF5TZQghp-HPcV-0Ptc_n2s\"\n  ],\n  \"highwaterMark\": [\n    7530864100535969000,\n    399\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c606d2f9-cff9-4970-a758-67aeb60ee7fb",
+          "name": "Check for Pending Transactions in the Mempool",
+          "request": {
+            "name": "Check for Pending Transactions in the Mempool",
+            "description": {},
+            "url": {
+              "path": [
+                "chain",
+                ":chain",
+                "mempool",
+                "member"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "chain",
+                  "description": "(Required) the id of the chain to which the request is sent"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  \"<string>\",\n  \"<string>\"\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0f177145-8653-4e35-9df4-d643c22f8b97",
+              "name": "Array of boolean values that indicate whether the respective\ntransaction is in the mempool.\n\nThe array has the same size as the request body.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "mempool",
+                    "member"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  true\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "77e71029-8190-46e2-9635-d7ec0c617b62",
+          "name": "Lookup Pending Transactions in the Mempool",
+          "request": {
+            "name": "Lookup Pending Transactions in the Mempool",
+            "description": {},
+            "url": {
+              "path": [
+                "chain",
+                ":chain",
+                "mempool",
+                "lookup"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "chain",
+                  "description": "(Required) the id of the chain to which the request is sent"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  \"<string>\",\n  \"<string>\"\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "95b6a1fb-735c-4fda-a6d9-3530c79e6af2",
+              "name": "Array of lookup results for the respective transactions\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "mempool",
+                    "lookup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"tag\": \"Pending\",\n    \"contents\": \"{\\\"hash\\\":\\\"y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw\\\",\\\"sigs\\\":[{\\\"sig\\\":\\\"8ddc06b37c496f2cadc4f7412405a80faf3ab07482ff5553b9b5fcc73d1b4121275ad5948d9b4078e553b71f8b42eaf6b24135bf2fb4d5840c16bcdde0e35e0f\\\"}],\\\"cmd\\\":\\\"{\\\\\\\"networkId\\\\\\\":\\\\\\\"mainnet01\\\\\\\",\\\\\\\"payload\\\\\\\":{\\\\\\\"exec\\\\\\\":{\\\\\\\"data\\\\\\\":{\\\\\\\"account-keyset\\\\\\\":{\\\\\\\"pred\\\\\\\":\\\\\\\"keys-all\\\\\\\",\\\\\\\"keys\\\\\\\":[\\\\\\\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\\\\\\\"]}},\\\\\\\"code\\\\\\\":\\\\\\\"(coin.transfer-create \\\\\\\\\\\\\\\"60241f51ea34e05c61fbea9d\\\\\\\\\\\\\\\" \\\\\\\\\\\\\\\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\\\\\\\\\\\\\\\" (read-keyset \\\\\\\\\\\\\\\"account-keyset\\\\\\\\\\\\\\\") 5007.0000)\\\\\\\"}},\\\\\\\"signers\\\\\\\":[{\\\\\\\"pubKey\\\\\\\":\\\\\\\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\\\\\\\",\\\\\\\"clist\\\\\\\":[{\\\\\\\"args\\\\\\\":[\\\\\\\"60241f51ea34e05c61fbea9d\\\\\\\",\\\\\\\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\\\\\\\",5007],\\\\\\\"name\\\\\\\":\\\\\\\"coin.TRANSFER\\\\\\\"},{\\\\\\\"args\\\\\\\":[],\\\\\\\"name\\\\\\\":\\\\\\\"coin.GAS\\\\\\\"}]}],\\\\\\\"meta\\\\\\\":{\\\\\\\"creationTime\\\\\\\":1618949714,\\\\\\\"ttl\\\\\\\":300,\\\\\\\"gasLimit\\\\\\\":600,\\\\\\\"chainId\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"gasPrice\\\\\\\":1.0e-7,\\\\\\\"sender\\\\\\\":\\\\\\\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\\\\\\\"},\\\\\\\"nonce\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"2021-04-20T20:16:13.645Z\\\\\\\\\\\\\\\"\\\\\\\"}\\\"}\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a48bea0b-8b92-41ff-936d-b54f7f8150d5",
+          "name": "Insert Transactions into the Mempool",
+          "request": {
+            "name": "Insert Transactions into the Mempool",
+            "description": {},
+            "url": {
+              "path": [
+                "chain",
+                ":chain",
+                "mempool",
+                "insert"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "chain",
+                  "description": "(Required) the id of the chain to which the request is sent"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  \"<string>\",\n  \"<string>\"\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "64b7e5c7-4e79-414f-8e5e-cc24e7920814",
+              "name": "Transactions were inserted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "mempool",
+                    "insert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"{\\\"hash\\\":\\\"y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw\\\",\\\"sigs\\\":[{\\\"sig\\\":\\\"8ddc06b37c496f2cadc4f7412405a80faf3ab07482ff5553b9b5fcc73d1b4121275ad5948d9b4078e553b71f8b42eaf6b24135bf2fb4d5840c16bcdde0e35e0f\\\"}],\\\"cmd\\\":\\\"{\\\\\\\"networkId\\\\\\\":\\\\\\\"mainnet01\\\\\\\",\\\\\\\"payload\\\\\\\":{\\\\\\\"exec\\\\\\\":{\\\\\\\"data\\\\\\\":{\\\\\\\"account-keyset\\\\\\\":{\\\\\\\"pred\\\\\\\":\\\\\\\"keys-all\\\\\\\",\\\\\\\"keys\\\\\\\":[\\\\\\\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\\\\\\\"]}},\\\\\\\"code\\\\\\\":\\\\\\\"(coin.transfer-create \\\\\\\\\\\\\\\"60241f51ea34e05c61fbea9d\\\\\\\\\\\\\\\" \\\\\\\\\\\\\\\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\\\\\\\\\\\\\\\" (read-keyset \\\\\\\\\\\\\\\"account-keyset\\\\\\\\\\\\\\\") 5007.0000)\\\\\\\"}},\\\\\\\"signers\\\\\\\":[{\\\\\\\"pubKey\\\\\\\":\\\\\\\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\\\\\\\",\\\\\\\"clist\\\\\\\":[{\\\\\\\"args\\\\\\\":[\\\\\\\"60241f51ea34e05c61fbea9d\\\\\\\",\\\\\\\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\\\\\\\",5007],\\\\\\\"name\\\\\\\":\\\\\\\"coin.TRANSFER\\\\\\\"},{\\\\\\\"args\\\\\\\":[],\\\\\\\"name\\\\\\\":\\\\\\\"coin.GAS\\\\\\\"}]}],\\\\\\\"meta\\\\\\\":{\\\\\\\"creationTime\\\\\\\":1618949714,\\\\\\\"ttl\\\\\\\":300,\\\\\\\"gasLimit\\\\\\\":600,\\\\\\\"chainId\\\\\\\":\\\\\\\"0\\\\\\\",\\\\\\\"gasPrice\\\\\\\":1.0e-7,\\\\\\\"sender\\\\\\\":\\\\\\\"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\\\\\\\"},\\\\\\\"nonce\\\\\\\":\\\\\\\"\\\\\\\\\\\\\\\"2021-04-20T20:16:13.645Z\\\\\\\\\\\\\\\"\\\\\\\"}\\\"}\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "0.0",
+      "key": "apiVersion"
+    },
+    {
+      "type": "string",
+      "value": "https://api.chainweb.com/chainweb/{{apiVersion}}/mainnet01",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d2df59d0-3c73-48a2-a888-41065ead2560",
+    "name": "Kadena Chainweb Node block mempool API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API of [chainweb-node](https://github.com/kadena-io/chainweb-node)\n\nChainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an\nconservative extension of Bitcoin's Nakamoto consensus that extends\nBitcoin's single chain algorithm to multiple chains. This allows for\nunlimited transaction throughput by horizontally scaling the number of chains.\n\nFeedback and bug reports for the content of this site are welcome. Please\nopen an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).\n",
+      "type": "text/plain"
+    }
+  }
+}

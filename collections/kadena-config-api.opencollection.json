@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kadena Chainweb Node block config API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "config",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Configuration of Chainweb Node",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/config"
+          },
+          "docs": "Returns the configuration of chainweb-node as a JSON structure.\nSensitive information is removed from the result. The JSON schema depends\non the chainweb node version and is not part of the stable chainweb-node\nAPI.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

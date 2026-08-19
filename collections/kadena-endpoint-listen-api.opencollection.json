@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kadena Chainweb Node block endpoint-listen API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "endpoint-listen",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "listen",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/listen",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Blocking request for single command result.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

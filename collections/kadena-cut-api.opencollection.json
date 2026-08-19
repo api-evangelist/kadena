@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kadena Chainweb Node block cut API",
+    "version": "0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "cut",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query the current cut",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/cut",
+            "params": [
+              {
+                "name": "maxheight",
+                "value": "",
+                "type": "query",
+                "description": "Maximum cut height of the returned cut"
+              }
+            ]
+          },
+          "docs": "Query the current cut"
+        },
+        {
+          "info": {
+            "name": "Publish a cut",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/cut",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Publish a cut to a Chainweb node.\n\nThe cut must contain an origin property that is not `null`. The receiving node\nwill first try to obtain all missing dependencies from the node that is\nindicated in by the origin property before searching for the dependencies in the\nP2P network.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

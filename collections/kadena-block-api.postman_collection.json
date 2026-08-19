@@ -1,0 +1,771 @@
+{
+  "item": [
+    {
+      "id": "719ae567-e392-482a-92fa-7628e22ed4d7",
+      "name": "block",
+      "description": {
+        "content": "These endpoints return whole blocks, headers and payloads, from the chain\ndatabase.\n\nGenerally, blocks are returned in ascending order and include orphaned\nblocks.\n\nFor only querying blocks that are included in the winning branch of the\nchain the `branch` endpoints can be used, which return blocks in descending\norder starting from the leafs of branches of the block chain.\n\nBlocks are returned in only one format, with block headers and payloads in\nJSON encoding.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "80c29b23-68d0-4aaf-9721-a1066b3034f6",
+          "name": "Get Block",
+          "request": {
+            "name": "Get Block",
+            "description": {
+              "content": "A page of a collection of blocks in **ascending** order that satisfies\nquery parameters. Any block from the chain database is returned. **This\nincludes orphaned blocks.**\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "chain",
+                ":chain",
+                "block"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Maximum number of records that may be returned. The actual number may be\nlower.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "next",
+                  "value": "<string>",
+                  "description": "The cursor for the next page. This value can be found as value of the\n`next` property of the previous page.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "minheight",
+                  "value": "<integer>",
+                  "description": "Minimum block height of the returned headers"
+                },
+                {
+                  "disabled": false,
+                  "key": "maxheight",
+                  "value": "<integer>",
+                  "description": "Maximum block height of the returned headers"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "chain",
+                  "description": "(Required) the id of the chain to which the request is sent"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7371253c-ed59-471a-892e-6026d57f38f5",
+              "name": "The requested blocks",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "block"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "next",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "minheight",
+                      "value": "500000"
+                    },
+                    {
+                      "key": "maxheight",
+                      "value": "500000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "0727j2597.1733?2397:535547379"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": {\n    \"next\": \"inclusive:o1S4NNFhKWg8T1HEkmDvsTH9Ut9l3_qHRpp00yRKZIk\",\n    \"items\": [\n      {\n        \"blockHeader\": {\n          \"creationTime\": 1602382624629329,\n          \"parent\": \"HaXABq1PKSKlhncJk0_Mt75_lL7NS3wI627QfXZ_85k\",\n          \"height\": 1000000,\n          \"hash\": \"k0an0qEORusqQg9ZjKrxa-0Bo0-hQVYLXqWi5LHxg3k\",\n          \"chainId\": 0,\n          \"weight\": \"NQn4BGftuWAeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\n          \"featureFlags\": 0,\n          \"epochStart\": 1602381443331834,\n          \"adjacents\": {\n            \"5\": \"Mpic85rur2MYf3zli8s8bHxTFjriFoMPTr6ZPs8sjxM\",\n            \"10\": \"VBKuhU_hQmuvKlx88A5o-FH0rzNo59NsdxmOGNBQ-yc\",\n            \"15\": \"MItdqgHZxf7j6l0oE8X-G9-VyMbnQmZrtSniuRe_EJ8\"\n          },\n          \"payloadHash\": \"GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA\",\n          \"chainwebVersion\": \"mainnet01\",\n          \"target\": \"QrcsbEm-3WjyCGAGlzIEhLEN3ZMWORoyYy8AAAAAAAA\",\n          \"nonce\": \"13095611958898437\"\n        },\n        \"payloadWithOutputs\": {\n          \"transactions\": [],\n          \"minerData\": \"eyJhY2NvdW50IjoiYTFiMzE0MGNiN2NjODk1YzBlMDkxNzAyZWQwNTU3OWZiZTA1YzZlNjc0NWY4MmNlNjAzNzQ2YjQwMGM4MTU0OCIsInByZWRpY2F0ZSI6ImtleXMtYWxsIiwicHVibGljLWtleXMiOlsiYTFiMzE0MGNiN2NjODk1YzBlMDkxNzAyZWQwNTU3OWZiZTA1YzZlNjc0NWY4MmNlNjAzNzQ2YjQwMGM4MTU0OCJdfQ\",\n          \"transactionsHash\": \"nT0j4xw2woMkdXXaopdurXIn24OG-jNMqQzUGfxV_MA\",\n          \"outputsHash\": \"4pXRrZ2K0_V0iGAxQCKrKdLjQTBZHBOQS7P-47kdnhY\",\n          \"payloadHash\": \"GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA\",\n          \"coinbase\": \"eyJnYXMiOjAsInJlc3VsdCI6eyJzdGF0dXMiOiJzdWNjZXNzIiwiZGF0YSI6IldyaXRlIHN1Y2NlZWRlZCJ9LCJyZXFLZXkiOiJJa2hoV0VGQ2NURlFTMU5MYkdodVkwcHJNRjlOZERjMVgyeE1OMDVUTTNkSk5qSTNVV1pZV2w4NE5Xc2kiLCJsb2dzIjoiZ3Noak1kWFJrVGxKYmIxalZkQWJ6SVVDcGpQb1JBQ2pEbExzRzBXNkJEMCIsIm1ldGFEYXRhIjpudWxsLCJjb250aW51YXRpb24iOm51bGwsInR4SWQiOjEyNzIzNTB9\"\n        }\n      },\n      {\n        \"blockHeader\": {\n          \"creationTime\": 1602382678045236,\n          \"parent\": \"k0an0qEORusqQg9ZjKrxa-0Bo0-hQVYLXqWi5LHxg3k\",\n          \"height\": 1000001,\n          \"hash\": \"vhVa6Deh10RXLRf3L-MSQTYqaL-_IY_mi-v58MjP9R8\",\n          \"chainId\": 0,\n          \"weight\": \"bOkHN2JUv2AeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\n          \"featureFlags\": 0,\n          \"epochStart\": 1602381443331834,\n          \"adjacents\": {\n            \"5\": \"ALcxv1ZiwwQ_QX9eOBZMbzIop6n7XtveS1FqOFwyvGM\",\n            \"10\": \"C76ElC60qXSJQCHePpzzJxsCYvvrqvmkoHPyZnex-4Q\",\n            \"15\": \"Kv0sz_rTANjoiJwMrdZFCJNFwdH0U_M5ouwMr3BXBfo\"\n          },\n          \"payloadHash\": \"smUiDW9jfD_0vrdt4-fXKT_lqC90RsgEGObdp3FznFY\",\n          \"chainwebVersion\": \"mainnet01\",\n          \"target\": \"QrcsbEm-3WjyCGAGlzIEhLEN3ZMWORoyYy8AAAAAAAA\",\n          \"nonce\": \"110239794631051275\"\n        },\n        \"payloadWithOutputs\": {\n          \"transactions\": [\n            [\n              \"eyJoYXNoIjoibFRqWW9taEFDSEUxemphRFlvbnV6VGJmdEV1THp2SExNTUE5dzI0SFY5SSIsInNpZ3MiOlt7InNpZyI6IjE3ZDhkYmRmYjUyZWUyMmMyMTA5MGNjYzBkYzY0MzhmYjFjZjlmZWVmNmVjNGY1YWQwMTA3MzViNjllYjA4MjQ2MGU3ZTExYmI4NTBjM2FkN2M4MjAyNzFiMzViNmFiMDcyOTExNGExOGE2YWUwMmFiYWJmZGM0Yzc1ZWZiZjA0In1dLCJjbWQiOiJ7XCJuZXR3b3JrSWRcIjpcIm1haW5uZXQwMVwiLFwicGF5bG9hZFwiOntcImV4ZWNcIjp7XCJkYXRhXCI6e30sXCJjb2RlXCI6XCIoY29pbi50cmFuc2ZlciBcXFwiNjUyYTg4MzFhNWFkMjQzOTYxNWM4NzQ2NzliNjAwN2EwMzUzOTg1Mjk3YzhmN2MzNDhmMzhhYzYxODZiNzBmN1xcXCIgXFxcIjlhMjEyYjZiZDM5ZmZlOWMzZTIxNTk5ZDMyOWEzYTg0YzkwN2NkNGJlMWYzYjUyYWE0ZmU3NmEzNjk1Yzk1ODFcXFwiIDEwLjEzKVwifX0sXCJzaWduZXJzXCI6W3tcInB1YktleVwiOlwiNjUyYTg4MzFhNWFkMjQzOTYxNWM4NzQ2NzliNjAwN2EwMzUzOTg1Mjk3YzhmN2MzNDhmMzhhYzYxODZiNzBmN1wiLFwiY2xpc3RcIjpbe1wiYXJnc1wiOltdLFwibmFtZVwiOlwiY29pbi5HQVNcIn0se1wiYXJnc1wiOltcIjY1MmE4ODMxYTVhZDI0Mzk2MTVjODc0Njc5YjYwMDdhMDM1Mzk4NTI5N2M4ZjdjMzQ4ZjM4YWM2MTg2YjcwZjdcIixcIjlhMjEyYjZiZDM5ZmZlOWMzZTIxNTk5ZDMyOWEzYTg0YzkwN2NkNGJlMWYzYjUyYWE0ZmU3NmEzNjk1Yzk1ODFcIiwxMC4xM10sXCJuYW1lXCI6XCJjb2luLlRSQU5TRkVSXCJ9XX1dLFwibWV0YVwiOntcImNyZWF0aW9uVGltZVwiOjE2MDIzODI1NTgsXCJ0dGxcIjoyODgwMCxcImdhc0xpbWl0XCI6NjAwLFwiY2hhaW5JZFwiOlwiMFwiLFwiZ2FzUHJpY2VcIjoxLjBlLTUsXCJzZW5kZXJcIjpcIjY1MmE4ODMxYTVhZDI0Mzk2MTVjODc0Njc5YjYwMDdhMDM1Mzk4NTI5N2M4ZjdjMzQ4ZjM4YWM2MTg2YjcwZjdcIn0sXCJub25jZVwiOlwiXFxcIjIwMjAtMTAtMTFUMDI6MTc6MDMuNTM3WlxcXCJcIn0ifQ\",\n              \"eyJnYXMiOjU3MiwicmVzdWx0Ijp7InN0YXR1cyI6InN1Y2Nlc3MiLCJkYXRhIjoiV3JpdGUgc3VjY2VlZGVkIn0sInJlcUtleSI6ImxUallvbWhBQ0hFMXpqYURZb251elRiZnRFdUx6dkhMTU1BOXcyNEhWOUkiLCJsb2dzIjoicERxbDlQazJBSHAwanEyVzRWQmZPWmpWWEhTTHRqMklBWGZ0TlRBZXBFVSIsIm1ldGFEYXRhIjpudWxsLCJjb250aW51YXRpb24iOm51bGwsInR4SWQiOjEyNzIzNTN9\"\n            ]\n          ],\n          \"minerData\": \"eyJhY2NvdW50IjoiYTFiMzE0MGNiN2NjODk1YzBlMDkxNzAyZWQwNTU3OWZiZTA1YzZlNjc0NWY4MmNlNjAzNzQ2YjQwMGM4MTU0OCIsInByZWRpY2F0ZSI6ImtleXMtYWxsIiwicHVibGljLWtleXMiOlsiYTFiMzE0MGNiN2NjODk1YzBlMDkxNzAyZWQwNTU3OWZiZTA1YzZlNjc0NWY4MmNlNjAzNzQ2YjQwMGM4MTU0OCJdfQ\",\n          \"transactionsHash\": \"Fzhmc04Cub7YcLd2ybMKBok8TpBQ6-W_msAV8gFzuhM\",\n          \"outputsHash\": \"VsGmieWzCV3nwDHFtdKrGd61mycmtv_vJ9mI0VZrONI\",\n          \"payloadHash\": \"smUiDW9jfD_0vrdt4-fXKT_lqC90RsgEGObdp3FznFY\",\n          \"coinbase\": \"eyJnYXMiOjAsInJlc3VsdCI6eyJzdGF0dXMiOiJzdWNjZXNzIiwiZGF0YSI6IldyaXRlIHN1Y2NlZWRlZCJ9LCJyZXFLZXkiOiJJbXN3WVc0d2NVVlBVblZ6Y1ZGbk9WcHFTM0o0WVMwd1FtOHdMV2hSVmxsTVdIRlhhVFZNU0hobk0yc2kiLCJsb2dzIjoicDkzUW00LVdGYnpFb0R6Y0FoSEFWZTd6N21kaFQ0UG9yMVJ0S2QydWR1YyIsIm1ldGFEYXRhIjpudWxsLCJjb250aW51YXRpb24iOm51bGwsInR4SWQiOjEyNzIzNTF9\"\n        }\n      }\n    ],\n    \"limit\": 2\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7c3e675-72df-4dd0-9232-94db57c67366",
+              "name": "The `next` or `maxheight` parameter indicated a nonexistent block height.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "block"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "next",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "minheight",
+                      "value": "500000"
+                    },
+                    {
+                      "key": "maxheight",
+                      "value": "500000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"key\": \"88L5g9Z-oO4qg-yt4lo-sw_EoO2ev2V1x8keZeUXI7d\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f72b9902-9455-45e1-abd1-9f5a4a1ea855",
+          "name": "Get Block Branches",
+          "request": {
+            "name": "Get Block Branches",
+            "description": {
+              "content": "A page of blocks from branches of the block chain in **descending**\norder.\n\nBlocks are returned that are ancestors of the block in the set of upper\nbounds and are not ancestors of any block in the set of lower bounds.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "chain",
+                ":chain",
+                "block",
+                "branch"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Maximum number of records that may be returned. The actual number may be\nlower.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "next",
+                  "value": "<string>",
+                  "description": "The cursor for the next page. This value can be found as value of the\n`next` property of the previous page.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "minheight",
+                  "value": "<integer>",
+                  "description": "Minimum block height of the returned headers"
+                },
+                {
+                  "disabled": false,
+                  "key": "maxheight",
+                  "value": "<integer>",
+                  "description": "Maximum block height of the returned headers"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "chain",
+                  "description": "(Required) the id of the chain to which the request is sent"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lower\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"upper\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dfa1e01a-d32d-4d0d-ac96-9313b0ab4f58",
+              "name": "The blocks that were found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "block",
+                    "branch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "next",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "minheight",
+                      "value": "500000"
+                    },
+                    {
+                      "key": "maxheight",
+                      "value": "500000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"lower\": [\n    \"RClyuyZAacwvPpmLXKbTwrIRXWeUSjiNhJVP2esH8KM\"\n  ],\n  \"upper\": [\n    \"QxGCAz5AY1Y41nh1yWtgqhKhZ9pPiPRagFdIKNqBH74\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": {\n    \"next\": \"inclusive:o1S4NNFhKWg8T1HEkmDvsTH9Ut9l3_qHRpp00yRKZIk\",\n    \"items\": [\n      {\n        \"blockHeader\": {\n          \"creationTime\": 1602382624629329,\n          \"parent\": \"HaXABq1PKSKlhncJk0_Mt75_lL7NS3wI627QfXZ_85k\",\n          \"height\": 1000000,\n          \"hash\": \"k0an0qEORusqQg9ZjKrxa-0Bo0-hQVYLXqWi5LHxg3k\",\n          \"chainId\": 0,\n          \"weight\": \"NQn4BGftuWAeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\n          \"featureFlags\": 0,\n          \"epochStart\": 1602381443331834,\n          \"adjacents\": {\n            \"5\": \"Mpic85rur2MYf3zli8s8bHxTFjriFoMPTr6ZPs8sjxM\",\n            \"10\": \"VBKuhU_hQmuvKlx88A5o-FH0rzNo59NsdxmOGNBQ-yc\",\n            \"15\": \"MItdqgHZxf7j6l0oE8X-G9-VyMbnQmZrtSniuRe_EJ8\"\n          },\n          \"payloadHash\": \"GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA\",\n          \"chainwebVersion\": \"mainnet01\",\n          \"target\": \"QrcsbEm-3WjyCGAGlzIEhLEN3ZMWORoyYy8AAAAAAAA\",\n          \"nonce\": \"13095611958898437\"\n        },\n        \"payloadWithOutputs\": {\n          \"transactions\": [],\n          \"minerData\": \"eyJhY2NvdW50IjoiYTFiMzE0MGNiN2NjODk1YzBlMDkxNzAyZWQwNTU3OWZiZTA1YzZlNjc0NWY4MmNlNjAzNzQ2YjQwMGM4MTU0OCIsInByZWRpY2F0ZSI6ImtleXMtYWxsIiwicHVibGljLWtleXMiOlsiYTFiMzE0MGNiN2NjODk1YzBlMDkxNzAyZWQwNTU3OWZiZTA1YzZlNjc0NWY4MmNlNjAzNzQ2YjQwMGM4MTU0OCJdfQ\",\n          \"transactionsHash\": \"nT0j4xw2woMkdXXaopdurXIn24OG-jNMqQzUGfxV_MA\",\n          \"outputsHash\": \"4pXRrZ2K0_V0iGAxQCKrKdLjQTBZHBOQS7P-47kdnhY\",\n          \"payloadHash\": \"GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA\",\n          \"coinbase\": \"eyJnYXMiOjAsInJlc3VsdCI6eyJzdGF0dXMiOiJzdWNjZXNzIiwiZGF0YSI6IldyaXRlIHN1Y2NlZWRlZCJ9LCJyZXFLZXkiOiJJa2hoV0VGQ2NURlFTMU5MYkdodVkwcHJNRjlOZERjMVgyeE1OMDVUTTNkSk5qSTNVV1pZV2w4NE5Xc2kiLCJsb2dzIjoiZ3Noak1kWFJrVGxKYmIxalZkQWJ6SVVDcGpQb1JBQ2pEbExzRzBXNkJEMCIsIm1ldGFEYXRhIjpudWxsLCJjb250aW51YXRpb24iOm51bGwsInR4SWQiOjEyNzIzNTB9\"\n        }\n      },\n      {\n        \"blockHeader\": {\n          \"creationTime\": 1602382678045236,\n          \"parent\": \"k0an0qEORusqQg9ZjKrxa-0Bo0-hQVYLXqWi5LHxg3k\",\n          \"height\": 1000001,\n          \"hash\": \"vhVa6Deh10RXLRf3L-MSQTYqaL-_IY_mi-v58MjP9R8\",\n          \"chainId\": 0,\n          \"weight\": \"bOkHN2JUv2AeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\n          \"featureFlags\": 0,\n          \"epochStart\": 1602381443331834,\n          \"adjacents\": {\n            \"5\": \"ALcxv1ZiwwQ_QX9eOBZMbzIop6n7XtveS1FqOFwyvGM\",\n            \"10\": \"C76ElC60qXSJQCHePpzzJxsCYvvrqvmkoHPyZnex-4Q\",\n            \"15\": \"Kv0sz_rTANjoiJwMrdZFCJNFwdH0U_M5ouwMr3BXBfo\"\n          },\n          \"payloadHash\": \"smUiDW9jfD_0vrdt4-fXKT_lqC90RsgEGObdp3FznFY\",\n          \"chainwebVersion\": \"mainnet01\",\n          \"target\": \"QrcsbEm-3WjyCGAGlzIEhLEN3ZMWORoyYy8AAAAAAAA\",\n          \"nonce\": \"110239794631051275\"\n        },\n        \"payloadWithOutputs\": {\n          \"transactions\": [\n            [\n              \"eyJoYXNoIjoibFRqWW9taEFDSEUxemphRFlvbnV6VGJmdEV1THp2SExNTUE5dzI0SFY5SSIsInNpZ3MiOlt7InNpZyI6IjE3ZDhkYmRmYjUyZWUyMmMyMTA5MGNjYzBkYzY0MzhmYjFjZjlmZWVmNmVjNGY1YWQwMTA3MzViNjllYjA4MjQ2MGU3ZTExYmI4NTBjM2FkN2M4MjAyNzFiMzViNmFiMDcyOTExNGExOGE2YWUwMmFiYWJmZGM0Yzc1ZWZiZjA0In1dLCJjbWQiOiJ7XCJuZXR3b3JrSWRcIjpcIm1haW5uZXQwMVwiLFwicGF5bG9hZFwiOntcImV4ZWNcIjp7XCJkYXRhXCI6e30sXCJjb2RlXCI6XCIoY29pbi50cmFuc2ZlciBcXFwiNjUyYTg4MzFhNWFkMjQzOTYxNWM4NzQ2NzliNjAwN2EwMzUzOTg1Mjk3YzhmN2MzNDhmMzhhYzYxODZiNzBmN1xcXCIgXFxcIjlhMjEyYjZiZDM5ZmZlOWMzZTIxNTk5ZDMyOWEzYTg0YzkwN2NkNGJlMWYzYjUyYWE0ZmU3NmEzNjk1Yzk1ODFcXFwiIDEwLjEzKVwifX0sXCJzaWduZXJzXCI6W3tcInB1YktleVwiOlwiNjUyYTg4MzFhNWFkMjQzOTYxNWM4NzQ2NzliNjAwN2EwMzUzOTg1Mjk3YzhmN2MzNDhmMzhhYzYxODZiNzBmN1wiLFwiY2xpc3RcIjpbe1wiYXJnc1wiOltdLFwibmFtZVwiOlwiY29pbi5HQVNcIn0se1wiYXJnc1wiOltcIjY1MmE4ODMxYTVhZDI0Mzk2MTVjODc0Njc5YjYwMDdhMDM1Mzk4NTI5N2M4ZjdjMzQ4ZjM4YWM2MTg2YjcwZjdcIixcIjlhMjEyYjZiZDM5ZmZlOWMzZTIxNTk5ZDMyOWEzYTg0YzkwN2NkNGJlMWYzYjUyYWE0ZmU3NmEzNjk1Yzk1ODFcIiwxMC4xM10sXCJuYW1lXCI6XCJjb2luLlRSQU5TRkVSXCJ9XX1dLFwibWV0YVwiOntcImNyZWF0aW9uVGltZVwiOjE2MDIzODI1NTgsXCJ0dGxcIjoyODgwMCxcImdhc0xpbWl0XCI6NjAwLFwiY2hhaW5JZFwiOlwiMFwiLFwiZ2FzUHJpY2VcIjoxLjBlLTUsXCJzZW5kZXJcIjpcIjY1MmE4ODMxYTVhZDI0Mzk2MTVjODc0Njc5YjYwMDdhMDM1Mzk4NTI5N2M4ZjdjMzQ4ZjM4YWM2MTg2YjcwZjdcIn0sXCJub25jZVwiOlwiXFxcIjIwMjAtMTAtMTFUMDI6MTc6MDMuNTM3WlxcXCJcIn0ifQ\",\n              \"eyJnYXMiOjU3MiwicmVzdWx0Ijp7InN0YXR1cyI6InN1Y2Nlc3MiLCJkYXRhIjoiV3JpdGUgc3VjY2VlZGVkIn0sInJlcUtleSI6ImxUallvbWhBQ0hFMXpqYURZb251elRiZnRFdUx6dkhMTU1BOXcyNEhWOUkiLCJsb2dzIjoicERxbDlQazJBSHAwanEyVzRWQmZPWmpWWEhTTHRqMklBWGZ0TlRBZXBFVSIsIm1ldGFEYXRhIjpudWxsLCJjb250aW51YXRpb24iOm51bGwsInR4SWQiOjEyNzIzNTN9\"\n            ]\n          ],\n          \"minerData\": \"eyJhY2NvdW50IjoiYTFiMzE0MGNiN2NjODk1YzBlMDkxNzAyZWQwNTU3OWZiZTA1YzZlNjc0NWY4MmNlNjAzNzQ2YjQwMGM4MTU0OCIsInByZWRpY2F0ZSI6ImtleXMtYWxsIiwicHVibGljLWtleXMiOlsiYTFiMzE0MGNiN2NjODk1YzBlMDkxNzAyZWQwNTU3OWZiZTA1YzZlNjc0NWY4MmNlNjAzNzQ2YjQwMGM4MTU0OCJdfQ\",\n          \"transactionsHash\": \"Fzhmc04Cub7YcLd2ybMKBok8TpBQ6-W_msAV8gFzuhM\",\n          \"outputsHash\": \"VsGmieWzCV3nwDHFtdKrGd61mycmtv_vJ9mI0VZrONI\",\n          \"payloadHash\": \"smUiDW9jfD_0vrdt4-fXKT_lqC90RsgEGObdp3FznFY\",\n          \"coinbase\": \"eyJnYXMiOjAsInJlc3VsdCI6eyJzdGF0dXMiOiJzdWNjZXNzIiwiZGF0YSI6IldyaXRlIHN1Y2NlZWRlZCJ9LCJyZXFLZXkiOiJJbXN3WVc0d2NVVlBVblZ6Y1ZGbk9WcHFTM0o0WVMwd1FtOHdMV2hSVmxsTVdIRlhhVFZNU0hobk0yc2kiLCJsb2dzIjoicDkzUW00LVdGYnpFb0R6Y0FoSEFWZTd6N21kaFQ0UG9yMVJ0S2QydWR1YyIsIm1ldGFEYXRhIjpudWxsLCJjb250aW51YXRpb24iOm51bGwsInR4SWQiOjEyNzIzNTF9\"\n        }\n      }\n    ],\n    \"limit\": 2\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4fdf8a38-9b11-42ee-88ad-a97a1b405ea2",
+              "name": "The branch bounds were exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "block",
+                    "branch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "next",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "minheight",
+                      "value": "500000"
+                    },
+                    {
+                      "key": "maxheight",
+                      "value": "500000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"lower\": [\n    \"RClyuyZAacwvPpmLXKbTwrIRXWeUSjiNhJVP2esH8KM\"\n  ],\n  \"upper\": [\n    \"QxGCAz5AY1Y41nh1yWtgqhKhZ9pPiPRagFdIKNqBH74\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c55a2bb4-b8a7-4c7f-9fbf-9f3bd44b4b51",
+              "name": "A block indicated by a required parameter was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "block",
+                    "branch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "next",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "minheight",
+                      "value": "500000"
+                    },
+                    {
+                      "key": "maxheight",
+                      "value": "500000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"lower\": [\n    \"RClyuyZAacwvPpmLXKbTwrIRXWeUSjiNhJVP2esH8KM\"\n  ],\n  \"upper\": [\n    \"QxGCAz5AY1Y41nh1yWtgqhKhZ9pPiPRagFdIKNqBH74\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reason\": \"string\",\n  \"key\": \"<string>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77cdd170-7b91-40ff-aaed-18d71e345a2b",
+              "name": "The value of the `Accept` header is not supported.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chain",
+                    ":chain",
+                    "block",
+                    "branch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "next",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "minheight",
+                      "value": "500000"
+                    },
+                    {
+                      "key": "maxheight",
+                      "value": "500000"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "chain",
+                      "description": "(Required) the id of the chain to which the request is sent"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"lower\": [\n    \"RClyuyZAacwvPpmLXKbTwrIRXWeUSjiNhJVP2esH8KM\"\n  ],\n  \"upper\": [\n    \"QxGCAz5AY1Y41nh1yWtgqhKhZ9pPiPRagFdIKNqBH74\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Acceptable",
+              "code": 406,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "0.0",
+      "key": "apiVersion"
+    },
+    {
+      "type": "string",
+      "value": "https://api.chainweb.com/chainweb/{{apiVersion}}/mainnet01",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8430365d-4786-4ce6-9606-45b11a55a4fd",
+    "name": "Kadena Chainweb Node block API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API of [chainweb-node](https://github.com/kadena-io/chainweb-node)\n\nChainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an\nconservative extension of Bitcoin's Nakamoto consensus that extends\nBitcoin's single chain algorithm to multiple chains. This allows for\nunlimited transaction throughput by horizontally scaling the number of chains.\n\nFeedback and bug reports for the content of this site are welcome. Please\nopen an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).\n",
+      "type": "text/plain"
+    }
+  }
+}

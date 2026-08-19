@@ -1,0 +1,152 @@
+{
+  "item": [
+    {
+      "id": "d37e8e94-37dd-4a31-bab1-e58ccbbf08fa",
+      "name": "endpoint-listen",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7402e828-f702-43d9-8f4f-06e54093a5b7",
+          "name": "listen",
+          "request": {
+            "name": "listen",
+            "description": {
+              "content": "Blocking request for single command result.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "listen"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"listen\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6bd711b6-d944-456e-8c94-fafd0cd914bc",
+              "name": "The request key was found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "listen"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"listen\": \"y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"reqKey\": \"y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw\",\n  \"result\": {\n    \"status\": \"success\",\n    \"data\": \"string\"\n  },\n  \"logs\": \"string\",\n  \"metaData\": {\n    \"blockTime\": 7101.045711820689,\n    \"prevBlockHash\": \"string\",\n    \"blockHash\": \"string\",\n    \"blockHeight\": 9111.040483299994,\n    \"publicMeta\": {\n      \"creationTime\": 5491.195138339947,\n      \"ttl\": 8295.262401553076,\n      \"gasLimit\": 1267.9456156447377,\n      \"chainId\": \"string\",\n      \"gasPrice\": 5267.793738005382,\n      \"sender\": \"string\"\n    }\n  },\n  \"gas\": 25.94154832686657,\n  \"txId\": 3368.190708867931,\n  \"events\": [\n    {\n      \"name\": \"string\",\n      \"module\": {\n        \"name\": \"string\",\n        \"namespace\": \"string\"\n      },\n      \"params\": [\n        \"string\",\n        \"string\"\n      ],\n      \"moduleHash\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"module\": {\n        \"name\": \"string\",\n        \"namespace\": \"string\"\n      },\n      \"params\": [\n        \"string\",\n        \"string\"\n      ],\n      \"moduleHash\": \"string\"\n    }\n  ],\n  \"continuation\": {\n    \"pactId\": \"string\",\n    \"step\": 2315.2984681293456,\n    \"stepCount\": 4329.250974070224,\n    \"executed\": true,\n    \"stepHasRollback\": false,\n    \"continuation\": {\n      \"def\": \"string\",\n      \"args\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"yield\": {\n      \"data\": {\n        \"key_0\": \"string\"\n      },\n      \"source\": \"string\",\n      \"provenance\": {\n        \"targetChainId\": \"string\",\n        \"moduleHash\": \"string\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "0.0",
+      "key": "apiVersion"
+    },
+    {
+      "type": "string",
+      "value": "https://api.chainweb.com/chainweb/{{apiVersion}}/mainnet01",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "95b28e07-3789-4628-a988-23aebdf4ffd8",
+    "name": "Kadena Chainweb Node block endpoint-listen API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API of [chainweb-node](https://github.com/kadena-io/chainweb-node)\n\nChainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an\nconservative extension of Bitcoin's Nakamoto consensus that extends\nBitcoin's single chain algorithm to multiple chains. This allows for\nunlimited transaction throughput by horizontally scaling the number of chains.\n\nFeedback and bug reports for the content of this site are welcome. Please\nopen an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).\n",
+      "type": "text/plain"
+    }
+  }
+}

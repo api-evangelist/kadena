@@ -1,0 +1,556 @@
+{
+  "item": [
+    {
+      "id": "b6bfe365-f7c3-4efd-9003-4185a4958d8c",
+      "name": "mining",
+      "description": {
+        "content": "The Mining API of Chainweb node is disabled by default. It can be enabled\nand configured in the configuration file.\n\n\nThe mining API consists of the following endpoints that\nare described in detail on the\n[Chainweb mining wiki page](https://github.com/kadena-io/chainweb-node/wiki/Mining-API)\n\n*   `GET mining/work`\n*   `POST mining/solved`\n*   `GET mining/updates`\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "70066e7a-7531-4135-82d9-a44147cebbc5",
+          "name": "Get Mining Work",
+          "request": {
+            "name": "Get Mining Work",
+            "description": {
+              "content": "A new BlockHeader to mine on",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "mining",
+                "work"
+              ],
+              "host": [
+                "{{mining-work-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "GET",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"account\": \"<string>\",\n  \"predicate\": \"<string>\",\n  \"public-keys\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "589bec96-5fb6-4e46-be8b-f27cc37bab55",
+              "name": "A mining work item",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "mining",
+                    "work"
+                  ],
+                  "host": [
+                    "{{mining-work-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "GET",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"account\": \"miner\",\n  \"predicate\": \"keys-all\",\n  \"public-keys\": [\n    \"f880a433d6e2a13a32b6169030f56245efdd8c1b8a5027e9ce98a88e886bef27\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "1345@4530=6405o0206:738"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dce31684-f05e-4898-b7cd-b3fe0dea341a",
+          "name": "Solved Mining Work",
+          "request": {
+            "name": "Solved Mining Work",
+            "description": {
+              "content": "Submit a solution for a new block",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "chainweb",
+                "0.0",
+                "mainnet01",
+                "mining",
+                "solved"
+              ],
+              "host": [
+                "{{chainweb-0.0-mainnet01-mining-solved-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "file"
+            }
+          },
+          "response": [
+            {
+              "id": "5bd3394d-b259-469f-96ef-43ae17bf09e0",
+              "name": "Solved mining work is valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chainweb",
+                    "0.0",
+                    "mainnet01",
+                    "mining",
+                    "solved"
+                  ],
+                  "host": [
+                    "{{chainweb-0.0-mainnet01-mining-solved-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "file"
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8c618de2-cdfe-4671-ba1f-c5e1478d721b",
+          "name": "Notification of Updated Work",
+          "request": {
+            "name": "Notification of Updated Work",
+            "description": {
+              "content": "An server-sent event sources that notifies miners when new mining\nwork becomes available.\n\nThe stream is terminated by the server in regular intervals and\nit is up to the client to request a new stream.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "mining",
+                "updates"
+              ],
+              "host": [
+                "{{mining-updates-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/octet-stream"
+              },
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "method": "GET",
+            "auth": null,
+            "body": {
+              "mode": "file"
+            }
+          },
+          "response": [
+            {
+              "id": "b9bc1641-ec00-407d-84c9-b22e16831af0",
+              "name": "Each events consists of a single line: `event:New Cut`.\nEvents are separated by empty lines.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "mining",
+                    "updates"
+                  ],
+                  "host": [
+                    "{{mining-updates-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/event-stream"
+                  }
+                ],
+                "method": "GET",
+                "body": {
+                  "mode": "file"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Host and port of the client as observed by the remote node",
+                  "key": "x-peer-addr",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": "The time of the clock of the remote node",
+                  "key": "x-server-timestamp",
+                  "value": "1618597601"
+                },
+                {
+                  "disabled": false,
+                  "description": "The version of the remote chainweb node",
+                  "key": "x-chainweb-node-version",
+                  "value": "2.6"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/event-stream"
+                }
+              ],
+              "body": "event:New Cut\n\nevent:New Cut\n\nevent:New Cut\n",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "0.0",
+      "key": "apiVersion"
+    },
+    {
+      "type": "string",
+      "value": "https://api.chainweb.com/chainweb/{{apiVersion}}/mainnet01",
+      "key": "baseUrl"
+    },
+    {
+      "description": {
+        "content": " (This can only be one of http,https)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "http",
+      "key": "schema"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "example.com",
+      "key": "domain"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "1848",
+      "key": "port"
+    },
+    {
+      "description": {
+        "content": " (This can only be one of test-singleton,development,mainnet01,testnet04)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "mainnet01",
+      "key": "chainwebVersion"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "0.0",
+      "key": "apiVersion"
+    },
+    {
+      "type": "string",
+      "value": "{{schema}}://{{domain}}:{{port}}/chainweb/{{chainwebVersion}}/{{apiVersion}}",
+      "key": "mining-work-Url"
+    },
+    {
+      "description": {
+        "content": " (This can only be one of http,https)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "http",
+      "key": "schema"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "example.com",
+      "key": "domain"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "1848",
+      "key": "port"
+    },
+    {
+      "description": {
+        "content": " (This can only be one of test-singleton,development,mainnet01,testnet04)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "mainnet01",
+      "key": "chainwebVersion"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "0.0",
+      "key": "apiVersion"
+    },
+    {
+      "type": "string",
+      "value": "{{schema}}://{{domain}}:{{port}}/chainweb/{{chainwebVersion}}/{{apiVersion}}",
+      "key": "chainweb-0.0-mainnet01-mining-solved-Url"
+    },
+    {
+      "description": {
+        "content": " (This can only be one of http,https)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "http",
+      "key": "schema"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "example.com",
+      "key": "domain"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "1848",
+      "key": "port"
+    },
+    {
+      "description": {
+        "content": " (This can only be one of test-singleton,development,mainnet01,testnet04)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "mainnet01",
+      "key": "chainwebVersion"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "0.0",
+      "key": "apiVersion"
+    },
+    {
+      "type": "string",
+      "value": "{{schema}}://{{domain}}:{{port}}/chainweb/{{chainwebVersion}}/{{apiVersion}}",
+      "key": "mining-updates-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "5e1d369f-8d38-4877-9061-aba70ea42e07",
+    "name": "Kadena Chainweb Node block mining API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API of [chainweb-node](https://github.com/kadena-io/chainweb-node)\n\nChainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an\nconservative extension of Bitcoin's Nakamoto consensus that extends\nBitcoin's single chain algorithm to multiple chains. This allows for\nunlimited transaction throughput by horizontally scaling the number of chains.\n\nFeedback and bug reports for the content of this site are welcome. Please\nopen an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).\n",
+      "type": "text/plain"
+    }
+  }
+}
