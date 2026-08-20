@@ -82,6 +82,8 @@ apis:
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
   tags:
+  - Block
+  tags_raw:
   - block
   properties:
   - type: OpenAPI
@@ -107,6 +109,8 @@ apis:
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
   tags:
+  - Blockhash
+  tags_raw:
   - blockhash
   properties:
   - type: OpenAPI
@@ -119,6 +123,8 @@ apis:
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
   tags:
+  - Config
+  tags_raw:
   - config
   properties:
   - type: OpenAPI
@@ -250,6 +256,8 @@ apis:
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
   tags:
+  - Header
+  tags_raw:
   - header
   properties:
   - type: OpenAPI
@@ -267,6 +275,8 @@ apis:
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
   tags:
+  - Mempool
+  tags_raw:
   - mempool
   properties:
   - type: OpenAPI
@@ -297,6 +307,8 @@ apis:
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
   tags:
+  - Mining
+  tags_raw:
   - mining
   properties:
   - type: OpenAPI
@@ -308,7 +320,8 @@ apis:
   description: The misc API from Kadena — 7 operation(s) for misc.
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
-  tags:
+  tags: []
+  tags_raw:
   - misc
   properties:
   - type: OpenAPI
@@ -331,6 +344,8 @@ apis:
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
   tags:
+  - Payload
+  tags_raw:
   - payload
   properties:
   - type: OpenAPI
