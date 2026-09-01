@@ -120,7 +120,7 @@ apis:
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
   tags:
-  - blockhash
+  - Blockhash
   tags_raw:
   - blockhash
   properties:
@@ -267,7 +267,7 @@ apis:
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
   tags:
-  - header
+  - Header
   tags_raw:
   - header
   properties:
@@ -286,7 +286,7 @@ apis:
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
   tags:
-  - mempool
+  - Mempool
   tags_raw:
   - mempool
   properties:
@@ -318,7 +318,7 @@ apis:
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
   tags:
-  - mining
+  - Mining
   tags_raw:
   - mining
   properties:
