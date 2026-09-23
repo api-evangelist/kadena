@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Kadena Chainweb Node block mining API
-  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
+  title: Kadena Chainweb Node Mining API
+  description: 'API of chainweb-node
 
 
     Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
@@ -15,9 +15,7 @@ info:
 
     Feedback and bug reports for the content of this site are welcome. Please
 
-    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
-
-    '
+    open an issue at this github repository.'
   version: '0.0'
   x-logo:
     url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
@@ -95,28 +93,25 @@ servers:
     apiVersion:
       default: '0.0'
 tags:
-- name: mining
+- name: Mining
   x-displayName: Mining Endpoints
   description: 'The Mining API of Chainweb node is disabled by default. It can be enabled
 
     and configured in the configuration file.
 
 
-
     The mining API consists of the following endpoints that
 
     are described in detail on the
 
-    [Chainweb mining wiki page](https://github.com/kadena-io/chainweb-node/wiki/Mining-API)
+    Chainweb mining wiki page
 
 
-    *   `GET mining/work`
+    * `GET mining/work`
 
-    *   `POST mining/solved`
+    * `POST mining/solved`
 
-    *   `GET mining/updates`
-
-    '
+    * `GET mining/updates`'
 paths:
   /mining/work:
     servers:
@@ -147,7 +142,7 @@ paths:
           default: '0.0'
     get:
       tags:
-      - mining
+      - Mining
       summary: Get Mining Work
       description: A new BlockHeader to mine on
       requestBody:
@@ -236,6 +231,8 @@ paths:
                       '
                     type: string
                     format: binary
+      operationId: getMiningWork
+      x-operation-id-source: derived
   /chainweb/0.0/mainnet01/mining/solved:
     servers:
     - url: '{schema}://{domain}:{port}/chainweb/{chainwebVersion}/{apiVersion}'
@@ -265,7 +262,7 @@ paths:
           default: '0.0'
     post:
       tags:
-      - mining
+      - Mining
       summary: Solved Mining Work
       description: Submit a solution for a new block
       requestBody:
@@ -315,6 +312,8 @@ paths:
               $ref: '#/components/headers/x-server-timestamp'
             x-chainweb-node-version:
               $ref: '#/components/headers/x-chainweb-node-version'
+      operationId: postChainweb00Mainnet01MiningSolved
+      x-operation-id-source: derived
   /mining/updates:
     servers:
     - url: '{schema}://{domain}:{port}/chainweb/{chainwebVersion}/{apiVersion}'
@@ -344,7 +343,7 @@ paths:
           default: '0.0'
     get:
       tags:
-      - mining
+      - Mining
       summary: Notification of Updated Work
       description: 'An server-sent event sources that notifies miners when new mining
 
@@ -353,9 +352,7 @@ paths:
 
         The stream is terminated by the server in regular intervals and
 
-        it is up to the client to request a new stream.
-
-        '
+        it is up to the client to request a new stream.'
       requestBody:
         description: The first 4 bytes received from a call to `/mining/work`. This tells the Node to only inform the Miner of a new Cut when the specific chain in question has updated.
         content:
@@ -391,31 +388,26 @@ paths:
                 event:New Cut
 
                 '
+      operationId: getMiningUpdates
+      x-operation-id-source: derived
 components:
+  headers:
+    x-peer-addr:
+      description: Host and port of the client as observed by the remote node
+      schema:
+        $ref: '#/components/schemas/hostAddress'
+      example: 10.36.1.3:42988
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
+    x-server-timestamp:
+      description: The time of the clock of the remote node
+      schema:
+        $ref: '#/components/schemas/posixTimestamp'
+      example: 1618597601
   schemas:
-    miningUpdateEventStream:
-      title: Mining Update Events
-      description: "A stream of server-sent events. **This is not a JSON array**.\nEvents are separated by empty lines (`\\n\\n`). Each event\nconsists of a single line:\n\n  event:New Cut\n"
-      type: array
-      items:
-        title: New Cut Event
-        description: 'A `New Cut` event. **This is not a JSON object**.
-
-          Each event consists of a single `event` propert.
-
-          '
-        properties:
-          event:
-            type: string
-            enum:
-            - New Cut
-      example: 'event:New Cut
-
-
-        event:New Cut
-
-
-        event:New Cut'
     minerInfo:
       title: Miner Info
       properties:
@@ -454,22 +446,29 @@ components:
       type: string
       pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
       example: 10.36.1.3:42988
-  headers:
-    x-peer-addr:
-      description: Host and port of the client as observed by the remote node
-      schema:
-        $ref: '#/components/schemas/hostAddress'
-      example: 10.36.1.3:42988
-    x-server-timestamp:
-      description: The time of the clock of the remote node
-      schema:
-        $ref: '#/components/schemas/posixTimestamp'
-      example: 1618597601
-    x-chainweb-node-version:
-      description: The version of the remote chainweb node
-      schema:
-        type: string
-      example: '2.6'
+    miningUpdateEventStream:
+      title: Mining Update Events
+      description: "A stream of server-sent events. **This is not a JSON array**.\nEvents are separated by empty lines (`\\n\\n`). Each event\nconsists of a single line:\n\n  event:New Cut\n"
+      type: array
+      items:
+        title: New Cut Event
+        description: 'A `New Cut` event. **This is not a JSON object**.
+
+          Each event consists of a single `event` propert.
+
+          '
+        properties:
+          event:
+            type: string
+            enum:
+            - New Cut
+      example: 'event:New Cut
+
+
+        event:New Cut
+
+
+        event:New Cut'
 x-tagGroups:
 - name: chainweb_p2p
   x-displayName: Chainweb P2P API

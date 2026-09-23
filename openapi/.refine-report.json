@@ -1,44 +1,52 @@
 {
   "provider": "kadena",
   "sources": [
-    "kadena-block-api-openapi.yml",
-    "kadena-blockhash-api-openapi.yml",
-    "kadena-config-api-openapi.yml",
-    "kadena-cut-api-openapi.yml",
-    "kadena-endpoint-listen-api-openapi.yml",
-    "kadena-endpoint-local-api-openapi.yml",
-    "kadena-endpoint-poll-api-openapi.yml",
-    "kadena-endpoint-private-api-openapi.yml",
-    "kadena-endpoint-send-api-openapi.yml",
-    "kadena-endpoint-spv-api-openapi.yml",
-    "kadena-header-api-openapi.yml",
-    "kadena-mempool-api-openapi.yml",
-    "kadena-mining-api-openapi.yml",
-    "kadena-misc-api-openapi.yml",
-    "kadena-payload-api-openapi.yml",
-    "kadena-peer-api-openapi.yml"
+    "_original/kadena-chainweb-openapi-original.yml",
+    "_original/kadena-pact-openapi-original.yml"
   ],
   "outputs": [
     "kadena-block-api-openapi.yml",
     "kadena-blockhash-api-openapi.yml",
     "kadena-config-api-openapi.yml",
     "kadena-cut-api-openapi.yml",
-    "kadena-endpoint-listen-api-openapi.yml",
-    "kadena-endpoint-local-api-openapi.yml",
-    "kadena-endpoint-poll-api-openapi.yml",
-    "kadena-endpoint-private-api-openapi.yml",
-    "kadena-endpoint-send-api-openapi.yml",
-    "kadena-endpoint-spv-api-openapi.yml",
     "kadena-header-api-openapi.yml",
     "kadena-mempool-api-openapi.yml",
     "kadena-mining-api-openapi.yml",
     "kadena-misc-api-openapi.yml",
     "kadena-payload-api-openapi.yml",
-    "kadena-peer-api-openapi.yml"
+    "kadena-peer-api-openapi.yml",
+    "kadena-endpoint-listen-api-openapi.yml",
+    "kadena-endpoint-local-api-openapi.yml",
+    "kadena-endpoint-poll-api-openapi.yml",
+    "kadena-endpoint-private-api-openapi.yml",
+    "kadena-endpoint-send-api-openapi.yml",
+    "kadena-endpoint-spv-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "kadena-chainweb-openapi-original.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "kadena-pact-openapi-original.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "kadena-block-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-blockhash-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-config-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-cut-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-endpoint-listen-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-endpoint-local-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-endpoint-poll-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-endpoint-private-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-endpoint-send-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-endpoint-spv-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-header-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-mempool-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-mining-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-misc-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-payload-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kadena-peer-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

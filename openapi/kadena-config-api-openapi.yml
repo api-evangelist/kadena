@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Kadena Chainweb Node block config API
-  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
+  title: Kadena Chainweb Node Config API
+  description: 'API of chainweb-node
 
 
     Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
@@ -15,9 +15,7 @@ info:
 
     Feedback and bug reports for the content of this site are welcome. Please
 
-    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
-
-    '
+    open an issue at this github repository.'
   version: '0.0'
   x-logo:
     url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
@@ -95,13 +93,13 @@ servers:
     apiVersion:
       default: '0.0'
 tags:
-- name: config
+- name: Config
   x-displayName: Config Endpoint
 paths:
   /config:
     get:
       tags:
-      - config
+      - Config
       summary: Configuration of Chainweb Node
       description: 'Returns the configuration of chainweb-node as a JSON structure.
 
@@ -109,9 +107,7 @@ paths:
 
         on the chainweb node version and is not part of the stable chainweb-node
 
-        API.
-
-        '
+        API.'
       responses:
         '200':
           description: Configuration of the chainweb node
@@ -126,6 +122,8 @@ paths:
             application/json:
               example:
                 $ref: '#/components/examples/nodeConfig'
+      operationId: getConfig
+      x-operation-id-source: derived
 components:
   headers:
     x-peer-addr:
@@ -133,16 +131,29 @@ components:
       schema:
         $ref: '#/components/schemas/hostAddress'
       example: 10.36.1.3:42988
-    x-server-timestamp:
-      description: The time of the clock of the remote node
-      schema:
-        $ref: '#/components/schemas/posixTimestamp'
-      example: 1618597601
     x-chainweb-node-version:
       description: The version of the remote chainweb node
       schema:
         type: string
       example: '2.6'
+    x-server-timestamp:
+      description: The time of the clock of the remote node
+      schema:
+        $ref: '#/components/schemas/posixTimestamp'
+      example: 1618597601
+  schemas:
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
   examples:
     nodeConfig:
       value:
@@ -213,19 +224,6 @@ components:
           pruneChainDatabase: none
           fetchTimeout: 3000000
           initialCutHeightLimit: null
-  schemas:
-    posixTimestamp:
-      title: POSIX Timestamp
-      type: integer
-      description: Seconds since POSIX epoch
-      example: 1619108524
-      minimum: 0
-    hostAddress:
-      title: Host Address
-      description: Host address containing IPv4 and port
-      type: string
-      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
-      example: 10.36.1.3:42988
 x-tagGroups:
 - name: chainweb_p2p
   x-displayName: Chainweb P2P API

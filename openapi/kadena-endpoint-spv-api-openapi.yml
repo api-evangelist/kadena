@@ -1,99 +1,27 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Kadena Chainweb Node block endpoint-spv API
-  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
-
-
-    Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
-
-    conservative extension of Bitcoin''s Nakamoto consensus that extends
-
-    Bitcoin''s single chain algorithm to multiple chains. This allows for
-
-    unlimited transaction throughput by horizontally scaling the number of chains.
-
-
-    Feedback and bug reports for the content of this site are welcome. Please
-
-    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
-
-    '
-  version: '0.0'
+  title: Pact REST Endpoint Spv API
+  description: Transactional API for a runtime offering Pact smart contracts.
+  version: 1.3.7
   x-logo:
-    url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
+    url: https://i.imgur.com/bAZFAGF.png
     alttext: Kadena Chainweb Logo
+    href: https://api.chainweb.com/openapi
 servers:
-- url: https://api.chainweb.com/chainweb/{apiVersion}/mainnet01
-  description: 'Chainweb mainnet service API. It also serves some endpoints of the P2P API.
-
-    '
+- url: https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/{chainId}/pact/api/v1
+  description: Pact API for a chain on the Kadena mainnet.
   variables:
     apiVersion:
       default: '0.0'
-- url: https://api.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
-  description: 'Chainweb testnet service API. It also serves some endpoints of the P2P API.
-
-    '
+    chainId:
+      default: '0'
+- url: https://api.testnet.chainweb.com/chainweb/{apiVersion}/testnet04/chain/{chainId}/pact/api/v1
+  description: Pact API for a chain on the Kadena testnet.
   variables:
     apiVersion:
       default: '0.0'
-- url: '{schema}://{domain}:{port}/chainweb/{apiVersion}/{chainwebVersion}'
-  description: 'An generic chainweb-node. It may serve only a subset of the endpoints.
-
-    '
-  variables:
-    schema:
-      default: http
-      enum:
-      - http
-      - https
-    domain:
-      default: api.chainweb.com
-    port:
-      default: '1848'
-    chainwebVersion:
-      default: mainnet01
-      enum:
-      - test-singleton
-      - development
-      - mainnet01
-      - testnet04
-    apiVersion:
-      default: '0.0'
-- url: https://{location}.chainweb.com/chainweb/{apiVersion}/mainnet01
-  description: Chainweb mainnet P2P bootstrap node. Only P2P API endpoints are served.
-  variables:
-    location:
-      default: us-e1
-      enum:
-      - us-e1
-      - us-e2
-      - us-e3
-      - us-w1
-      - us-w2
-      - us-w3
-      - fr1
-      - fr2
-      - fr3
-      - jp1
-      - jp2
-      - jp3
-    apiVersion:
-      default: '0.0'
-- url: https://{location}.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
-  description: Chainweb testnet P2P bootstrap node. Only P2P API endpoints are served.
-  variables:
-    location:
-      default: us-e1
-      enum:
-      - us1
-      - us2
-      - eu1
-      - eu2
-      - ap1
-      - ap2
-    apiVersion:
-      default: '0.0'
+    chainId:
+      default: '0'
 tags:
 - name: endpoint-spv
   x-displayName: SPV proof creation for cross chain transaction
@@ -115,9 +43,7 @@ paths:
         chainId:
           default: '0'
     post:
-      description: 'Blocking request to fetch spv proof of a cross chain transaction. Request must be sent to the chain where the transaction is initiated.
-
-        '
+      description: Blocking request to fetch spv proof of a cross chain transaction. Request must be sent to the chain where the transaction is initiated.
       summary: spv
       tags:
       - endpoint-spv
@@ -141,6 +67,8 @@ paths:
               schema:
                 description: Error message with the description of failed proof requests.
                 type: string
+      operationId: postSpv
+      x-operation-id-source: derived
 components:
   schemas:
     spv-object:
@@ -168,40 +96,25 @@ components:
 
         '
 x-tagGroups:
-- name: chainweb_p2p
-  x-displayName: Chainweb P2P API
+- name: std-pact-api
+  x-displayName: Standard Pact API
   tags:
-  - p2p_api
-  - cut
-  - blockhash
-  - header
-  - payload
-  - mempool
-  - peer
-  - config
-- name: chainweb_service
-  x-displayName: Chainweb Service API
+  - endpoint-local
+  - endpoint-send
+  - endpoint-poll
+  - endpoint-listen
+- name: private-api
+  x-displayName: Private Pact API
   tags:
-  - service_api
-  - block
-  - misc
-  - mining
-  - pact
-- name: Common HTTP Headers
+  - endpoint-private
+- name: spv-api
+  x-displayName: SPV API
   tags:
-  - commonResponseHeaders
-- name: Data Models
+  - endpoint-spv
+- name: models
+  x-displayName: Pact API models
   tags:
-  - cut_model
-  - header_model
-  - payload_model
-  - payloadWithOutputs_model
-  - peer_model
-  - nodeInfo_model
-  - page_model
-  - minerInfo_model
-  - miningUpdateEventStream_model
-- name: Binary Encodings
-  tags:
-  - binaryHeader
-  - binaryWorkHeader
+  - model-command
+  - model-command-result
+  - model-payload
+  - model-pact-value

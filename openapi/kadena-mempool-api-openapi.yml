@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Kadena Chainweb Node block mempool API
-  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
+  title: Kadena Chainweb Node Mempool API
+  description: 'API of chainweb-node
 
 
     Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
@@ -15,9 +15,7 @@ info:
 
     Feedback and bug reports for the content of this site are welcome. Please
 
-    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
-
-    '
+    open an issue at this github repository.'
   version: '0.0'
   x-logo:
     url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
@@ -95,21 +93,19 @@ servers:
     apiVersion:
       default: '0.0'
 tags:
-- name: mempool
+- name: Mempool
   x-displayName: Mempool P2P Endpoints
   description: 'Mempool P2P endpoints for communication between mempools. Endusers are not
 
     supposed to use these endpoints directly. Instead, the respective Pact
 
-    endpoints should be used for submitting transactions into the network.
-
-    '
+    endpoints should be used for submitting transactions into the network.'
 paths:
   /chain/{chain}/mempool/getPending:
     post:
       summary: Get Pending Transactions from the Mempool
       tags:
-      - mempool
+      - Mempool
       parameters:
       - $ref: '#/components/parameters/chain'
       - name: nonce
@@ -162,11 +158,13 @@ paths:
                     - -4683248684880063035
                     - 436
                   summary: Empty result
+      operationId: postChainByChainMempoolGetPending
+      x-operation-id-source: derived
   /chain/{chain}/mempool/member:
     post:
       summary: Check for Pending Transactions in the Mempool
       tags:
-      - mempool
+      - Mempool
       parameters:
       - $ref: '#/components/parameters/chain'
       requestBody:
@@ -206,11 +204,13 @@ paths:
                 empty:
                   value: []
                   summary: result from empty request body
+      operationId: postChainByChainMempoolMember
+      x-operation-id-source: derived
   /chain/{chain}/mempool/lookup:
     post:
       summary: Lookup Pending Transactions in the Mempool
       tags:
-      - mempool
+      - Mempool
       parameters:
       - $ref: '#/components/parameters/chain'
       requestBody:
@@ -254,11 +254,13 @@ paths:
                 empty:
                   value: []
                   summary: result from empty request body
+      operationId: postChainByChainMempoolLookup
+      x-operation-id-source: derived
   /chain/{chain}/mempool/insert:
     put:
       summary: Insert Transactions into the Mempool
       tags:
-      - mempool
+      - Mempool
       parameters:
       - $ref: '#/components/parameters/chain'
       requestBody:
@@ -287,7 +289,59 @@ paths:
               $ref: '#/components/headers/x-server-timestamp'
             x-chainweb-node-version:
               $ref: '#/components/headers/x-chainweb-node-version'
+      operationId: putChainByChainMempoolInsert
+      x-operation-id-source: derived
 components:
+  examples:
+    signedTxText:
+      value:
+        hash: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
+        sigs:
+        - sig: 8ddc06b37c496f2cadc4f7412405a80faf3ab07482ff5553b9b5fcc73d1b4121275ad5948d9b4078e553b71f8b42eaf6b24135bf2fb4d5840c16bcdde0e35e0f
+        cmd: '{"networkId":"mainnet01","payload":{"exec":{"data":{"account-keyset":{"pred":"keys-all","keys":["acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2"]}},"code":"(coin.transfer-create \"60241f51ea34e05c61fbea9d\" \"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\" (read-keyset \"account-keyset\") 5007.0000)"}},"signers":[{"pubKey":"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2","clist":[{"args":["60241f51ea34e05c61fbea9d","acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2",5007],"name":"coin.TRANSFER"},{"args":[],"name":"coin.GAS"}]}],"meta":{"creationTime":1618949714,"ttl":300,"gasLimit":600,"chainId":"0","gasPrice":1.0e-7,"sender":"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2"},"nonce":"\"2021-04-20T20:16:13.645Z\""}'
+  headers:
+    x-peer-addr:
+      description: Host and port of the client as observed by the remote node
+      schema:
+        $ref: '#/components/schemas/hostAddress'
+      example: 10.36.1.3:42988
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
+    x-server-timestamp:
+      description: The time of the clock of the remote node
+      schema:
+        $ref: '#/components/schemas/posixTimestamp'
+      example: 1618597601
+  schemas:
+    requestKey:
+      title: Request Key
+      type: string
+      description: Base64Url-encoded, request key of a Pact transaction
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      minLength: 43
+      maxLength: 43
+      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
+    signedTxText:
+      title: Signed Transaction Text
+      type: string
+      description: Text of a JSON encoded signed Pact transaction
+      example:
+        $ref: '#/components/examples/signedTxText'
   requestBodies:
     requestKeyArray:
       description: Array of request keys
@@ -303,22 +357,6 @@ components:
             singleton request body:
               value:
               - qx346ILpakzgbNZbE8oHqF5TZQghp-HPcV-0Ptc_n2s
-  headers:
-    x-peer-addr:
-      description: Host and port of the client as observed by the remote node
-      schema:
-        $ref: '#/components/schemas/hostAddress'
-      example: 10.36.1.3:42988
-    x-server-timestamp:
-      description: The time of the clock of the remote node
-      schema:
-        $ref: '#/components/schemas/posixTimestamp'
-      example: 1618597601
-    x-chainweb-node-version:
-      description: The version of the remote chainweb node
-      schema:
-        type: string
-      example: '2.6'
   parameters:
     chain:
       name: chain
@@ -329,40 +367,6 @@ components:
         type: integer
         minimum: 0
         example: 0
-  schemas:
-    signedTxText:
-      title: Signed Transaction Text
-      type: string
-      description: Text of a JSON encoded signed Pact transaction
-      example:
-        $ref: '#/components/examples/signedTxText'
-    requestKey:
-      title: Request Key
-      type: string
-      description: Base64Url-encoded, request key of a Pact transaction
-      pattern: ^[a-zA-Z0-9_-]{43}$
-      minLength: 43
-      maxLength: 43
-      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
-    posixTimestamp:
-      title: POSIX Timestamp
-      type: integer
-      description: Seconds since POSIX epoch
-      example: 1619108524
-      minimum: 0
-    hostAddress:
-      title: Host Address
-      description: Host address containing IPv4 and port
-      type: string
-      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
-      example: 10.36.1.3:42988
-  examples:
-    signedTxText:
-      value:
-        hash: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
-        sigs:
-        - sig: 8ddc06b37c496f2cadc4f7412405a80faf3ab07482ff5553b9b5fcc73d1b4121275ad5948d9b4078e553b71f8b42eaf6b24135bf2fb4d5840c16bcdde0e35e0f
-        cmd: '{"networkId":"mainnet01","payload":{"exec":{"data":{"account-keyset":{"pred":"keys-all","keys":["acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2"]}},"code":"(coin.transfer-create \"60241f51ea34e05c61fbea9d\" \"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2\" (read-keyset \"account-keyset\") 5007.0000)"}},"signers":[{"pubKey":"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2","clist":[{"args":["60241f51ea34e05c61fbea9d","acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2",5007],"name":"coin.TRANSFER"},{"args":[],"name":"coin.GAS"}]}],"meta":{"creationTime":1618949714,"ttl":300,"gasLimit":600,"chainId":"0","gasPrice":1.0e-7,"sender":"acc28032a1bb725b7ba0a3593ab86f393894fa6659281f3dfdfee0afe48559a2"},"nonce":"\"2021-04-20T20:16:13.645Z\""}'
 x-tagGroups:
 - name: chainweb_p2p
   x-displayName: Chainweb P2P API

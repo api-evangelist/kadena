@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Kadena Chainweb Node block peer API
-  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
+  title: Kadena Chainweb Node Peer API
+  description: 'API of chainweb-node
 
 
     Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
@@ -15,9 +15,7 @@ info:
 
     Feedback and bug reports for the content of this site are welcome. Please
 
-    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
-
-    '
+    open an issue at this github repository.'
   version: '0.0'
   x-logo:
     url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
@@ -95,21 +93,19 @@ servers:
     apiVersion:
       default: '0.0'
 tags:
-- name: peer
+- name: Peer
   x-displayName: Peer Endpoints
   description: 'The P2P communication between chainweb-nodes is sharded into several independent
 
     P2P network. The `cut` network is exchanging consensus state. There is also one
 
-    mempool P2P network for each chain.
-
-    '
+    mempool P2P network for each chain.'
 paths:
   /cut/peer:
     get:
       summary: Get Cut-Network Peer Info
       tags:
-      - peer
+      - Peer
       parameters:
       - $ref: '#/components/parameters/limit'
       - $ref: '#/components/parameters/next'
@@ -135,10 +131,12 @@ paths:
                 - $ref: '#/components/schemas/page'
               example:
                 $ref: '#/components/examples/peers'
+      operationId: getCutPeer
+      x-operation-id-source: derived
     put:
       summary: Put Cut-Network Peer Info
       tags:
-      - peer
+      - Peer
       requestBody:
         description: 'The peer that is added to the peer database of the cut P2P network of
 
@@ -151,8 +149,7 @@ paths:
               allOf:
               - $ref: '#/components/schemas/peer'
               - properties:
-                  id:
-                    nullable: true
+                  id: {}
       responses:
         '204':
           description: The peer got added to the peer database of the remote node.
@@ -187,11 +184,13 @@ paths:
             text/plain:
               description: The reason for the failure.
               example: 'Invalid hostaddress: IsNotReachable (PeerInfo {_peerId = Nothing, _peerAddr = HostAddress {_hostAddressHost = us-w1.chainweb.com, _hostAddressPort = 444}}) "\"HttpExceptionRequest Request {\\n  host                 = \\\"us-w1.chainweb.com\\\"\\n  port                 = 444\\n  secure               = True\\n  requestHeaders       = [(\\\"X-Chainweb-Node-Version\\\",\\\"2.6\\\")]\\n  path                 = \\\"/chainweb/0.0/mainnet01/cut/peer\\\"\\n  queryString          = \\\"\\\"\\n  method               = \\\"GET\\\"\\n  proxy                = Nothing\\n  rawBody              = False\\n  redirectCount        = 10\\n  responseTimeout      = ResponseTimeoutMicro 2000000\\n  requestVersion       = HTTP/1.1\\n}\\n ConnectionTimeout\""'
+      operationId: putCutPeer
+      x-operation-id-source: derived
   /chain/{chain}/mempool/peer:
     get:
       summary: Get Chain Mempool-Network Peer Info
       tags:
-      - peer
+      - Peer
       parameters:
       - $ref: '#/components/parameters/chain'
       - $ref: '#/components/parameters/limit'
@@ -219,10 +218,12 @@ paths:
                 - $ref: '#/components/schemas/page'
               example:
                 $ref: '#/components/examples/peers'
+      operationId: getChainByChainMempoolPeer
+      x-operation-id-source: derived
     put:
       summary: Put Chain Mempool-Network Peer Info
       tags:
-      - peer
+      - Peer
       parameters:
       - $ref: '#/components/parameters/chain'
       requestBody:
@@ -237,8 +238,7 @@ paths:
               allOf:
               - $ref: '#/components/schemas/peer'
               - properties:
-                  id:
-                    nullable: true
+                  id: {}
       responses:
         '204':
           description: The peer got added to the peer database of the remote node.
@@ -271,49 +271,58 @@ paths:
             text/plain:
               description: The reason for the failure.
               example: 'Invalid hostaddress: IsNotReachable (PeerInfo {_peerId = Nothing, _peerAddr = HostAddress {_hostAddressHost = us-w1.chainweb.com, _hostAddressPort = 444}}) "\"HttpExceptionRequest Request {\\n  host                 = \\\"us-w1.chainweb.com\\\"\\n  port                 = 444\\n  secure               = True\\n  requestHeaders       = [(\\\"X-Chainweb-Node-Version\\\",\\\"2.6\\\")]\\n  path                 = \\\"/chainweb/0.0/mainnet01/cut/peer\\\"\\n  queryString          = \\\"\\\"\\n  method               = \\\"GET\\\"\\n  proxy                = Nothing\\n  rawBody              = False\\n  redirectCount        = 10\\n  responseTimeout      = ResponseTimeoutMicro 2000000\\n  requestVersion       = HTTP/1.1\\n}\\n ConnectionTimeout\""'
+      operationId: putChainByChainMempoolPeer
+      x-operation-id-source: derived
 components:
-  examples:
-    peers:
-      value:
-        next: inclusive:3
-        items:
-        - address:
-            hostname: 85.238.99.91
-            port: 30004
-          id: PRLmVUcc9AH3fyfMYiWeC4nV2i1iHwc0-aM7iAO8h18
-        - address:
-            hostname: us-w3.chainweb.com
-            port: 443
-          id: null
-        - address:
-            hostname: 95.111.232.151
-            port: 30004
-          id: DguFKLFMxp12vfl1z3cQIJQlh8xOpeZuBkpJU9Y-VLo
-        limit: 3
-    base64HeaderPage:
-      value:
-        next: inclusive:o1S4NNFhKWg8T1HEkmDvsTH9Ut9l3_qHRpp00yRKZIk
-        items:
-        - AAAAAAAAAABRoiLHW7EFAB2lwAatTykipYZ3CZNPzLe-f5S-zUt8COtu0H12f_OZAwAFAAAAMpic85rur2MYf3zli8s8bHxTFjriFoMPTr6ZPs8sjxMKAAAAVBKuhU_hQmuvKlx88A5o-FH0rzNo59NsdxmOGNBQ-ycPAAAAMItdqgHZxf7j6l0oE8X-G9-VyMbnQmZrtSniuRe_EJ9CtyxsSb7daPIIYAaXMgSEsQ3dkxY5GjJjLwAAAAAAABqWlmx5B6wo0YWPIShNKmdVrAQWht2P85BS1drGLpkAAAAAADUJ-ARn7blgHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEIPAAAAAAAFAAAA-na5gFuxBQAFL-3CY4YuAJNGp9KhDkbrKkIPWYyq8WvtAaNPoUFWC16louSx8YN5
-        - AAAAAAAAAAA0slHKW7EFAJNGp9KhDkbrKkIPWYyq8WvtAaNPoUFWC16louSx8YN5AwAFAAAAALcxv1ZiwwQ_QX9eOBZMbzIop6n7XtveS1FqOFwyvGMKAAAAC76ElC60qXSJQCHePpzzJxsCYvvrqvmkoHPyZnex-4QPAAAAKv0sz_rTANjoiJwMrdZFCJNFwdH0U_M5ouwMr3BXBfpCtyxsSb7daPIIYAaXMgSEsQ3dkxY5GjJjLwAAAAAAALJlIg1vY3w_9L63bePn1yk_5agvdEbIBBjm3adxc5xWAAAAAGzpBzdiVL9gHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQUIPAAAAAAAFAAAA-na5gFuxBQALiBhXgqaHAb4VWug3oddEVy0X9y_jEkE2Kmi_vyGP5ovr-fDIz_Uf
-        limit: 2
-  headers:
-    x-peer-addr:
-      description: Host and port of the client as observed by the remote node
-      schema:
-        $ref: '#/components/schemas/hostAddress'
-      example: 10.36.1.3:42988
-    x-server-timestamp:
-      description: The time of the clock of the remote node
-      schema:
-        $ref: '#/components/schemas/posixTimestamp'
-      example: 1618597601
-    x-chainweb-node-version:
-      description: The version of the remote chainweb node
-      schema:
-        type: string
-      example: '2.6'
   schemas:
+    peer:
+      title: Peer
+      description: Peer info object
+      required:
+      - id
+      - address
+      example:
+        $ref: '#/components/examples/peers/value/items/0'
+      properties:
+        id:
+          description: 'The base64Url (without padding) encoded SHA256 fingerprint of the
+
+            SSL certificate of the node. This can be null only if the node uses
+
+            an official CA signed certificate
+
+            '
+          type:
+          - string
+          - 'null'
+          pattern: '[a-zA-Z0-9_-]{43}'
+        address:
+          required:
+          - hostname
+          - port
+          properties:
+            hostname:
+              description: 'A domain name or IP address. This must be a domain name only if
+
+                the respective node is using a valid CA signed SSL certificate.
+
+                '
+              type: string
+              oneOf:
+              - format: hostname
+              - format: ipv4
+              - format: ipv6
+            port:
+              description: Port number
+              type: integer
+              minimum: 1
+              maximum: 65535
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
     page:
       title: Page
       description: Page of a collection of items
@@ -344,7 +353,6 @@ components:
           oneOf:
           - type: 'null'
           - type: string
-          nullable: true
           pattern: ^(inclusive|exclusive):.*$
         items:
           description: 'The items in the page.
@@ -356,63 +364,7 @@ components:
       type: string
       pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
       example: 10.36.1.3:42988
-    peer:
-      title: Peer
-      description: Peer info object
-      required:
-      - id
-      - address
-      example:
-        $ref: '#/components/examples/peers/value/items/0'
-      properties:
-        id:
-          description: 'The base64Url (without padding) encoded SHA256 fingerprint of the
-
-            SSL certificate of the node. This can be null only if the node uses
-
-            an official CA signed certificate
-
-            '
-          type: string
-          nullable: true
-          pattern: '[a-zA-Z0-9_-]{43}'
-        address:
-          required:
-          - hostname
-          - port
-          properties:
-            hostname:
-              description: 'A domain name or IP address. This must be a domain name only if
-
-                the respective node is using a valid CA signed SSL certificate.
-
-                '
-              type: string
-              oneOf:
-              - format: hostname
-              - format: ipv4
-              - format: ipv6
-            port:
-              description: Port number
-              type: integer
-              minimum: 1
-              maximum: 65535
-    posixTimestamp:
-      title: POSIX Timestamp
-      type: integer
-      description: Seconds since POSIX epoch
-      example: 1619108524
-      minimum: 0
   parameters:
-    chain:
-      name: chain
-      in: path
-      description: the id of the chain to which the request is sent
-      required: true
-      schema:
-        type: integer
-        minimum: 0
-        example: 0
     next:
       name: next
       in: query
@@ -436,6 +388,56 @@ components:
       schema:
         type: integer
         minimum: 0
+    chain:
+      name: chain
+      in: path
+      description: the id of the chain to which the request is sent
+      required: true
+      schema:
+        type: integer
+        minimum: 0
+        example: 0
+  headers:
+    x-peer-addr:
+      description: Host and port of the client as observed by the remote node
+      schema:
+        $ref: '#/components/schemas/hostAddress'
+      example: 10.36.1.3:42988
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
+    x-server-timestamp:
+      description: The time of the clock of the remote node
+      schema:
+        $ref: '#/components/schemas/posixTimestamp'
+      example: 1618597601
+  examples:
+    base64HeaderPage:
+      value:
+        next: inclusive:o1S4NNFhKWg8T1HEkmDvsTH9Ut9l3_qHRpp00yRKZIk
+        items:
+        - AAAAAAAAAABRoiLHW7EFAB2lwAatTykipYZ3CZNPzLe-f5S-zUt8COtu0H12f_OZAwAFAAAAMpic85rur2MYf3zli8s8bHxTFjriFoMPTr6ZPs8sjxMKAAAAVBKuhU_hQmuvKlx88A5o-FH0rzNo59NsdxmOGNBQ-ycPAAAAMItdqgHZxf7j6l0oE8X-G9-VyMbnQmZrtSniuRe_EJ9CtyxsSb7daPIIYAaXMgSEsQ3dkxY5GjJjLwAAAAAAABqWlmx5B6wo0YWPIShNKmdVrAQWht2P85BS1drGLpkAAAAAADUJ-ARn7blgHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEIPAAAAAAAFAAAA-na5gFuxBQAFL-3CY4YuAJNGp9KhDkbrKkIPWYyq8WvtAaNPoUFWC16louSx8YN5
+        - AAAAAAAAAAA0slHKW7EFAJNGp9KhDkbrKkIPWYyq8WvtAaNPoUFWC16louSx8YN5AwAFAAAAALcxv1ZiwwQ_QX9eOBZMbzIop6n7XtveS1FqOFwyvGMKAAAAC76ElC60qXSJQCHePpzzJxsCYvvrqvmkoHPyZnex-4QPAAAAKv0sz_rTANjoiJwMrdZFCJNFwdH0U_M5ouwMr3BXBfpCtyxsSb7daPIIYAaXMgSEsQ3dkxY5GjJjLwAAAAAAALJlIg1vY3w_9L63bePn1yk_5agvdEbIBBjm3adxc5xWAAAAAGzpBzdiVL9gHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQUIPAAAAAAAFAAAA-na5gFuxBQALiBhXgqaHAb4VWug3oddEVy0X9y_jEkE2Kmi_vyGP5ovr-fDIz_Uf
+        limit: 2
+    peers:
+      value:
+        next: inclusive:3
+        items:
+        - address:
+            hostname: 85.238.99.91
+            port: 30004
+          id: PRLmVUcc9AH3fyfMYiWeC4nV2i1iHwc0-aM7iAO8h18
+        - address:
+            hostname: us-w3.chainweb.com
+            port: 443
+          id: null
+        - address:
+            hostname: 95.111.232.151
+            port: 30004
+          id: DguFKLFMxp12vfl1z3cQIJQlh8xOpeZuBkpJU9Y-VLo
+        limit: 3
 x-tagGroups:
 - name: chainweb_p2p
   x-displayName: Chainweb P2P API

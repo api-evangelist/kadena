@@ -1,7 +1,7 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Kadena Chainweb Node block payload API
-  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
+  title: Kadena Chainweb Node Payload API
+  description: 'API of chainweb-node
 
 
     Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
@@ -15,9 +15,7 @@ info:
 
     Feedback and bug reports for the content of this site are welcome. Please
 
-    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
-
-    '
+    open an issue at this github repository.'
   version: '0.0'
   x-logo:
     url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
@@ -95,7 +93,7 @@ servers:
     apiVersion:
       default: '0.0'
 tags:
-- name: payload
+- name: Payload
   x-displayName: Block Payload Endpoints
   description: 'Raw literal Block Payloads in the form in which they are stored on the chain.
 
@@ -106,15 +104,13 @@ tags:
     executing the Pact transactions of the block and recomputing the outputs.
 
 
-    It is also possible to query the transaction outputs along with the payload data.
-
-    '
+    It is also possible to query the transaction outputs along with the payload data.'
 paths:
   /chain/{chain}/payload/{payloadHash}:
     get:
       summary: Get Block Payload
       tags:
-      - payload
+      - Payload
       parameters:
       - $ref: '#/components/parameters/chain'
       - $ref: '#/components/parameters/payloadHash'
@@ -163,11 +159,13 @@ paths:
               example:
                 reason: key not found
                 key: k1H3DsInAPvJ0W_zPxnrpkeSNdPUT0S9U8bqDLG739w
+      operationId: getChainByChainPayloadByPayloadHash
+      x-operation-id-source: derived
   /chain/{chain}/payload/batch:
     post:
       summary: Get Batch of Block Payload
       tags:
-      - payload
+      - Payload
       parameters:
       - $ref: '#/components/parameters/chain'
       requestBody:
@@ -200,11 +198,13 @@ paths:
                 empty:
                   value: []
                   summary: Empty result
+      operationId: postChainByChainPayloadBatch
+      x-operation-id-source: derived
   /chain/{chain}/payload/{payloadHash}/outputs:
     get:
       summary: Get Block Payload With Outputs
       tags:
-      - payload
+      - Payload
       parameters:
       - $ref: '#/components/parameters/chain'
       - $ref: '#/components/parameters/payloadHash'
@@ -253,11 +253,13 @@ paths:
               example:
                 reason: key not found
                 key: k1H3DsInAPvJ0W_zPxnrpkeSNdPUT0S9U8bqDLG739w
+      operationId: getChainByChainPayloadByPayloadHashOutputs
+      x-operation-id-source: derived
   /chain/{chain}/payload/outputs/batch:
     post:
       summary: Get Batch of Block Payload With Outputs
       tags:
-      - payload
+      - Payload
       parameters:
       - $ref: '#/components/parameters/chain'
       requestBody:
@@ -290,12 +292,24 @@ paths:
                 empty:
                   value: []
                   summary: Empty result
+      operationId: postChainByChainPayloadOutputsBatch
+      x-operation-id-source: derived
 components:
   examples:
     payloadHashes:
       value:
       - GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA
       - jcQOWz7K9qKnkUv4Z883D2ZjkFFGgccoSroWGaoogLM
+    payloadWithTransactions:
+      value:
+        transactions:
+        - - eyJoYXNoIjoiMi16Q3dmRFZZR010WHljd2pTLXRlNzh5U3l3T3JXcjNSdUhiQlJnNDdhRSIsInNpZ3MiOlt7InNpZyI6ImZiMTVkNzkyYTNkNDM1MDI5ODJmOGQ1MGUyMzA1NTI5OWEwZjdhMWRmMWE4YjUyMmE5NTMxNWUyZDljY2MyNmE1MzI4M2I5YTNhNDM5ZWE0ZGY4MGM1ZTIwMjg4NDhjNjFhMWY0MGM5OWIyOTYzOWM0NGNkYTgwMzBmYmViYjBjIn1dLCJjbWQiOiJ7XCJuZXR3b3JrSWRcIjpcIm1haW5uZXQwMVwiLFwicGF5bG9hZFwiOntcImV4ZWNcIjp7XCJkYXRhXCI6e30sXCJjb2RlXCI6XCIoY29pbi50cmFuc2ZlciBcXFwiZTc1NzU4ZGQyYTFjNTk2NDRjMjJlMDQyYzZlYzA3NTI2ZWE0ZTU3MTU0ZjlkYmMyMDc2ZThhODRhYzE5NGYzMlxcXCIgXFxcIjQ2NzdhMDllYTE2MDJlNGUwOWZlMDFlYjExOTZjZjQ3YzBmNDRhYTQ0YWFjOTAzZDVmNjFiZTdkYTM0MjUxMjhcXFwiIDMuNzc2KVwifX0sXCJzaWduZXJzXCI6W3tcInB1YktleVwiOlwiZTc1NzU4ZGQyYTFjNTk2NDRjMjJlMDQyYzZlYzA3NTI2ZWE0ZTU3MTU0ZjlkYmMyMDc2ZThhODRhYzE5NGYzMlwiLFwiY2xpc3RcIjpbe1wiYXJnc1wiOltdLFwibmFtZVwiOlwiY29pbi5HQVNcIn0se1wiYXJnc1wiOltcImU3NTc1OGRkMmExYzU5NjQ0YzIyZTA0MmM2ZWMwNzUyNmVhNGU1NzE1NGY5ZGJjMjA3NmU4YTg0YWMxOTRmMzJcIixcIjQ2NzdhMDllYTE2MDJlNGUwOWZlMDFlYjExOTZjZjQ3YzBmNDRhYTQ0YWFjOTAzZDVmNjFiZTdkYTM0MjUxMjhcIiwzLjc3Nl0sXCJuYW1lXCI6XCJjb2luLlRSQU5TRkVSXCJ9XX1dLFwibWV0YVwiOntcImNyZWF0aW9uVGltZVwiOjE2MDIzODI4MTQsXCJ0dGxcIjoyODgwMCxcImdhc0xpbWl0XCI6NjAwLFwiY2hhaW5JZFwiOlwiMFwiLFwiZ2FzUHJpY2VcIjoxLjBlLTUsXCJzZW5kZXJcIjpcImU3NTc1OGRkMmExYzU5NjQ0YzIyZTA0MmM2ZWMwNzUyNmVhNGU1NzE1NGY5ZGJjMjA3NmU4YTg0YWMxOTRmMzJcIn0sXCJub25jZVwiOlwiXFxcIjIwMjAtMTAtMTFUMDI6MjE6MTQuMTk0WlxcXCJcIn0ifQ
+          - eyJnYXMiOjU3MiwicmVzdWx0Ijp7InN0YXR1cyI6InN1Y2Nlc3MiLCJkYXRhIjoiV3JpdGUgc3VjY2VlZGVkIn0sInJlcUtleSI6IjItekN3ZkRWWUdNdFh5Y3dqUy10ZTc4eVN5d09yV3IzUnVIYkJSZzQ3YUUiLCJsb2dzIjoiSU1ra1VFZmVGak45bFQxZ0gtX2ZNT1dDRklrU1d6aVNTZHF2eEo4dS16RSIsIm1ldGFEYXRhIjpudWxsLCJjb250aW51YXRpb24iOm51bGwsInR4SWQiOjEyNzIzNzJ9
+        minerData: eyJhY2NvdW50IjoiYTFiMzE0MGNiN2NjODk1YzBlMDkxNzAyZWQwNTU3OWZiZTA1YzZlNjc0NWY4MmNlNjAzNzQ2YjQwMGM4MTU0OCIsInByZWRpY2F0ZSI6ImtleXMtYWxsIiwicHVibGljLWtleXMiOlsiYTFiMzE0MGNiN2NjODk1YzBlMDkxNzAyZWQwNTU3OWZiZTA1YzZlNjc0NWY4MmNlNjAzNzQ2YjQwMGM4MTU0OCJdfQ
+        transactionsHash: lWcQRlj3MV7FSem8P4G-8GMRf1-O7zQqi_AwmWnk-N0
+        outputsHash: 9BzXZbhjSSevp4K0bYFqi1GdLjeX_DB-4u1T5Em8abs
+        payloadHash: jcQOWz7K9qKnkUv4Z883D2ZjkFFGgccoSroWGaoogLM
+        coinbase: eyJnYXMiOjAsInJlc3VsdCI6eyJzdGF0dXMiOiJzdWNjZXNzIiwiZGF0YSI6IldyaXRlIHN1Y2NlZWRlZCJ9LCJyZXFLZXkiOiJJbkV4WDFkUk16SnliRmhCWW1KcU9WTnZkMXB2YmtabmNHRXdlRnBXUWtKdmNUWTJiRk0xY0RSQ1ZVVWkiLCJsb2dzIjoiSVc0N0QxTXFMVW9mRnNKbWpoWGdDZnhnb2Fzb0xTc05YZUFiOFRPb2NCNCIsIm1ldGFEYXRhIjpudWxsLCJjb250aW51YXRpb24iOm51bGwsInR4SWQiOjEyNzIzNzB9
     payloads:
       value:
       - transactions: []
@@ -309,6 +323,8 @@ components:
         transactionsHash: lWcQRlj3MV7FSem8P4G-8GMRf1-O7zQqi_AwmWnk-N0
         outputsHash: 9BzXZbhjSSevp4K0bYFqi1GdLjeX_DB-4u1T5Em8abs
         payloadHash: jcQOWz7K9qKnkUv4Z883D2ZjkFFGgccoSroWGaoogLM
+    payloadHash:
+      value: GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA
     emptyPayload:
       value:
         transactions: []
@@ -321,35 +337,40 @@ components:
       value:
       - $ref: '#/components/examples/emptyPayload'
       - $ref: '#/components/examples/payloadWithTransactions'
-    payloadHash:
-      value: GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA
-    payloadWithTransactions:
-      value:
-        transactions:
-        - - eyJoYXNoIjoiMi16Q3dmRFZZR010WHljd2pTLXRlNzh5U3l3T3JXcjNSdUhiQlJnNDdhRSIsInNpZ3MiOlt7InNpZyI6ImZiMTVkNzkyYTNkNDM1MDI5ODJmOGQ1MGUyMzA1NTI5OWEwZjdhMWRmMWE4YjUyMmE5NTMxNWUyZDljY2MyNmE1MzI4M2I5YTNhNDM5ZWE0ZGY4MGM1ZTIwMjg4NDhjNjFhMWY0MGM5OWIyOTYzOWM0NGNkYTgwMzBmYmViYjBjIn1dLCJjbWQiOiJ7XCJuZXR3b3JrSWRcIjpcIm1haW5uZXQwMVwiLFwicGF5bG9hZFwiOntcImV4ZWNcIjp7XCJkYXRhXCI6e30sXCJjb2RlXCI6XCIoY29pbi50cmFuc2ZlciBcXFwiZTc1NzU4ZGQyYTFjNTk2NDRjMjJlMDQyYzZlYzA3NTI2ZWE0ZTU3MTU0ZjlkYmMyMDc2ZThhODRhYzE5NGYzMlxcXCIgXFxcIjQ2NzdhMDllYTE2MDJlNGUwOWZlMDFlYjExOTZjZjQ3YzBmNDRhYTQ0YWFjOTAzZDVmNjFiZTdkYTM0MjUxMjhcXFwiIDMuNzc2KVwifX0sXCJzaWduZXJzXCI6W3tcInB1YktleVwiOlwiZTc1NzU4ZGQyYTFjNTk2NDRjMjJlMDQyYzZlYzA3NTI2ZWE0ZTU3MTU0ZjlkYmMyMDc2ZThhODRhYzE5NGYzMlwiLFwiY2xpc3RcIjpbe1wiYXJnc1wiOltdLFwibmFtZVwiOlwiY29pbi5HQVNcIn0se1wiYXJnc1wiOltcImU3NTc1OGRkMmExYzU5NjQ0YzIyZTA0MmM2ZWMwNzUyNmVhNGU1NzE1NGY5ZGJjMjA3NmU4YTg0YWMxOTRmMzJcIixcIjQ2NzdhMDllYTE2MDJlNGUwOWZlMDFlYjExOTZjZjQ3YzBmNDRhYTQ0YWFjOTAzZDVmNjFiZTdkYTM0MjUxMjhcIiwzLjc3Nl0sXCJuYW1lXCI6XCJjb2luLlRSQU5TRkVSXCJ9XX1dLFwibWV0YVwiOntcImNyZWF0aW9uVGltZVwiOjE2MDIzODI4MTQsXCJ0dGxcIjoyODgwMCxcImdhc0xpbWl0XCI6NjAwLFwiY2hhaW5JZFwiOlwiMFwiLFwiZ2FzUHJpY2VcIjoxLjBlLTUsXCJzZW5kZXJcIjpcImU3NTc1OGRkMmExYzU5NjQ0YzIyZTA0MmM2ZWMwNzUyNmVhNGU1NzE1NGY5ZGJjMjA3NmU4YTg0YWMxOTRmMzJcIn0sXCJub25jZVwiOlwiXFxcIjIwMjAtMTAtMTFUMDI6MjE6MTQuMTk0WlxcXCJcIn0ifQ
-          - eyJnYXMiOjU3MiwicmVzdWx0Ijp7InN0YXR1cyI6InN1Y2Nlc3MiLCJkYXRhIjoiV3JpdGUgc3VjY2VlZGVkIn0sInJlcUtleSI6IjItekN3ZkRWWUdNdFh5Y3dqUy10ZTc4eVN5d09yV3IzUnVIYkJSZzQ3YUUiLCJsb2dzIjoiSU1ra1VFZmVGak45bFQxZ0gtX2ZNT1dDRklrU1d6aVNTZHF2eEo4dS16RSIsIm1ldGFEYXRhIjpudWxsLCJjb250aW51YXRpb24iOm51bGwsInR4SWQiOjEyNzIzNzJ9
-        minerData: eyJhY2NvdW50IjoiYTFiMzE0MGNiN2NjODk1YzBlMDkxNzAyZWQwNTU3OWZiZTA1YzZlNjc0NWY4MmNlNjAzNzQ2YjQwMGM4MTU0OCIsInByZWRpY2F0ZSI6ImtleXMtYWxsIiwicHVibGljLWtleXMiOlsiYTFiMzE0MGNiN2NjODk1YzBlMDkxNzAyZWQwNTU3OWZiZTA1YzZlNjc0NWY4MmNlNjAzNzQ2YjQwMGM4MTU0OCJdfQ
-        transactionsHash: lWcQRlj3MV7FSem8P4G-8GMRf1-O7zQqi_AwmWnk-N0
-        outputsHash: 9BzXZbhjSSevp4K0bYFqi1GdLjeX_DB-4u1T5Em8abs
-        payloadHash: jcQOWz7K9qKnkUv4Z883D2ZjkFFGgccoSroWGaoogLM
-        coinbase: eyJnYXMiOjAsInJlc3VsdCI6eyJzdGF0dXMiOiJzdWNjZXNzIiwiZGF0YSI6IldyaXRlIHN1Y2NlZWRlZCJ9LCJyZXFLZXkiOiJJbkV4WDFkUk16SnliRmhCWW1KcU9WTnZkMXB2YmtabmNHRXdlRnBXUWtKdmNUWTJiRk0xY0RSQ1ZVVWkiLCJsb2dzIjoiSVc0N0QxTXFMVW9mRnNKbWpoWGdDZnhnb2Fzb0xTc05YZUFiOFRPb2NCNCIsIm1ldGFEYXRhIjpudWxsLCJjb250aW51YXRpb24iOm51bGwsInR4SWQiOjEyNzIzNzB9
-  headers:
-    x-server-timestamp:
-      description: The time of the clock of the remote node
-      schema:
-        $ref: '#/components/schemas/posixTimestamp'
-      example: 1618597601
-    x-peer-addr:
-      description: Host and port of the client as observed by the remote node
-      schema:
-        $ref: '#/components/schemas/hostAddress'
-      example: 10.36.1.3:42988
-    x-chainweb-node-version:
-      description: The version of the remote chainweb node
-      schema:
-        type: string
-      example: '2.6'
   schemas:
+    payloadHashArray:
+      title: Payload hash array
+      type: array
+      items:
+        $ref: '#/components/schemas/payloadHash'
+      examples:
+        two:
+          value:
+            $ref: '#/components/examples/payloadHashes'
+            summary: Query two payloads
+        empty:
+          value: []
+          summary: Query nothing
+    sha256Hash:
+      title: SHA256 Hash
+      type: string
+      description: Base64Url (without padding) encoded SHA256 hash
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      minLength: 43
+      maxLength: 43
+      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
+    payloadHash:
+      title: Block Payload Hash
+      description: Base64Url (without padding) encoded block payload hash
+      example: GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA
+      allOf:
+      - $ref: '#/components/schemas/sha256Hash'
     payloadWithOutputs:
       title: Block Payload With Outputs
       description: 'Payload with outputs of a Block including the Merkle roots for
@@ -400,33 +421,6 @@ components:
           type: string
           pattern: '[a-zA-Z0-9_-]+'
           description: Base64Url (without padding) encoded JSON text of coinbase output of the block
-    payloadHash:
-      title: Block Payload Hash
-      description: Base64Url (without padding) encoded block payload hash
-      example: GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA
-      allOf:
-      - $ref: '#/components/schemas/sha256Hash'
-    hostAddress:
-      title: Host Address
-      description: Host address containing IPv4 and port
-      type: string
-      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
-      example: 10.36.1.3:42988
-    payloadBatchBody:
-      title: Payload batch query
-      properties:
-        heights:
-          title: Heights
-          description: List of block heights
-          type: array
-          items:
-            type: integer
-        hashes:
-          title: Hashes
-          description: List of payload hashes
-          type: array
-          items:
-            $ref: '#/components/schemas/payloadHash'
     payload:
       title: Block Payload
       description: 'Payload of a Block including the Merkle roots for transactions and
@@ -461,42 +455,27 @@ components:
           $ref: '#/components/schemas/sha256Hash'
         payloadHash:
           $ref: '#/components/schemas/payloadHash'
-    sha256Hash:
-      title: SHA256 Hash
-      type: string
-      description: Base64Url (without padding) encoded SHA256 hash
-      pattern: ^[a-zA-Z0-9_-]{43}$
-      minLength: 43
-      maxLength: 43
-      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
-    payloadHashArray:
-      title: Payload hash array
-      type: array
-      items:
-        $ref: '#/components/schemas/payloadHash'
-      examples:
-        two:
-          value:
-            $ref: '#/components/examples/payloadHashes'
-            summary: Query two payloads
-        empty:
-          value: []
-          summary: Query nothing
+    payloadBatchBody:
+      title: Payload batch query
+      properties:
+        heights:
+          title: Heights
+          description: List of block heights
+          type: array
+          items:
+            type: integer
+        hashes:
+          title: Hashes
+          description: List of payload hashes
+          type: array
+          items:
+            $ref: '#/components/schemas/payloadHash'
     posixTimestamp:
       title: POSIX Timestamp
       type: integer
       description: Seconds since POSIX epoch
       example: 1619108524
       minimum: 0
-  requestBodies:
-    batchPayloadBody:
-      description: An object used to do batch payload queries, with or without heights
-      content:
-        application/json:
-          schema:
-            oneOf:
-            - $ref: '#/components/schemas/payloadHashArray'
-            - $ref: '#/components/schemas/payloadBatchBody'
   parameters:
     blockHeight:
       name: height
@@ -525,6 +504,31 @@ components:
         type: integer
         minimum: 0
         example: 0
+  headers:
+    x-server-timestamp:
+      description: The time of the clock of the remote node
+      schema:
+        $ref: '#/components/schemas/posixTimestamp'
+      example: 1618597601
+    x-peer-addr:
+      description: Host and port of the client as observed by the remote node
+      schema:
+        $ref: '#/components/schemas/hostAddress'
+      example: 10.36.1.3:42988
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
+  requestBodies:
+    batchPayloadBody:
+      description: An object used to do batch payload queries, with or without heights
+      content:
+        application/json:
+          schema:
+            oneOf:
+            - $ref: '#/components/schemas/payloadHashArray'
+            - $ref: '#/components/schemas/payloadBatchBody'
 x-tagGroups:
 - name: chainweb_p2p
   x-displayName: Chainweb P2P API

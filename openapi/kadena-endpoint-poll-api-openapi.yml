@@ -1,108 +1,34 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Kadena Chainweb Node block endpoint-poll API
-  description: 'API of [chainweb-node](https://github.com/kadena-io/chainweb-node)
-
-
-    Chainweb is a scalable Proof-Of-Work (PoW) consensus algorithm. It is an
-
-    conservative extension of Bitcoin''s Nakamoto consensus that extends
-
-    Bitcoin''s single chain algorithm to multiple chains. This allows for
-
-    unlimited transaction throughput by horizontally scaling the number of chains.
-
-
-    Feedback and bug reports for the content of this site are welcome. Please
-
-    open an issue at [this github repository](https://github.com/kadena-io/chainweb-openapi/issues).
-
-    '
-  version: '0.0'
+  title: Pact REST Endpoint Poll API
+  description: Transactional API for a runtime offering Pact smart contracts.
+  version: 1.3.7
   x-logo:
-    url: https://cdn.sanity.io/images/agrhq0bu/production/73f06e78e066f86e21cb84f82292494fe04b9be8-1438x472.png
+    url: https://i.imgur.com/bAZFAGF.png
     alttext: Kadena Chainweb Logo
+    href: https://api.chainweb.com/openapi
 servers:
-- url: https://api.chainweb.com/chainweb/{apiVersion}/mainnet01
-  description: 'Chainweb mainnet service API. It also serves some endpoints of the P2P API.
-
-    '
+- url: https://api.chainweb.com/chainweb/{apiVersion}/mainnet01/chain/{chainId}/pact/api/v1
+  description: Pact API for a chain on the Kadena mainnet.
   variables:
     apiVersion:
       default: '0.0'
-- url: https://api.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
-  description: 'Chainweb testnet service API. It also serves some endpoints of the P2P API.
-
-    '
+    chainId:
+      default: '0'
+- url: https://api.testnet.chainweb.com/chainweb/{apiVersion}/testnet04/chain/{chainId}/pact/api/v1
+  description: Pact API for a chain on the Kadena testnet.
   variables:
     apiVersion:
       default: '0.0'
-- url: '{schema}://{domain}:{port}/chainweb/{apiVersion}/{chainwebVersion}'
-  description: 'An generic chainweb-node. It may serve only a subset of the endpoints.
-
-    '
-  variables:
-    schema:
-      default: http
-      enum:
-      - http
-      - https
-    domain:
-      default: api.chainweb.com
-    port:
-      default: '1848'
-    chainwebVersion:
-      default: mainnet01
-      enum:
-      - test-singleton
-      - development
-      - mainnet01
-      - testnet04
-    apiVersion:
-      default: '0.0'
-- url: https://{location}.chainweb.com/chainweb/{apiVersion}/mainnet01
-  description: Chainweb mainnet P2P bootstrap node. Only P2P API endpoints are served.
-  variables:
-    location:
-      default: us-e1
-      enum:
-      - us-e1
-      - us-e2
-      - us-e3
-      - us-w1
-      - us-w2
-      - us-w3
-      - fr1
-      - fr2
-      - fr3
-      - jp1
-      - jp2
-      - jp3
-    apiVersion:
-      default: '0.0'
-- url: https://{location}.testnet.chainweb.com/chainweb/{apiVersion}/testnet04
-  description: Chainweb testnet P2P bootstrap node. Only P2P API endpoints are served.
-  variables:
-    location:
-      default: us-e1
-      enum:
-      - us1
-      - us2
-      - eu1
-      - eu2
-      - ap1
-      - ap2
-    apiVersion:
-      default: '0.0'
+    chainId:
+      default: '0'
 tags:
 - name: endpoint-poll
   x-displayName: Batch polling for results
 paths:
   /poll:
     post:
-      description: 'Allows polling for one or more command results by request key.
-
-        '
+      description: Allows polling for one or more command results by request key.
       summary: poll
       tags:
       - endpoint-poll
@@ -138,215 +64,19 @@ paths:
                 type: object
                 additionalProperties:
                   $ref: '#/components/schemas/command-result'
+      operationId: postPoll
+      x-operation-id-source: derived
 components:
   schemas:
-    pact-value:
-      description: Pact value compound type.
-      tags:
-      - model-pact-value
-      anyOf:
-      - title: String
-        description: Pact strings encode directly to JSON strings.
-        type: string
-      - title: Decimal
-        description: There are two alternative JSON representations for Decimal.
-        oneOf:
-        - title: Number
-          description: 'JSON numbers can be used whenever the precision is adequate
-
-            '
-          type: number
-        - title: Object
-          description: 'When JSON number precision is not enough, you can use an object with the number''s decimal representation as a string
-
-            '
-          type: object
-          required:
-          - decimal
-          properties:
-            decimal:
-              type: string
-              description: String representation of number to avoid rounding error
-              example: '1.23498218000001'
-      - title: Integer
-        description: There are two alternative JSON representations for Integer.
-        type: object
-        required:
-        - int
-        properties:
-          int:
-            oneOf:
-            - title: Number
-              description: 'JSON numbers are rounded to integer values.
-
-                '
-              type: number
-              example: 12345
-            - title: String
-              description: 'When JSON number precision is not enough, you can specify the integer as a string
-
-                '
-              type: string
-              example: '123456789'
-      - title: Boolean
-        description: JSON booleans encode to Pact booleans.
-        type: boolean
-      - title: Object
-        type: object
-        description: JSON objects not matching other Pact Value schemas become Pact objects.
-        additionalProperties:
-          $ref: '#/components/schemas/pact-value'
-      - title: Time
-        type: object
-        required:
-        - time
-        properties:
-          time:
-            type: string
-            description: Literal time value using the UTC time format.
-            example: '1970-01-01T00:00:00Z'
-      - title: List
-        description: JSON lists become Pact lists.
-        type: array
-        items:
-          $ref: '#/components/schemas/pact-value'
-      - title: Module Reference
-        description: Special pact value to directly reference a module or interface.
-        type: object
-        required:
-        - refName
-        - refSpec
-        example:
-          $ref: '#/components/examples/module_reference'
-        properties:
-          refName:
-            type: object
-            required:
-            - name
-            - namespace
-            description: The module name
-            properties:
-              name:
-                type: string
-                description: Bare name of a module
-              namespace:
-                type: string
-                nullable: true
-                description: Namespace of the indicated module
-          refSpec:
-            type: array
-            description: The module names to substitute for any references present in the module code
-            items:
-              type: object
-              required:
-              - name
-              - namespace
-              properties:
-                name:
-                  type: string
-                  description: Bare name of a module
-                namespace:
-                  type: string
-                  nullable: true
-                  description: Namespace of the indicated module
-      - title: Guard
-        description: Special pact value for guard types.
-        type: object
-        oneOf:
-        - title: Keyset
-          description: 'A keyset forms a rule made from a set of key/address values and a predicate function.
-
-            When enforced, transaction signer list is evaluated against keyset.
-
-            '
-          required:
-          - keys
-          - pred
-          properties:
-            keys:
-              type: array
-              description: Set of public key/address values. Native pact public keys are ED25519 in base16 encoding.
-              items:
-                type: string
-            pred:
-              type: string
-              description: 'A pact function name. Built-in values are `keys-all` (match all keys in set),
-
-                `keys-any` (match at least one), and `keys-2` (match at least 2).
-
-                Custom functions have a fully-qualified name and
-
-                must accept two integer arguments `count` (number of keys in set) and `matched`
-
-                (number of set keys found in transaction set).
-
-                '
-        - title: Keyset Reference
-          description: Refers to a keyset in the Pact environment/database installed with `define-keyset`.
-          required:
-          - keysetref
-          properties:
-            keysetref:
-              type: string
-              description: Installed keyset name.
-        - title: User Guard
-          description: 'Closure of call to "guard function" which is a boolean user function with arguments.
-
-            '
-          required:
-          - fun
-          - args
-          properties:
-            fun:
-              description: Fully-qualified guard function name.
-              type: string
-            args:
-              description: Argument values to the guard function.
-              type: array
-              items:
-                $ref: '#/components/schemas/pact-value'
-        - title: Module Guard
-          type: object
-          description: 'Autonomous guard that only allows module code access, or requires module admin.
-
-            '
-          required:
-          - moduleName
-          - name
-          properties:
-            moduleName:
-              required:
-              - name
-              - namespace
-              properties:
-                name:
-                  type: string
-                  description: module bare name
-                namespace:
-                  type: string
-                  description: module namespace
-            name:
-              type: string
-              description: Distinguishing/informative name for module guard.
-        - title: Pact Guard
-          type: object
-          description: 'Autonomous guard that only allows a particular pact execution, referenced by ID, to pass.
-
-            Two executions of the same defpact code result in distinct pact IDs. A pact guard
-
-            created inside of this execution will only pass when running that particular pact.
-
-            '
-          required:
-          - pactId
-          - name
-          properties:
-            pactId:
-              description: Defpact execution ID.
-              type: string
-            name:
-              type: string
-              description: Distinguishing/informative name for pact guard.
+    request-key:
+      title: Request Key
+      type: string
+      description: Unique ID of a pact transaction consisting of its hash.
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      contentEncoding: base64url
+      minLength: 43
+      maxLength: 43
+      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
     pact-error:
       description: 'Verbose object describing failed execution.
 
@@ -366,32 +96,6 @@ components:
           type: string
         type:
           type: string
-    event:
-      description: Pact output event.
-      type: object
-      properties:
-        name:
-          type: string
-          description: Event defcap name.
-        module:
-          type: object
-          description: Qualified module name of event defcap.
-          required:
-          - name
-          properties:
-            name:
-              type: string
-              description: module bare name
-            namespace:
-              type: string
-              description: module namespace
-        params:
-          type: array
-          items:
-            $ref: '#/components/schemas/pact-value'
-        moduleHash:
-          type: string
-          description: Hash of emitting module.
     command-result:
       title: Command Result
       tags:
@@ -523,23 +227,242 @@ components:
                       type: string
         gas:
           type: number
-    request-key:
-      title: Request Key
-      type: string
-      description: Unique ID of a pact transaction consisting of its hash.
-      pattern: ^[a-zA-Z0-9_-]{43}$
-      contentEncoding: base64url
-      minLength: 43
-      maxLength: 43
-      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
+    pact-value:
+      description: Pact value compound type.
+      tags:
+      - model-pact-value
+      anyOf:
+      - title: String
+        description: Pact strings encode directly to JSON strings.
+        type: string
+      - title: Decimal
+        description: There are two alternative JSON representations for Decimal.
+        oneOf:
+        - title: Number
+          description: 'JSON numbers can be used whenever the precision is adequate
+
+            '
+          type: number
+        - title: Object
+          description: 'When JSON number precision is not enough, you can use an object with the number''s decimal representation as a string
+
+            '
+          type: object
+          required:
+          - decimal
+          properties:
+            decimal:
+              type: string
+              description: String representation of number to avoid rounding error
+              example: '1.23498218000001'
+      - title: Integer
+        description: There are two alternative JSON representations for Integer.
+        type: object
+        required:
+        - int
+        properties:
+          int:
+            oneOf:
+            - title: Number
+              description: 'JSON numbers are rounded to integer values.
+
+                '
+              type: number
+              example: 12345
+            - title: String
+              description: 'When JSON number precision is not enough, you can specify the integer as a string
+
+                '
+              type: string
+              example: '123456789'
+      - title: Boolean
+        description: JSON booleans encode to Pact booleans.
+        type: boolean
+      - title: Object
+        type: object
+        description: JSON objects not matching other Pact Value schemas become Pact objects.
+        additionalProperties:
+          $ref: '#/components/schemas/pact-value'
+      - title: Time
+        type: object
+        required:
+        - time
+        properties:
+          time:
+            type: string
+            description: Literal time value using the UTC time format.
+            example: '1970-01-01T00:00:00Z'
+      - title: List
+        description: JSON lists become Pact lists.
+        type: array
+        items:
+          $ref: '#/components/schemas/pact-value'
+      - title: Module Reference
+        description: Special pact value to directly reference a module or interface.
+        type: object
+        required:
+        - refName
+        - refSpec
+        example:
+          $ref: '#/components/examples/module_reference'
+        properties:
+          refName:
+            type: object
+            required:
+            - name
+            - namespace
+            description: The module name
+            properties:
+              name:
+                type: string
+                description: Bare name of a module
+              namespace:
+                type:
+                - string
+                - 'null'
+                description: Namespace of the indicated module
+          refSpec:
+            type: array
+            description: The module names to substitute for any references present in the module code
+            items:
+              type: object
+              required:
+              - name
+              - namespace
+              properties:
+                name:
+                  type: string
+                  description: Bare name of a module
+                namespace:
+                  type:
+                  - string
+                  - 'null'
+                  description: Namespace of the indicated module
+      - title: Guard
+        description: Special pact value for guard types.
+        type: object
+        oneOf:
+        - title: Keyset
+          description: 'A keyset forms a rule made from a set of key/address values and a predicate function.
+
+            When enforced, transaction signer list is evaluated against keyset.
+
+            '
+          required:
+          - keys
+          - pred
+          properties:
+            keys:
+              type: array
+              description: Set of public key/address values. Native pact public keys are ED25519 in base16 encoding.
+              items:
+                type: string
+            pred:
+              type: string
+              description: 'A pact function name. Built-in values are `keys-all` (match all keys in set),
+
+                `keys-any` (match at least one), and `keys-2` (match at least 2).
+
+                Custom functions have a fully-qualified name and
+
+                must accept two integer arguments `count` (number of keys in set) and `matched`
+
+                (number of set keys found in transaction set).
+
+                '
+        - title: Keyset Reference
+          description: Refers to a keyset in the Pact environment/database installed with `define-keyset`.
+          required:
+          - keysetref
+          properties:
+            keysetref:
+              type: string
+              description: Installed keyset name.
+        - title: User Guard
+          description: 'Closure of call to "guard function" which is a boolean user function with arguments.
+
+            '
+          required:
+          - fun
+          - args
+          properties:
+            fun:
+              description: Fully-qualified guard function name.
+              type: string
+            args:
+              description: Argument values to the guard function.
+              type: array
+              items:
+                $ref: '#/components/schemas/pact-value'
+        - title: Module Guard
+          type: object
+          description: 'Autonomous guard that only allows module code access, or requires module admin.
+
+            '
+          required:
+          - moduleName
+          - name
+          properties:
+            moduleName:
+              required:
+              - name
+              - namespace
+              properties:
+                name:
+                  type: string
+                  description: module bare name
+                namespace:
+                  type: string
+                  description: module namespace
+            name:
+              type: string
+              description: Distinguishing/informative name for module guard.
+        - title: Pact Guard
+          type: object
+          description: 'Autonomous guard that only allows a particular pact execution, referenced by ID, to pass.
+
+            Two executions of the same defpact code result in distinct pact IDs. A pact guard
+
+            created inside of this execution will only pass when running that particular pact.
+
+            '
+          required:
+          - pactId
+          - name
+          properties:
+            pactId:
+              description: Defpact execution ID.
+              type: string
+            name:
+              type: string
+              description: Distinguishing/informative name for pact guard.
+    event:
+      description: Pact output event.
+      type: object
+      properties:
+        name:
+          type: string
+          description: Event defcap name.
+        module:
+          type: object
+          description: Qualified module name of event defcap.
+          required:
+          - name
+          properties:
+            name:
+              type: string
+              description: module bare name
+            namespace:
+              type: string
+              description: module namespace
+        params:
+          type: array
+          items:
+            $ref: '#/components/schemas/pact-value'
+        moduleHash:
+          type: string
+          description: Hash of emitting module.
   examples:
-    module_reference:
-      refName:
-        namespace: null
-        name: coin
-      refSpec:
-      - namespace: null
-        name: fungible-v2
     command-result:
       gas: 123
       result:
@@ -558,41 +481,33 @@ components:
         - 10.0
         module: coin
         moduleHash: ut_J_ZNkoyaPUEJhiwVeWnkSQn9JT9sQCWKdjjVVrWo
+    module_reference:
+      refName:
+        namespace: null
+        name: coin
+      refSpec:
+      - namespace: null
+        name: fungible-v2
 x-tagGroups:
-- name: chainweb_p2p
-  x-displayName: Chainweb P2P API
+- name: std-pact-api
+  x-displayName: Standard Pact API
   tags:
-  - p2p_api
-  - cut
-  - blockhash
-  - header
-  - payload
-  - mempool
-  - peer
-  - config
-- name: chainweb_service
-  x-displayName: Chainweb Service API
+  - endpoint-local
+  - endpoint-send
+  - endpoint-poll
+  - endpoint-listen
+- name: private-api
+  x-displayName: Private Pact API
   tags:
-  - service_api
-  - block
-  - misc
-  - mining
-  - pact
-- name: Common HTTP Headers
+  - endpoint-private
+- name: spv-api
+  x-displayName: SPV API
   tags:
-  - commonResponseHeaders
-- name: Data Models
+  - endpoint-spv
+- name: models
+  x-displayName: Pact API models
   tags:
-  - cut_model
-  - header_model
-  - payload_model
-  - payloadWithOutputs_model
-  - peer_model
-  - nodeInfo_model
-  - page_model
-  - minerInfo_model
-  - miningUpdateEventStream_model
-- name: Binary Encodings
-  tags:
-  - binaryHeader
-  - binaryWorkHeader
+  - model-command
+  - model-command-result
+  - model-payload
+  - model-pact-value
