@@ -68,7 +68,7 @@ maintainers:
   email: info@apis.io
 apis:
 - aid: kadena:kadena-block-api
-  name: Kadena block API
+  name: Kadena Block API
   description: >-
     These endpoints return whole blocks, headers and payloads, from the chain
 
@@ -102,7 +102,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-blockhash-api
-  name: Kadena blockhash API
+  name: Kadena Blockhash API
   description: >-
     These endpoints return block hashes from the chain database.
 
@@ -129,7 +129,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-config-api
-  name: Kadena config API
+  name: Kadena Config API
   description: The config API from Kadena — 1 operation(s) for config.
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
@@ -143,7 +143,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-cut-api
-  name: Kadena cut API
+  name: Kadena Cut API
   description: >-
     A cut represents a distributed state of a chainweb. It references one
 
@@ -167,7 +167,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-endpoint-listen-api
-  name: Kadena endpoint-listen API
+  name: Kadena Endpoint Listen API
   description: The endpoint-listen API from Kadena — 1 operation(s) for endpoint-listen.
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
@@ -179,7 +179,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-endpoint-local-api
-  name: Kadena endpoint-local API
+  name: Kadena Endpoint Local API
   description: The endpoint-local API from Kadena — 1 operation(s) for endpoint-local.
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
@@ -191,7 +191,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-endpoint-poll-api
-  name: Kadena endpoint-poll API
+  name: Kadena Endpoint Poll API
   description: The endpoint-poll API from Kadena — 1 operation(s) for endpoint-poll.
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
@@ -203,7 +203,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-endpoint-private-api
-  name: Kadena endpoint-private API
+  name: Kadena Endpoint Private API
   description: The endpoint-private API from Kadena — 1 operation(s) for endpoint-private.
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
@@ -215,7 +215,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-endpoint-send-api
-  name: Kadena endpoint-send API
+  name: Kadena Endpoint Send API
   description: The endpoint-send API from Kadena — 1 operation(s) for endpoint-send.
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
@@ -227,7 +227,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-endpoint-spv-api
-  name: Kadena endpoint-spv API
+  name: Kadena Endpoint Spv API
   description: The endpoint-spv API from Kadena — 1 operation(s) for endpoint-spv.
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
@@ -239,7 +239,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-header-api
-  name: Kadena header API
+  name: Kadena Header API
   description: >-
     These endpoints return block headers from the chain database.
 
@@ -276,7 +276,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-mempool-api
-  name: Kadena mempool API
+  name: Kadena Mempool API
   description: >-
     Mempool P2P endpoints for communication between mempools. Endusers are not
 
@@ -295,7 +295,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-mining-api
-  name: Kadena mining API
+  name: Kadena Mining API
   description: >-
     The Mining API of Chainweb node is disabled by default. It can be enabled
 
@@ -327,7 +327,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-misc-api
-  name: Kadena misc API
+  name: Kadena Misc API
   description: The misc API from Kadena — 7 operation(s) for misc.
   humanURL: https://docs.kadena.io/api/chainweb-api
   baseURL: https://api.chainweb.com/chainweb/0.0/mainnet01
@@ -340,7 +340,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-payload-api
-  name: Kadena payload API
+  name: Kadena Payload API
   description: >-
     Raw literal Block Payloads in the form in which they are stored on the chain.
 
@@ -364,7 +364,7 @@ apis:
   - type: APIReference
     url: https://kadena-io.github.io/chainweb-openapi/
 - aid: kadena:kadena-peer-api
-  name: Kadena peer API
+  name: Kadena Peer API
   description: >-
     The P2P communication between chainweb-nodes is sharded into several independent
 

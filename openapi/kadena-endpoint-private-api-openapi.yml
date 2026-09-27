@@ -60,6 +60,9 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    webauthn-sig-string:
+      type: string
+      description: "Stringified JSON WebAuthn signature object.\n\nFor a WebAuthn signature string to be valid, its corresponding `Signer`\nmust have `scheme: \"WebAuthn\"`.\n\nThe schema of a Pact WebAuthn signature object resembles that of\nthe WebAuthn standard `CredentialResponse`.\nIts fields can be computed from the `response` field of a WebAuthn\n`CredentialResponse`. For example, to construct a WebAuthn signature\nstring in the browser:\n\n```\nconst resp = await navigator.credentials.get();\nconst auth = resp.response.authenticatorData();\nconst sig = resp.response.signature;\nJSON.stringify({\n  authenticatorData: base64url_to_base64(auth),\n  clientDataJSON: resp.response.clientDataJSON,\n  signature: base64url_to_base64(sig)\n})\n```\n"
     request-key:
       title: Request Key
       type: string
@@ -115,9 +118,6 @@ components:
                     '
                   example: 8d452109cc0439234c093b5e204a7428bc0a54f22704402492e027aaa9375a34c910d8a468a12746d0d29e9353f4a3fbebe920d63bcc7963853995db015d060f
                 - $ref: '#/components/schemas/webauthn-sig-string'
-    webauthn-sig-string:
-      type: string
-      description: "Stringified JSON WebAuthn signature object.\n\nFor a WebAuthn signature string to be valid, its corresponding `Signer`\nmust have `scheme: \"WebAuthn\"`.\n\nThe schema of a Pact WebAuthn signature object resembles that of\nthe WebAuthn standard `CredentialResponse`.\nIts fields can be computed from the `response` field of a WebAuthn\n`CredentialResponse`. For example, to construct a WebAuthn signature\nstring in the browser:\n\n```\nconst resp = await navigator.credentials.get();\nconst auth = resp.response.authenticatorData();\nconst sig = resp.response.signature;\nJSON.stringify({\n  authenticatorData: base64url_to_base64(auth),\n  clientDataJSON: resp.response.clientDataJSON,\n  signature: base64url_to_base64(sig)\n})\n```\n"
   examples:
     command:
       hash: H6XjdPHzMai2HLa3_yVkXfkFYMgA0bGfsB0kOsHAMuI

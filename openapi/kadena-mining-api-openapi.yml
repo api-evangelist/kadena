@@ -397,16 +397,16 @@ components:
       schema:
         $ref: '#/components/schemas/hostAddress'
       example: 10.36.1.3:42988
-    x-chainweb-node-version:
-      description: The version of the remote chainweb node
-      schema:
-        type: string
-      example: '2.6'
     x-server-timestamp:
       description: The time of the clock of the remote node
       schema:
         $ref: '#/components/schemas/posixTimestamp'
       example: 1618597601
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
   schemas:
     minerInfo:
       title: Miner Info
@@ -434,18 +434,6 @@ components:
         predicate: keys-all
         public-keys:
         - f880a433d6e2a13a32b6169030f56245efdd8c1b8a5027e9ce98a88e886bef27
-    posixTimestamp:
-      title: POSIX Timestamp
-      type: integer
-      description: Seconds since POSIX epoch
-      example: 1619108524
-      minimum: 0
-    hostAddress:
-      title: Host Address
-      description: Host address containing IPv4 and port
-      type: string
-      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
-      example: 10.36.1.3:42988
     miningUpdateEventStream:
       title: Mining Update Events
       description: "A stream of server-sent events. **This is not a JSON array**.\nEvents are separated by empty lines (`\\n\\n`). Each event\nconsists of a single line:\n\n  event:New Cut\n"
@@ -469,6 +457,18 @@ components:
 
 
         event:New Cut'
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
 x-tagGroups:
 - name: chainweb_p2p
   x-displayName: Chainweb P2P API
