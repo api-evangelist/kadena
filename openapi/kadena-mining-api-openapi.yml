@@ -408,6 +408,12 @@ components:
         type: string
       example: '2.6'
   schemas:
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
     minerInfo:
       title: Miner Info
       properties:
@@ -457,12 +463,6 @@ components:
 
 
         event:New Cut'
-    hostAddress:
-      title: Host Address
-      description: Host address containing IPv4 and port
-      type: string
-      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
-      example: 10.36.1.3:42988
     posixTimestamp:
       title: POSIX Timestamp
       type: integer

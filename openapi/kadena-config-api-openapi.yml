@@ -131,29 +131,16 @@ components:
       schema:
         $ref: '#/components/schemas/hostAddress'
       example: 10.36.1.3:42988
-    x-chainweb-node-version:
-      description: The version of the remote chainweb node
-      schema:
-        type: string
-      example: '2.6'
     x-server-timestamp:
       description: The time of the clock of the remote node
       schema:
         $ref: '#/components/schemas/posixTimestamp'
       example: 1618597601
-  schemas:
-    hostAddress:
-      title: Host Address
-      description: Host address containing IPv4 and port
-      type: string
-      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
-      example: 10.36.1.3:42988
-    posixTimestamp:
-      title: POSIX Timestamp
-      type: integer
-      description: Seconds since POSIX epoch
-      example: 1619108524
-      minimum: 0
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
   examples:
     nodeConfig:
       value:
@@ -224,6 +211,19 @@ components:
           pruneChainDatabase: none
           fetchTimeout: 3000000
           initialCutHeightLimit: null
+  schemas:
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
 x-tagGroups:
 - name: chainweb_p2p
   x-displayName: Chainweb P2P API

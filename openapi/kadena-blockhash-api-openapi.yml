@@ -278,13 +278,6 @@ paths:
       x-operation-id-source: derived
 components:
   examples:
-    base64HeaderPage:
-      value:
-        next: inclusive:o1S4NNFhKWg8T1HEkmDvsTH9Ut9l3_qHRpp00yRKZIk
-        items:
-        - AAAAAAAAAABRoiLHW7EFAB2lwAatTykipYZ3CZNPzLe-f5S-zUt8COtu0H12f_OZAwAFAAAAMpic85rur2MYf3zli8s8bHxTFjriFoMPTr6ZPs8sjxMKAAAAVBKuhU_hQmuvKlx88A5o-FH0rzNo59NsdxmOGNBQ-ycPAAAAMItdqgHZxf7j6l0oE8X-G9-VyMbnQmZrtSniuRe_EJ9CtyxsSb7daPIIYAaXMgSEsQ3dkxY5GjJjLwAAAAAAABqWlmx5B6wo0YWPIShNKmdVrAQWht2P85BS1drGLpkAAAAAADUJ-ARn7blgHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEIPAAAAAAAFAAAA-na5gFuxBQAFL-3CY4YuAJNGp9KhDkbrKkIPWYyq8WvtAaNPoUFWC16louSx8YN5
-        - AAAAAAAAAAA0slHKW7EFAJNGp9KhDkbrKkIPWYyq8WvtAaNPoUFWC16louSx8YN5AwAFAAAAALcxv1ZiwwQ_QX9eOBZMbzIop6n7XtveS1FqOFwyvGMKAAAAC76ElC60qXSJQCHePpzzJxsCYvvrqvmkoHPyZnex-4QPAAAAKv0sz_rTANjoiJwMrdZFCJNFwdH0U_M5ouwMr3BXBfpCtyxsSb7daPIIYAaXMgSEsQ3dkxY5GjJjLwAAAAAAALJlIg1vY3w_9L63bePn1yk_5agvdEbIBBjm3adxc5xWAAAAAGzpBzdiVL9gHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQUIPAAAAAAAFAAAA-na5gFuxBQALiBhXgqaHAb4VWug3oddEVy0X9y_jEkE2Kmi_vyGP5ovr-fDIz_Uf
-        limit: 2
     blockHashBranchPage:
       value:
         next: inclusive:o1S4NNFhKWg8T1HEkmDvsTH9Ut9l3_qHRpp00yRKZIk
@@ -299,52 +292,23 @@ components:
         - k0an0qEORusqQg9ZjKrxa-0Bo0-hQVYLXqWi5LHxg3k
         - vhVa6Deh10RXLRf3L-MSQTYqaL-_IY_mi-v58MjP9R8
         limit: 2
-  headers:
-    x-chainweb-node-version:
-      description: The version of the remote chainweb node
-      schema:
-        type: string
-      example: '2.6'
-    x-peer-addr:
-      description: Host and port of the client as observed by the remote node
-      schema:
-        $ref: '#/components/schemas/hostAddress'
-      example: 10.36.1.3:42988
-    x-server-timestamp:
-      description: The time of the clock of the remote node
-      schema:
-        $ref: '#/components/schemas/posixTimestamp'
-      example: 1618597601
+    base64HeaderPage:
+      value:
+        next: inclusive:o1S4NNFhKWg8T1HEkmDvsTH9Ut9l3_qHRpp00yRKZIk
+        items:
+        - AAAAAAAAAABRoiLHW7EFAB2lwAatTykipYZ3CZNPzLe-f5S-zUt8COtu0H12f_OZAwAFAAAAMpic85rur2MYf3zli8s8bHxTFjriFoMPTr6ZPs8sjxMKAAAAVBKuhU_hQmuvKlx88A5o-FH0rzNo59NsdxmOGNBQ-ycPAAAAMItdqgHZxf7j6l0oE8X-G9-VyMbnQmZrtSniuRe_EJ9CtyxsSb7daPIIYAaXMgSEsQ3dkxY5GjJjLwAAAAAAABqWlmx5B6wo0YWPIShNKmdVrAQWht2P85BS1drGLpkAAAAAADUJ-ARn7blgHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEIPAAAAAAAFAAAA-na5gFuxBQAFL-3CY4YuAJNGp9KhDkbrKkIPWYyq8WvtAaNPoUFWC16louSx8YN5
+        - AAAAAAAAAAA0slHKW7EFAJNGp9KhDkbrKkIPWYyq8WvtAaNPoUFWC16louSx8YN5AwAFAAAAALcxv1ZiwwQ_QX9eOBZMbzIop6n7XtveS1FqOFwyvGMKAAAAC76ElC60qXSJQCHePpzzJxsCYvvrqvmkoHPyZnex-4QPAAAAKv0sz_rTANjoiJwMrdZFCJNFwdH0U_M5ouwMr3BXBfpCtyxsSb7daPIIYAaXMgSEsQ3dkxY5GjJjLwAAAAAAALJlIg1vY3w_9L63bePn1yk_5agvdEbIBBjm3adxc5xWAAAAAGzpBzdiVL9gHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQUIPAAAAAAAFAAAA-na5gFuxBQALiBhXgqaHAb4VWug3oddEVy0X9y_jEkE2Kmi_vyGP5ovr-fDIz_Uf
+        limit: 2
   parameters:
-    chain:
-      name: chain
-      in: path
-      description: the id of the chain to which the request is sent
-      required: true
-      schema:
-        type: integer
-        minimum: 0
-        example: 0
-    minheight:
-      name: minheight
+    maxheight:
+      name: maxheight
       in: query
-      description: Minimum block height of the returned headers
+      description: Maximum block height of the returned headers
       required: false
       schema:
         type: integer
         minimum: 0
       example: 500000
-    next:
-      name: next
-      in: query
-      description: 'The cursor for the next page. This value can be found as value of the
-
-        `next` property of the previous page.
-
-        '
-      required: false
-      schema:
-        type: string
     limit:
       name: limit
       in: query
@@ -357,16 +321,70 @@ components:
       schema:
         type: integer
         minimum: 0
-    maxheight:
-      name: maxheight
+    chain:
+      name: chain
+      in: path
+      description: the id of the chain to which the request is sent
+      required: true
+      schema:
+        type: integer
+        minimum: 0
+        example: 0
+    next:
+      name: next
       in: query
-      description: Maximum block height of the returned headers
+      description: 'The cursor for the next page. This value can be found as value of the
+
+        `next` property of the previous page.
+
+        '
+      required: false
+      schema:
+        type: string
+    minheight:
+      name: minheight
+      in: query
+      description: Minimum block height of the returned headers
       required: false
       schema:
         type: integer
         minimum: 0
       example: 500000
+  headers:
+    x-peer-addr:
+      description: Host and port of the client as observed by the remote node
+      schema:
+        $ref: '#/components/schemas/hostAddress'
+      example: 10.36.1.3:42988
+    x-server-timestamp:
+      description: The time of the clock of the remote node
+      schema:
+        $ref: '#/components/schemas/posixTimestamp'
+      example: 1618597601
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
   schemas:
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
+    blockHash:
+      title: Block Hash
+      description: Base64Url (without padding) encoded block hash
+      example: QxGCAz5AY1Y41nh1yWtgqhKhZ9pPiPRagFdIKNqBH7
+      allOf:
+      - $ref: '#/components/schemas/sha256Hash'
     sha256Hash:
       title: SHA256 Hash
       type: string
@@ -375,18 +393,6 @@ components:
       minLength: 43
       maxLength: 43
       example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
-    hostAddress:
-      title: Host Address
-      description: Host address containing IPv4 and port
-      type: string
-      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
-      example: 10.36.1.3:42988
-    blockHash:
-      title: Block Hash
-      description: Base64Url (without padding) encoded block hash
-      example: QxGCAz5AY1Y41nh1yWtgqhKhZ9pPiPRagFdIKNqBH7
-      allOf:
-      - $ref: '#/components/schemas/sha256Hash'
     page:
       title: Page
       description: Page of a collection of items
@@ -422,12 +428,6 @@ components:
           description: 'The items in the page.
 
             '
-    posixTimestamp:
-      title: POSIX Timestamp
-      type: integer
-      description: Seconds since POSIX epoch
-      example: 1619108524
-      minimum: 0
 x-tagGroups:
 - name: chainweb_p2p
   x-displayName: Chainweb P2P API
