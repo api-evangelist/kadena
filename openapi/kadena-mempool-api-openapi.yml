@@ -293,12 +293,18 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    signedTxText:
-      title: Signed Transaction Text
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
       type: string
-      description: Text of a JSON encoded signed Pact transaction
-      example:
-        $ref: '#/components/examples/signedTxText'
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
     requestKey:
       title: Request Key
       type: string
@@ -307,18 +313,12 @@ components:
       minLength: 43
       maxLength: 43
       example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
-    hostAddress:
-      title: Host Address
-      description: Host address containing IPv4 and port
+    signedTxText:
+      title: Signed Transaction Text
       type: string
-      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
-      example: 10.36.1.3:42988
-    posixTimestamp:
-      title: POSIX Timestamp
-      type: integer
-      description: Seconds since POSIX epoch
-      example: 1619108524
-      minimum: 0
+      description: Text of a JSON encoded signed Pact transaction
+      example:
+        $ref: '#/components/examples/signedTxText'
   headers:
     x-peer-addr:
       description: Host and port of the client as observed by the remote node
@@ -335,16 +335,6 @@ components:
       schema:
         type: string
       example: '2.6'
-  parameters:
-    chain:
-      name: chain
-      in: path
-      description: the id of the chain to which the request is sent
-      required: true
-      schema:
-        type: integer
-        minimum: 0
-        example: 0
   requestBodies:
     requestKeyArray:
       description: Array of request keys
@@ -360,6 +350,16 @@ components:
             singleton request body:
               value:
               - qx346ILpakzgbNZbE8oHqF5TZQghp-HPcV-0Ptc_n2s
+  parameters:
+    chain:
+      name: chain
+      in: path
+      description: the id of the chain to which the request is sent
+      required: true
+      schema:
+        type: integer
+        minimum: 0
+        example: 0
   examples:
     signedTxText:
       value:

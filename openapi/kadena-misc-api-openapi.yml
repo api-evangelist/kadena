@@ -510,335 +510,6 @@ paths:
       operationId: getBlockUpdates
       x-operation-id-source: derived
 components:
-  parameters:
-    backupId:
-      name: backupId
-      in: path
-      description: The identifier of the backup being checked
-      required: true
-      schema:
-        $ref: '#/components/schemas/backupId'
-    backupPact:
-      name: backupPact
-      in: query
-      description: 'Flag, if present back up the Pact databases too. Extra disk space and time required
-
-        '
-      required: false
-      allowEmptyValue: true
-  schemas:
-    hostAddress:
-      title: Host Address
-      description: Host address containing IPv4 and port
-      type: string
-      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
-      example: 10.36.1.3:42988
-    target:
-      title: PoW Target
-      description: 'The PoW target of a block represented as the base64Url (without
-
-        padding) 256 bit little endian encoding of the numerical value.
-
-        '
-      type: string
-      pattern: ^[a-zA-Z0-9_-]{43}$
-      minLength: 43
-      maxLength: 43
-      example: 2uMCnB4lWsErj9w1C1vAp1sHYd-sABf3kgcAAAAAAAA
-    chainId:
-      title: Chain ID
-      description: 'A Chainweb chain ID. In Kadena Chainweb chains are named by numbers
-
-        starting form 0. Valid values depend on the current graph at the
-
-        respective block height of the chainweb version.
-
-        '
-      type: integer
-      minimum: 0
-      example: 0
-    blockHash:
-      title: Block Hash
-      description: Base64Url (without padding) encoded block hash
-      example: QxGCAz5AY1Y41nh1yWtgqhKhZ9pPiPRagFdIKNqBH7
-      allOf:
-      - $ref: '#/components/schemas/sha256Hash'
-    nodeInfo:
-      title: Chainweb Node Info
-      description: General information about a chainweb node
-      required:
-      - nodeNumberOfChains
-      - nodeApiVersion
-      - nodeChains
-      - nodeVersion
-      - nodeGraphHistory
-      example:
-        $ref: '#/components/examples/info'
-      properties:
-        nodeNumberOfChains:
-          type: integer
-          minimum: 10
-          example: 20
-        nodeApiVersion:
-          type: string
-          example: '0.0'
-        nodeChains:
-          type: array
-          items:
-            description: Chain identifiers
-            type: string
-          minItems: 0
-          example:
-          - '0'
-        nodeVersion:
-          type: string
-          enum:
-          - test-singleton
-          - development
-          - mainnet01
-          - testnet04
-          example: mainnet01
-        nodeGraphHistory:
-          description: 'Array of all chain graphs indexed by the height of the first block with the repective
-
-            graph. Graphs are encoded as adjacency lists.
-
-            '
-          type: array
-          uniqueItems: true
-          minItems: 1
-          items:
-            description: A pair consisting of the height of the first block of a chain graph and the adjacency list of the graph.
-            type: array
-            minItems: 2
-            maxItems: 2
-            items:
-              oneOf:
-              - description: height of the first block of the graph
-                type: integer
-                minimum: 0
-              - description: adjacency list encoding of the chain graph.
-                type: array
-                items:
-                  description: A pair of the chain identifier and the list of chains adjacent to it.
-                  minItems: 2
-                  maxItems: 2
-                  type: array
-                  items:
-                    oneOf:
-                    - description: a chain identifier
-                      type: integer
-                      minimum: 0
-                    - description: an adjacency list for that chain
-                      type: array
-                      minItems: 0
-                      items:
-                        type: integer
-                        minimum: 0
-    posixTimestamp:
-      title: POSIX Timestamp
-      type: integer
-      description: Seconds since POSIX epoch
-      example: 1619108524
-      minimum: 0
-    sha256Hash:
-      title: SHA256 Hash
-      type: string
-      description: Base64Url (without padding) encoded SHA256 hash
-      pattern: ^[a-zA-Z0-9_-]{43}$
-      minLength: 43
-      maxLength: 43
-      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
-    blockHeight:
-      title: Block Height
-      description: 'The height of a block is the number of its predecessors in the block chain
-
-        '
-      type: integer
-      minimum: 0
-      example: 1000000
-    blockWeight:
-      title: Block Weight
-      description: 'The POW weight of a block is the sum of the difficulties of the block
-
-        and of all of its ancestors. The difficulty of a block is the maximum
-
-        difficulty divided by the target.
-
-
-        It represented as the base64Url (without padding) 256 bit little endian
-
-        encoding of the numerical value.
-
-        '
-      type: string
-      pattern: ^[a-zA-Z0-9_-]{43}$
-      minLength: 43
-      maxLength: 43
-      example: iil_D0t2MGqjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    payloadWithOutputs:
-      title: Block Payload With Outputs
-      description: 'Payload with outputs of a Block including the Merkle roots for
-
-        transactions and transaction outputs
-
-        '
-      required:
-      - transactions
-      - minerData
-      - transactionsHash
-      - outputsHash
-      - payloadHash
-      - coinbase
-      example:
-        $ref: '#/components/examples/emptyPayload'
-      properties:
-        transactions:
-          type: array
-          description: 'Array of pairs of transactions and their outputs.
-
-            Signed Pact transactions and outputs are base64Url-encoded without padding.
-
-            '
-          items:
-            type: array
-            minItems: 2
-            maxItems: 2
-            items:
-              anyOf:
-              - type: string
-                pattern: '[a-zA-Z0-9_-]+'
-                description: Base64Url (without padding) encoded JSON text of a signed Pact transaction
-              - type: string
-                pattern: '[a-zA-Z0-9_-]+'
-                description: Base64Url (without padding) encoded JSON text of a transaction output
-        minerData:
-          type: string
-          pattern: '[a-zA-Z0-9_-]+'
-          description: Base64Url (without padding) encoded JSON text of the miner data of the payload
-        transactionsHash:
-          $ref: '#/components/schemas/sha256Hash'
-        outputsHash:
-          $ref: '#/components/schemas/sha256Hash'
-        payloadHash:
-          $ref: '#/components/schemas/payloadHash'
-        coinbase:
-          type: string
-          pattern: '[a-zA-Z0-9_-]+'
-          description: Base64Url (without padding) encoded JSON text of coinbase output of the block
-    backupId:
-      title: Backup job identifier
-      description: Textual backup job identifier
-      type: string
-      pattern: '[a-zA-Z0-9_-]+'
-      example: 1648665437000
-    nonce:
-      title: PoW Nonce
-      description: 'PoW nonce of the block. This is computed by the miner such that the
-
-        block hash is smaller than the target.
-
-        '
-      type: string
-      pattern: '[0-9]+'
-      minLength: 1
-    backupStatus:
-      title: Backup job status
-      type: string
-      pattern: backup-done|backup-in-progress|backup-failed
-    chainwebVersion:
-      title: Chainweb Version
-      description: The version of the Chainweb network
-      enum:
-      - test-singleton
-      - development
-      - mainnet01
-      - testnet04
-    blockHeader:
-      title: Block Header
-      description: JSON Encoded Block Header
-      required:
-      - creationTime
-      - parent
-      - height
-      - hash
-      - chainId
-      - weight
-      - featureFlags
-      - epochStart
-      - adjacents
-      - payloadHash
-      - chainwebVersion
-      - target
-      - nonce
-      example:
-        value:
-          $ref: '#/components/examples/blockHeaderPage/value/items/0'
-      properties:
-        creationTime:
-          $ref: '#/components/schemas/posixTimestampMicro'
-        parent:
-          $ref: '#/components/schemas/blockHash'
-        height:
-          $ref: '#/components/schemas/blockHeight'
-        hash:
-          $ref: '#/components/schemas/blockHash'
-        chainId:
-          $ref: '#/components/schemas/chainId'
-        weight:
-          $ref: '#/components/schemas/blockWeight'
-        featureFlags:
-          type: integer
-          description: A reserved value that must be 0.
-        epochStart:
-          $ref: '#/components/schemas/posixTimestampMicro'
-        adjacents:
-          description: 'The block hashes of the adjacent parents of the block. This is
-
-            represented as an associative array that maps the adjancent chain
-
-            ids to the respective block hash.
-
-            '
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/blockHash'
-        payloadHash:
-          $ref: '#/components/schemas/payloadHash'
-        chainwebVersion:
-          $ref: '#/components/schemas/chainwebVersion'
-        target:
-          $ref: '#/components/schemas/target'
-        nonce:
-          $ref: '#/components/schemas/nonce'
-    payloadHash:
-      title: Block Payload Hash
-      description: Base64Url (without padding) encoded block payload hash
-      example: GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA
-      allOf:
-      - $ref: '#/components/schemas/sha256Hash'
-    posixTimestampMicro:
-      title: POSIX Timestamp in Microseconds
-      type: integer
-      description: Microseconds since POSIX epoch
-      example: 1602382624629329
-      minimum: 0
-  headers:
-    x-chainweb-node-version:
-      description: The version of the remote chainweb node
-      schema:
-        type: string
-      example: '2.6'
-    x-peer-addr:
-      description: Host and port of the client as observed by the remote node
-      schema:
-        $ref: '#/components/schemas/hostAddress'
-      example: 10.36.1.3:42988
-    x-server-timestamp:
-      description: The time of the clock of the remote node
-      schema:
-        $ref: '#/components/schemas/posixTimestamp'
-      example: 1618597601
   examples:
     nodeConfig:
       value:
@@ -1103,6 +774,335 @@ components:
               - - 10
                 - 4
                 - 18
+  headers:
+    x-server-timestamp:
+      description: The time of the clock of the remote node
+      schema:
+        $ref: '#/components/schemas/posixTimestamp'
+      example: 1618597601
+    x-peer-addr:
+      description: Host and port of the client as observed by the remote node
+      schema:
+        $ref: '#/components/schemas/hostAddress'
+      example: 10.36.1.3:42988
+    x-chainweb-node-version:
+      description: The version of the remote chainweb node
+      schema:
+        type: string
+      example: '2.6'
+  parameters:
+    backupId:
+      name: backupId
+      in: path
+      description: The identifier of the backup being checked
+      required: true
+      schema:
+        $ref: '#/components/schemas/backupId'
+    backupPact:
+      name: backupPact
+      in: query
+      description: 'Flag, if present back up the Pact databases too. Extra disk space and time required
+
+        '
+      required: false
+      allowEmptyValue: true
+  schemas:
+    backupId:
+      title: Backup job identifier
+      description: Textual backup job identifier
+      type: string
+      pattern: '[a-zA-Z0-9_-]+'
+      example: 1648665437000
+    target:
+      title: PoW Target
+      description: 'The PoW target of a block represented as the base64Url (without
+
+        padding) 256 bit little endian encoding of the numerical value.
+
+        '
+      type: string
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      minLength: 43
+      maxLength: 43
+      example: 2uMCnB4lWsErj9w1C1vAp1sHYd-sABf3kgcAAAAAAAA
+    posixTimestamp:
+      title: POSIX Timestamp
+      type: integer
+      description: Seconds since POSIX epoch
+      example: 1619108524
+      minimum: 0
+    posixTimestampMicro:
+      title: POSIX Timestamp in Microseconds
+      type: integer
+      description: Microseconds since POSIX epoch
+      example: 1602382624629329
+      minimum: 0
+    blockHash:
+      title: Block Hash
+      description: Base64Url (without padding) encoded block hash
+      example: QxGCAz5AY1Y41nh1yWtgqhKhZ9pPiPRagFdIKNqBH7
+      allOf:
+      - $ref: '#/components/schemas/sha256Hash'
+    nodeInfo:
+      title: Chainweb Node Info
+      description: General information about a chainweb node
+      required:
+      - nodeNumberOfChains
+      - nodeApiVersion
+      - nodeChains
+      - nodeVersion
+      - nodeGraphHistory
+      example:
+        $ref: '#/components/examples/info'
+      properties:
+        nodeNumberOfChains:
+          type: integer
+          minimum: 10
+          example: 20
+        nodeApiVersion:
+          type: string
+          example: '0.0'
+        nodeChains:
+          type: array
+          items:
+            description: Chain identifiers
+            type: string
+          minItems: 0
+          example:
+          - '0'
+        nodeVersion:
+          type: string
+          enum:
+          - test-singleton
+          - development
+          - mainnet01
+          - testnet04
+          example: mainnet01
+        nodeGraphHistory:
+          description: 'Array of all chain graphs indexed by the height of the first block with the repective
+
+            graph. Graphs are encoded as adjacency lists.
+
+            '
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            description: A pair consisting of the height of the first block of a chain graph and the adjacency list of the graph.
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              oneOf:
+              - description: height of the first block of the graph
+                type: integer
+                minimum: 0
+              - description: adjacency list encoding of the chain graph.
+                type: array
+                items:
+                  description: A pair of the chain identifier and the list of chains adjacent to it.
+                  minItems: 2
+                  maxItems: 2
+                  type: array
+                  items:
+                    oneOf:
+                    - description: a chain identifier
+                      type: integer
+                      minimum: 0
+                    - description: an adjacency list for that chain
+                      type: array
+                      minItems: 0
+                      items:
+                        type: integer
+                        minimum: 0
+    backupStatus:
+      title: Backup job status
+      type: string
+      pattern: backup-done|backup-in-progress|backup-failed
+    blockHeader:
+      title: Block Header
+      description: JSON Encoded Block Header
+      required:
+      - creationTime
+      - parent
+      - height
+      - hash
+      - chainId
+      - weight
+      - featureFlags
+      - epochStart
+      - adjacents
+      - payloadHash
+      - chainwebVersion
+      - target
+      - nonce
+      example:
+        value:
+          $ref: '#/components/examples/blockHeaderPage/value/items/0'
+      properties:
+        creationTime:
+          $ref: '#/components/schemas/posixTimestampMicro'
+        parent:
+          $ref: '#/components/schemas/blockHash'
+        height:
+          $ref: '#/components/schemas/blockHeight'
+        hash:
+          $ref: '#/components/schemas/blockHash'
+        chainId:
+          $ref: '#/components/schemas/chainId'
+        weight:
+          $ref: '#/components/schemas/blockWeight'
+        featureFlags:
+          type: integer
+          description: A reserved value that must be 0.
+        epochStart:
+          $ref: '#/components/schemas/posixTimestampMicro'
+        adjacents:
+          description: 'The block hashes of the adjacent parents of the block. This is
+
+            represented as an associative array that maps the adjancent chain
+
+            ids to the respective block hash.
+
+            '
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/blockHash'
+        payloadHash:
+          $ref: '#/components/schemas/payloadHash'
+        chainwebVersion:
+          $ref: '#/components/schemas/chainwebVersion'
+        target:
+          $ref: '#/components/schemas/target'
+        nonce:
+          $ref: '#/components/schemas/nonce'
+    blockHeight:
+      title: Block Height
+      description: 'The height of a block is the number of its predecessors in the block chain
+
+        '
+      type: integer
+      minimum: 0
+      example: 1000000
+    payloadWithOutputs:
+      title: Block Payload With Outputs
+      description: 'Payload with outputs of a Block including the Merkle roots for
+
+        transactions and transaction outputs
+
+        '
+      required:
+      - transactions
+      - minerData
+      - transactionsHash
+      - outputsHash
+      - payloadHash
+      - coinbase
+      example:
+        $ref: '#/components/examples/emptyPayload'
+      properties:
+        transactions:
+          type: array
+          description: 'Array of pairs of transactions and their outputs.
+
+            Signed Pact transactions and outputs are base64Url-encoded without padding.
+
+            '
+          items:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              anyOf:
+              - type: string
+                pattern: '[a-zA-Z0-9_-]+'
+                description: Base64Url (without padding) encoded JSON text of a signed Pact transaction
+              - type: string
+                pattern: '[a-zA-Z0-9_-]+'
+                description: Base64Url (without padding) encoded JSON text of a transaction output
+        minerData:
+          type: string
+          pattern: '[a-zA-Z0-9_-]+'
+          description: Base64Url (without padding) encoded JSON text of the miner data of the payload
+        transactionsHash:
+          $ref: '#/components/schemas/sha256Hash'
+        outputsHash:
+          $ref: '#/components/schemas/sha256Hash'
+        payloadHash:
+          $ref: '#/components/schemas/payloadHash'
+        coinbase:
+          type: string
+          pattern: '[a-zA-Z0-9_-]+'
+          description: Base64Url (without padding) encoded JSON text of coinbase output of the block
+    chainId:
+      title: Chain ID
+      description: 'A Chainweb chain ID. In Kadena Chainweb chains are named by numbers
+
+        starting form 0. Valid values depend on the current graph at the
+
+        respective block height of the chainweb version.
+
+        '
+      type: integer
+      minimum: 0
+      example: 0
+    payloadHash:
+      title: Block Payload Hash
+      description: Base64Url (without padding) encoded block payload hash
+      example: GpaWbHkHrCjRhY8hKE0qZ1WsBBaG3Y_zkFLV2sYumQA
+      allOf:
+      - $ref: '#/components/schemas/sha256Hash'
+    nonce:
+      title: PoW Nonce
+      description: 'PoW nonce of the block. This is computed by the miner such that the
+
+        block hash is smaller than the target.
+
+        '
+      type: string
+      pattern: '[0-9]+'
+      minLength: 1
+    hostAddress:
+      title: Host Address
+      description: Host address containing IPv4 and port
+      type: string
+      pattern: ^\d{4}.\d{4}.\d{4}.\d{4}:\d+$
+      example: 10.36.1.3:42988
+    blockWeight:
+      title: Block Weight
+      description: 'The POW weight of a block is the sum of the difficulties of the block
+
+        and of all of its ancestors. The difficulty of a block is the maximum
+
+        difficulty divided by the target.
+
+
+        It represented as the base64Url (without padding) 256 bit little endian
+
+        encoding of the numerical value.
+
+        '
+      type: string
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      minLength: 43
+      maxLength: 43
+      example: iil_D0t2MGqjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    sha256Hash:
+      title: SHA256 Hash
+      type: string
+      description: Base64Url (without padding) encoded SHA256 hash
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      minLength: 43
+      maxLength: 43
+      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
+    chainwebVersion:
+      title: Chainweb Version
+      description: The version of the Chainweb network
+      enum:
+      - test-singleton
+      - development
+      - mainnet01
+      - testnet04
 x-tagGroups:
 - name: chainweb_p2p
   x-displayName: Chainweb P2P API

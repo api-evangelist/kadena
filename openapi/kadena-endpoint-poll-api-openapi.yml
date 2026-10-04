@@ -67,6 +67,32 @@ paths:
       operationId: postPoll
       x-operation-id-source: derived
 components:
+  examples:
+    command-result:
+      gas: 123
+      result:
+        status: success
+        data: 3
+      reqKey: cQ-guhschk0wTvMBtrqc92M7iYm4S2MYhipQ2vNKxoI
+      logs: wsATyGqckuIvlm89hhd2j4t6RMkCrcwJe_oeCYr7Th8
+      metaData: null
+      continuation: null
+      txId: '456'
+      events:
+      - name: TRANSFER
+        params:
+        - Alice
+        - Bob
+        - 10.0
+        module: coin
+        moduleHash: ut_J_ZNkoyaPUEJhiwVeWnkSQn9JT9sQCWKdjjVVrWo
+    module_reference:
+      refName:
+        namespace: null
+        name: coin
+      refSpec:
+      - namespace: null
+        name: fungible-v2
   schemas:
     command-result:
       title: Command Result
@@ -199,15 +225,32 @@ components:
                       type: string
         gas:
           type: number
-    request-key:
-      title: Request Key
-      type: string
-      description: Unique ID of a pact transaction consisting of its hash.
-      pattern: ^[a-zA-Z0-9_-]{43}$
-      contentEncoding: base64url
-      minLength: 43
-      maxLength: 43
-      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
+    event:
+      description: Pact output event.
+      type: object
+      properties:
+        name:
+          type: string
+          description: Event defcap name.
+        module:
+          type: object
+          description: Qualified module name of event defcap.
+          required:
+          - name
+          properties:
+            name:
+              type: string
+              description: module bare name
+            namespace:
+              type: string
+              description: module namespace
+        params:
+          type: array
+          items:
+            $ref: '#/components/schemas/pact-value'
+        moduleHash:
+          type: string
+          description: Hash of emitting module.
     pact-error:
       description: 'Verbose object describing failed execution.
 
@@ -227,6 +270,15 @@ components:
           type: string
         type:
           type: string
+    request-key:
+      title: Request Key
+      type: string
+      description: Unique ID of a pact transaction consisting of its hash.
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      contentEncoding: base64url
+      minLength: 43
+      maxLength: 43
+      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
     pact-value:
       description: Pact value compound type.
       tags:
@@ -436,58 +488,6 @@ components:
             name:
               type: string
               description: Distinguishing/informative name for pact guard.
-    event:
-      description: Pact output event.
-      type: object
-      properties:
-        name:
-          type: string
-          description: Event defcap name.
-        module:
-          type: object
-          description: Qualified module name of event defcap.
-          required:
-          - name
-          properties:
-            name:
-              type: string
-              description: module bare name
-            namespace:
-              type: string
-              description: module namespace
-        params:
-          type: array
-          items:
-            $ref: '#/components/schemas/pact-value'
-        moduleHash:
-          type: string
-          description: Hash of emitting module.
-  examples:
-    command-result:
-      gas: 123
-      result:
-        status: success
-        data: 3
-      reqKey: cQ-guhschk0wTvMBtrqc92M7iYm4S2MYhipQ2vNKxoI
-      logs: wsATyGqckuIvlm89hhd2j4t6RMkCrcwJe_oeCYr7Th8
-      metaData: null
-      continuation: null
-      txId: '456'
-      events:
-      - name: TRANSFER
-        params:
-        - Alice
-        - Bob
-        - 10.0
-        module: coin
-        moduleHash: ut_J_ZNkoyaPUEJhiwVeWnkSQn9JT9sQCWKdjjVVrWo
-    module_reference:
-      refName:
-        namespace: null
-        name: coin
-      refSpec:
-      - namespace: null
-        name: fungible-v2
 x-tagGroups:
 - name: std-pact-api
   x-displayName: Standard Pact API

@@ -60,6 +60,9 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    webauthn-sig-string:
+      type: string
+      description: "Stringified JSON WebAuthn signature object.\n\nFor a WebAuthn signature string to be valid, its corresponding `Signer`\nmust have `scheme: \"WebAuthn\"`.\n\nThe schema of a Pact WebAuthn signature object resembles that of\nthe WebAuthn standard `CredentialResponse`.\nIts fields can be computed from the `response` field of a WebAuthn\n`CredentialResponse`. For example, to construct a WebAuthn signature\nstring in the browser:\n\n```\nconst resp = await navigator.credentials.get();\nconst auth = resp.response.authenticatorData();\nconst sig = resp.response.signature;\nJSON.stringify({\n  authenticatorData: base64url_to_base64(auth),\n  clientDataJSON: resp.response.clientDataJSON,\n  signature: base64url_to_base64(sig)\n})\n```\n"
     request-key:
       title: Request Key
       type: string
@@ -69,9 +72,6 @@ components:
       minLength: 43
       maxLength: 43
       example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
-    webauthn-sig-string:
-      type: string
-      description: "Stringified JSON WebAuthn signature object.\n\nFor a WebAuthn signature string to be valid, its corresponding `Signer`\nmust have `scheme: \"WebAuthn\"`.\n\nThe schema of a Pact WebAuthn signature object resembles that of\nthe WebAuthn standard `CredentialResponse`.\nIts fields can be computed from the `response` field of a WebAuthn\n`CredentialResponse`. For example, to construct a WebAuthn signature\nstring in the browser:\n\n```\nconst resp = await navigator.credentials.get();\nconst auth = resp.response.authenticatorData();\nconst sig = resp.response.signature;\nJSON.stringify({\n  authenticatorData: base64url_to_base64(auth),\n  clientDataJSON: resp.response.clientDataJSON,\n  signature: base64url_to_base64(sig)\n})\n```\n"
     command:
       title: Pact Command
       tags:
