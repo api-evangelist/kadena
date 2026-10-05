@@ -1,0 +1,12 @@
+{
+ "url": "https://kadena-io.github.io/chainweb-openapi/chainweb.openapi.yaml",
+ "requested_url": "https://kadena-io.github.io/chainweb-openapi/chainweb.openapi.yaml",
+ "status": 200,
+ "content_type": "text/yaml",
+ "bytes": 140044,
+ "sha256": "08de4122b2e93fdd8c0f3522ebcd56970e70aa0266ccd56d1f05713b145c54f4",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
