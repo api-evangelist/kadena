@@ -101,209 +101,15 @@ components:
     webauthn-sig-string:
       type: string
       description: "Stringified JSON WebAuthn signature object.\n\nFor a WebAuthn signature string to be valid, its corresponding `Signer`\nmust have `scheme: \"WebAuthn\"`.\n\nThe schema of a Pact WebAuthn signature object resembles that of\nthe WebAuthn standard `CredentialResponse`.\nIts fields can be computed from the `response` field of a WebAuthn\n`CredentialResponse`. For example, to construct a WebAuthn signature\nstring in the browser:\n\n```\nconst resp = await navigator.credentials.get();\nconst auth = resp.response.authenticatorData();\nconst sig = resp.response.signature;\nJSON.stringify({\n  authenticatorData: base64url_to_base64(auth),\n  clientDataJSON: resp.response.clientDataJSON,\n  signature: base64url_to_base64(sig)\n})\n```\n"
-    command:
-      title: Pact Command
-      tags:
-      - model-command
-      description: Represents a single blockchain Pact transaction.
-      type: object
-      required:
-      - cmd
-      - hash
-      - sigs
-      example:
-        $ref: '#/components/examples/command'
-      properties:
-        cmd:
-          description: 'Stringified JSON `payload` object. Canonic non-malleable signed transaction data.
-
-            '
-          type: string
-        hash:
-          description: 'Unpadded Base64URL of Blake2s-256 hash of the `cmd` field value. Serves as a command
-
-            `requestKey` since each transaction must be unique.
-
-            '
-          type: string
-          contentEncoding: base64url
-          example: H6XjdPHzMai2HLa3_yVkXfkFYMgA0bGfsB0kOsHAMuI
-        sigs:
-          description: 'List of signatures corresponding one-to-one with `signers` array in the payload.
-
-            '
-          type: array
-          minItems: 0
-          items:
-            properties:
-              sig:
-                anyOf:
-                - type: string
-                  contentEncoding: base16
-                  description: 'Base16-encoded Ed25519 signature of `hash` field
-
-                    for corresponding signer in payload.
-
-                    '
-                  example: 8d452109cc0439234c093b5e204a7428bc0a54f22704402492e027aaa9375a34c910d8a468a12746d0d29e9353f4a3fbebe920d63bcc7963853995db015d060f
-                - $ref: '#/components/schemas/webauthn-sig-string'
-    command-result:
-      title: Command Result
-      tags:
-      - model-command-result
-      example:
-        $ref: '#/components/examples/command-result'
-      description: The result of attempting to execute a single well-formed Pact command.
-      type: object
-      required:
-      - reqKey
-      - result
-      - logs
-      - metaData
-      - gas
-      properties:
-        reqKey:
-          $ref: '#/components/schemas/request-key'
-        result:
-          oneOf:
-          - title: Success
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - success
-              data:
-                $ref: '#/components/schemas/pact-value'
-          - title: Failure
-            type: object
-            properties:
-              status:
-                type: string
-                enum:
-                - failure
-              error:
-                $ref: '#/components/schemas/pact-error'
-        txId:
-          type: number
-          description: Database-internal transaction tracking ID.
-        logs:
-          type: string
-          description: Backend-specific value providing image of database logs.
-        metaData:
-          properties:
-            blockTime:
-              type: number
-              description: POSIX time of block
-            prevBlockHash:
-              type: string
-              description: Parent Block hash of containing block.
-            blockHash:
-              type: string
-              description: Block hash of containing block.
-            blockHeight:
-              type: number
-              description: Block height of containing block.
-            publicMeta:
-              type: object
-              description: Public metadata.
-              properties:
-                creationTime:
-                  type: number
-                  description: POSIX time the command was created
-                ttl:
-                  type: number
-                  description: Transaction time to live
-                gasLimit:
-                  type: number
-                  description: The transaction's gas limit
-                chainId:
-                  type: string
-                  description: Chain identifier
-                gasPrice:
-                  type: number
-                  description: The price of each unit of gas in KDA
-                sender:
-                  type: string
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/event'
-        continuation:
-          description: Describes result of a defpact execution.
-          properties:
-            pactId:
-              type: string
-              description: Identifies this defpact execution. On first step generally matches request key.
-            step:
-              type: number
-              description: Identifies which step executed in defpact.
-            stepCount:
-              type: number
-              description: Total number of steps in pact.
-            executed:
-              type: boolean
-              description: optional value for private pacts, indicates if step was skipped.
-            stepHasRollback:
-              type: boolean
-              description: indicates if pact step has rollback.
-            continuation:
-              description: Closure describing executed pact.
-              properties:
-                def:
-                  type: string
-                  description: Fully-qualified defpact name.
-                args:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/pact-value'
-            yield:
-              description: Value yielded during pact step, optionally indicating cross-chain execution.
-              properties:
-                data:
-                  type: object
-                  description: Pact value object containing yielded data.
-                  additionalProperties:
-                    $ref: '#/components/schemas/pact-value'
-                source:
-                  type: string
-                  description: Source chain ID.
-                provenance:
-                  properties:
-                    targetChainId:
-                      type: string
-                      description: Chain ID of target chain for next step.
-                    moduleHash:
-                      description: Hash of module executing defpact.
-                      type: string
-        gas:
-          type: number
-    event:
-      description: Pact output event.
-      type: object
-      properties:
-        name:
-          type: string
-          description: Event defcap name.
-        module:
-          type: object
-          description: Qualified module name of event defcap.
-          required:
-          - name
-          properties:
-            name:
-              type: string
-              description: module bare name
-            namespace:
-              type: string
-              description: module namespace
-        params:
-          type: array
-          items:
-            $ref: '#/components/schemas/pact-value'
-        moduleHash:
-          type: string
-          description: Hash of emitting module.
+    request-key:
+      title: Request Key
+      type: string
+      description: Unique ID of a pact transaction consisting of its hash.
+      pattern: ^[a-zA-Z0-9_-]{43}$
+      contentEncoding: base64url
+      minLength: 43
+      maxLength: 43
+      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
     pact-error:
       description: 'Verbose object describing failed execution.
 
@@ -327,34 +133,6 @@ components:
       title: Validation Failure
       type: string
       description: Failure message of unexecuted command due to an invalid gas payer, meta, or other environments.
-    request-key:
-      title: Request Key
-      type: string
-      description: Unique ID of a pact transaction consisting of its hash.
-      pattern: ^[a-zA-Z0-9_-]{43}$
-      contentEncoding: base64url
-      minLength: 43
-      maxLength: 43
-      example: y3aWL72-3wAy7vL9wcegGXnstH0lHi-q-cfxkhD5JCw
-    preflight-result:
-      title: Preflight /local result
-      tags:
-      - model-preflight-result
-      example:
-        $ref: '#/components/examples/preflight-result'
-      description: The result of attempting to execute preflight simulation for a single well-formed Pact command.
-      type: object
-      required:
-      - preflightResult
-      - preflightWarnings
-      properties:
-        preflightResult:
-          $ref: '#/components/schemas/command-result'
-        preflightWarnings:
-          description: A list of warnings associated with deprecated features in upcoming pact releases.
-          type: array
-          items:
-            type: string
     pact-value:
       description: Pact value compound type.
       tags:
@@ -564,37 +342,229 @@ components:
             name:
               type: string
               description: Distinguishing/informative name for pact guard.
-  examples:
-    command-result:
-      gas: 123
-      result:
-        status: success
-        data: 3
-      reqKey: cQ-guhschk0wTvMBtrqc92M7iYm4S2MYhipQ2vNKxoI
-      logs: wsATyGqckuIvlm89hhd2j4t6RMkCrcwJe_oeCYr7Th8
-      metaData: null
-      continuation: null
-      txId: '456'
-      events:
-      - name: TRANSFER
+    event:
+      description: Pact output event.
+      type: object
+      properties:
+        name:
+          type: string
+          description: Event defcap name.
+        module:
+          type: object
+          description: Qualified module name of event defcap.
+          required:
+          - name
+          properties:
+            name:
+              type: string
+              description: module bare name
+            namespace:
+              type: string
+              description: module namespace
         params:
-        - Alice
-        - Bob
-        - 10.0
-        module: coin
-        moduleHash: ut_J_ZNkoyaPUEJhiwVeWnkSQn9JT9sQCWKdjjVVrWo
-    module_reference:
-      refName:
-        namespace: null
-        name: coin
-      refSpec:
-      - namespace: null
-        name: fungible-v2
+          type: array
+          items:
+            $ref: '#/components/schemas/pact-value'
+        moduleHash:
+          type: string
+          description: Hash of emitting module.
+    command-result:
+      title: Command Result
+      tags:
+      - model-command-result
+      example:
+        $ref: '#/components/examples/command-result'
+      description: The result of attempting to execute a single well-formed Pact command.
+      type: object
+      required:
+      - reqKey
+      - result
+      - logs
+      - metaData
+      - gas
+      properties:
+        reqKey:
+          $ref: '#/components/schemas/request-key'
+        result:
+          oneOf:
+          - title: Success
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - success
+              data:
+                $ref: '#/components/schemas/pact-value'
+          - title: Failure
+            type: object
+            properties:
+              status:
+                type: string
+                enum:
+                - failure
+              error:
+                $ref: '#/components/schemas/pact-error'
+        txId:
+          type: number
+          description: Database-internal transaction tracking ID.
+        logs:
+          type: string
+          description: Backend-specific value providing image of database logs.
+        metaData:
+          properties:
+            blockTime:
+              type: number
+              description: POSIX time of block
+            prevBlockHash:
+              type: string
+              description: Parent Block hash of containing block.
+            blockHash:
+              type: string
+              description: Block hash of containing block.
+            blockHeight:
+              type: number
+              description: Block height of containing block.
+            publicMeta:
+              type: object
+              description: Public metadata.
+              properties:
+                creationTime:
+                  type: number
+                  description: POSIX time the command was created
+                ttl:
+                  type: number
+                  description: Transaction time to live
+                gasLimit:
+                  type: number
+                  description: The transaction's gas limit
+                chainId:
+                  type: string
+                  description: Chain identifier
+                gasPrice:
+                  type: number
+                  description: The price of each unit of gas in KDA
+                sender:
+                  type: string
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/event'
+        continuation:
+          description: Describes result of a defpact execution.
+          properties:
+            pactId:
+              type: string
+              description: Identifies this defpact execution. On first step generally matches request key.
+            step:
+              type: number
+              description: Identifies which step executed in defpact.
+            stepCount:
+              type: number
+              description: Total number of steps in pact.
+            executed:
+              type: boolean
+              description: optional value for private pacts, indicates if step was skipped.
+            stepHasRollback:
+              type: boolean
+              description: indicates if pact step has rollback.
+            continuation:
+              description: Closure describing executed pact.
+              properties:
+                def:
+                  type: string
+                  description: Fully-qualified defpact name.
+                args:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/pact-value'
+            yield:
+              description: Value yielded during pact step, optionally indicating cross-chain execution.
+              properties:
+                data:
+                  type: object
+                  description: Pact value object containing yielded data.
+                  additionalProperties:
+                    $ref: '#/components/schemas/pact-value'
+                source:
+                  type: string
+                  description: Source chain ID.
+                provenance:
+                  properties:
+                    targetChainId:
+                      type: string
+                      description: Chain ID of target chain for next step.
+                    moduleHash:
+                      description: Hash of module executing defpact.
+                      type: string
+        gas:
+          type: number
     command:
-      hash: H6XjdPHzMai2HLa3_yVkXfkFYMgA0bGfsB0kOsHAMuI
-      sigs:
-      - sig: 8d452109cc0439234c093b5e204a7428bc0a54f22704402492e027aaa9375a34c910d8a468a12746d0d29e9353f4a3fbebe920d63bcc7963853995db015d060f
-      cmd: '{"payload":{"exec":{"data":null,"code":"(+ 1 2)"}},"signers":[{"pubKey":"368820f80c324bbc7c2b0610688a7da43e39f91d118732671cd9c7500ff43cca"}],"meta":{"gasLimit":1000,"chainId":"0","gasPrice":1.0e-2,"sender":"368820f80c324bbc7c2b0610688a7da43e39f91d118732671cd9c7500ff43cca"},"nonce":"nonce-value"}'
+      title: Pact Command
+      tags:
+      - model-command
+      description: Represents a single blockchain Pact transaction.
+      type: object
+      required:
+      - cmd
+      - hash
+      - sigs
+      example:
+        $ref: '#/components/examples/command'
+      properties:
+        cmd:
+          description: 'Stringified JSON `payload` object. Canonic non-malleable signed transaction data.
+
+            '
+          type: string
+        hash:
+          description: 'Unpadded Base64URL of Blake2s-256 hash of the `cmd` field value. Serves as a command
+
+            `requestKey` since each transaction must be unique.
+
+            '
+          type: string
+          contentEncoding: base64url
+          example: H6XjdPHzMai2HLa3_yVkXfkFYMgA0bGfsB0kOsHAMuI
+        sigs:
+          description: 'List of signatures corresponding one-to-one with `signers` array in the payload.
+
+            '
+          type: array
+          minItems: 0
+          items:
+            properties:
+              sig:
+                anyOf:
+                - type: string
+                  contentEncoding: base16
+                  description: 'Base16-encoded Ed25519 signature of `hash` field
+
+                    for corresponding signer in payload.
+
+                    '
+                  example: 8d452109cc0439234c093b5e204a7428bc0a54f22704402492e027aaa9375a34c910d8a468a12746d0d29e9353f4a3fbebe920d63bcc7963853995db015d060f
+                - $ref: '#/components/schemas/webauthn-sig-string'
+    preflight-result:
+      title: Preflight /local result
+      tags:
+      - model-preflight-result
+      example:
+        $ref: '#/components/examples/preflight-result'
+      description: The result of attempting to execute preflight simulation for a single well-formed Pact command.
+      type: object
+      required:
+      - preflightResult
+      - preflightWarnings
+      properties:
+        preflightResult:
+          $ref: '#/components/schemas/command-result'
+        preflightWarnings:
+          description: A list of warnings associated with deprecated features in upcoming pact releases.
+          type: array
+          items:
+            type: string
+  examples:
     preflight-result:
       preflightResult:
         gas: 123
@@ -616,6 +586,36 @@ components:
           moduleHash: ut_J_ZNkoyaPUEJhiwVeWnkSQn9JT9sQCWKdjjVVrWo
       preflightWarnings:
       - 'Warning: Using deprecated native +: decimal/integer operator overload is deprecated'
+    module_reference:
+      refName:
+        namespace: null
+        name: coin
+      refSpec:
+      - namespace: null
+        name: fungible-v2
+    command-result:
+      gas: 123
+      result:
+        status: success
+        data: 3
+      reqKey: cQ-guhschk0wTvMBtrqc92M7iYm4S2MYhipQ2vNKxoI
+      logs: wsATyGqckuIvlm89hhd2j4t6RMkCrcwJe_oeCYr7Th8
+      metaData: null
+      continuation: null
+      txId: '456'
+      events:
+      - name: TRANSFER
+        params:
+        - Alice
+        - Bob
+        - 10.0
+        module: coin
+        moduleHash: ut_J_ZNkoyaPUEJhiwVeWnkSQn9JT9sQCWKdjjVVrWo
+    command:
+      hash: H6XjdPHzMai2HLa3_yVkXfkFYMgA0bGfsB0kOsHAMuI
+      sigs:
+      - sig: 8d452109cc0439234c093b5e204a7428bc0a54f22704402492e027aaa9375a34c910d8a468a12746d0d29e9353f4a3fbebe920d63bcc7963853995db015d060f
+      cmd: '{"payload":{"exec":{"data":null,"code":"(+ 1 2)"}},"signers":[{"pubKey":"368820f80c324bbc7c2b0610688a7da43e39f91d118732671cd9c7500ff43cca"}],"meta":{"gasLimit":1000,"chainId":"0","gasPrice":1.0e-2,"sender":"368820f80c324bbc7c2b0610688a7da43e39f91d118732671cd9c7500ff43cca"},"nonce":"nonce-value"}'
 x-tagGroups:
 - name: std-pact-api
   x-displayName: Standard Pact API
