@@ -784,3 +784,9 @@ x-tagGroups:
   tags:
   - binaryHeader
   - binaryWorkHeader
+x-provenance:
+  method: harvested
+  publisher: Kadena
+  source: https://kadena-io.github.io/chainweb-openapi/chainweb.openapi.yaml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
