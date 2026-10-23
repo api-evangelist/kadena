@@ -3,6 +3,11 @@ method: searched
 checked:
 - eclipse/integrations/eclipse-integration-edges.yml
 - jetbrains/integrations/jetbrains-integration-edges.yml
+- https://github.com/LF-Decentralized-Trust-labs
+- https://github.com/canton-network/splice
+- https://github.com/hyperledger
+- https://landscape.lfdecentralizedtrust.org
+- https://landscape.lfdecentralizedtrust.org/data/full.json
 source:
 - eclipse/integrations/eclipse-integration-edges.yml
 - jetbrains/integrations/jetbrains-integration-edges.yml
@@ -43,3 +48,36 @@ edges:
   detected: '2026-10-20'
   detected_by: mirror-platform-listings.py
   category: IDE / developer extension marketplace listing
+- partner_name: LF Decentralized Trust (membership / landscape)
+  partner: lf-decentralized-trust
+  partner_match: register
+  type: register
+  direction: partner-built
+  category: LF Decentralized Trust landscape listing
+  evidence: https://landscape.lfdecentralizedtrust.org
+  channel: standard-directory
+  relationship: standard-participant
+  contract_reference:
+    register: LF Decentralized Trust Landscape (landscape.lfdecentralizedtrust.org/data/full.json)
+    spec_file: null
+    standard: LF Decentralized Trust
+    role: landscape-listed
+    registered_name: Kadena
+    registered_names:
+    - Chainweaver
+    - Kadena
+    - Pact
+    website: https://www.kadena.io
+    matched_domain: kadena.io
+    matched_by: domain
+    landscape_categories:
+    - Distributed Ledgers / Hybrid
+    - Smart Contracts/Tokenization / Digital wallets
+    - Smart Contracts/Tokenization / Smart contract languages/execution environments
+    landscape_entries: 3
+    signal_note: 'participation only: LFDT membership / a landscape listing is standard-participant evidence, not
+      depth. Tier, entries and categories are CONTEXT, never counted'
+    detected_by: sweep-lf-decentralized-trust-landscape.py
+    detected: '2026-10-22'
+  detected_by: sweep-lf-decentralized-trust-landscape.py
+  first_seen: '2026-10-22'
